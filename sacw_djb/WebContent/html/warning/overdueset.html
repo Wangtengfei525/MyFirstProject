@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+<title></title>
+<link rel="icon" href="../../favicon.ico" type="image/x-icon" />
+<link rel="stylesheet" href="../../assets/bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet" href="../../assets/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet" href="../../assets/bootstrap-table/bootstrap-table.min.css">
+<link rel="stylesheet" href="../../assets/select2/css/select2.min.css">
+<link rel="stylesheet" href="../../assets/bootstrap-datepicker/css/bootstrap-datepicker.min.css">
+<link rel="stylesheet" href="../../assets/ztree/css/zTreeStyle/zTreeStyle.css">
+<link rel="stylesheet" href="../../assets/admin-lte/css/AdminLTE.min.css">
+<link rel="stylesheet" href="../../assets/admin-lte/css/skins/_all-skins.min.css">
+<!--[if lt IE 9]>
+<script src="../../assets/html5shiv/html5shiv.min.js"></script>
+<script src="../../assets/respond/respond.min.js"></script>
+<![endif]-->
+</head>
+<body class="hold-transition skin-blue-light sidebar-mini">
+    <div class="wrapper">
+
+        <section class="content-header">
+            <h1>逾期统计和设置</h1>
+            <ol class="breadcrumb">
+                <li>
+                    <a href="#">
+                        <i class="fa fa-dashboard"></i>
+                        <span>预警报警</span>
+                    </a>
+                </li>
+                <li class="active">逾期统计和设置</li>
+            </ol>
+        </section>
+
+        <section class="content container-fluid">
+            <div class="box box-solid">
+                <div class="box-body">
+                    <form id="form-search" class="form-inline">
+                        <input type="hidden" name="id" value="9911000000001" />
+                        <div class="form-group">
+                            <label>操作类型</label>
+                            <select id="code" class="form-control select2" style="width: 150px" name="statusCode">
+                                <option value="9911000000001">公安登记</option>
+                                <option value="9911000000004">公安移送</option>
+                                <option value="1005004">检察院移送</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>单位</label>
+                            <input id="input-unit-id" type="text" style="display: none;" name="unitId" />
+                            <input id="input-unit-name" class="form-control" type="text" placeholder="单位" readonly />
+                        </div>
+                        <a onclick="searchProperty()" class="btn btn-flat btn-default">查询</a>
+                        <input class="btn btn-flat btn-default" type="reset" value="重置" />
+                        <a onclick="show()" class="btn btn-flat btn-default">逾期设置</a>
+                        <a onclick="excelExp()" class="btn btn-flat btn-default">导出</a>
+                    </form>
+                </div>
+            </div>
+            <div class="box box-solid">
+                <div class="box-body">
+                    <table id="table_properties" class="table table-hover table-striped" style="width: 100%;"></table>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <div style="display: none;" id="overduesetdiv">
+
+        <div class="box">
+            <div class="row" style="margin-top: 5px; width: 90%;">
+                <form id="form-exchange" class="form-horizontal">
+                    <div class="form-group">
+                        <label class="control-label col-xs-4">操作类型</label>
+                        <div class="col-xs-8">
+                            <select id="codeSetting" class="form-control select2">
+                                <option value="9911000000001">公安登记</option>
+                                <option value="9911000000004">公安移送</option>
+                                <option value="1005004">检察院移送</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-xs-4">设置提醒时间</label>
+                        <div class="col-xs-5">
+                            <input type="number" class="form-control" name="daystx" id="daystx" placeholder="设置到期前几天提醒">
+                        </div>
+                        <div class="col-xs-3">
+                            <span id="span2" class="control-label"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-xs-4">设置期限时间</label>
+                        <div class="col-xs-5">
+                            <input type="number" class="form-control" name="days" id="days" placeholder="设置到期天数">
+                        </div>
+                        <div class="col-xs-3">
+                            <span id="span1" class="control-label"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-xs-6"></label>
+                        <div class="col-xs-6">
+                            <a onclick="submit1()" class="btn btn-sm btn-flat btn-default">保存</a>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+
+    </div>
+
+    <div id="unit-wrapper" style="display: none; position: absolute; z-index: 99999; background-color: #fff; max-height: 300px; overflow: auto;">
+        <ul id="tree-unit" class="ztree"></ul>
+    </div>
+
+    <script src="../../assets/jquery/jquery.min.js"></script>
+    <script src="../../assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="../../assets/layer/layer.js"></script>
+    <script src="../../assets/bootstrap-table/bootstrap-table.min.js"></script>
+    <script src="../../assets/bootstrap-table/locale/bootstrap-table-zh-CN.min.js"></script>
+    <script src="../../assets/select2/js/select2.min.js"></script>
+    <script src="../../assets/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
+    <script src="../../assets/bootstrap-datepicker/locales/bootstrap-datepicker.zh-CN.min.js"></script>
+    <script src="../../assets/moment/moment.min.js"></script>
+    <script src="../../assets/admin-lte/js/adminlte.min.js"></script>
+    <script src="../../assets/ztree/js/jquery.ztree.all.min.js"></script>
+    <script src="../../js/common.js"></script>
+    <script src="../../js/warning/overdueset.js"></script>
+
+</body>
+
+</html>

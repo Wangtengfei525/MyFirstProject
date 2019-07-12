@@ -1,0 +1,421 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.coolcloud.sacw.cases.mapper.CaseMapper">
+    <resultMap id="BaseResultMap" type="com.coolcloud.sacw.cases.entity.Case">
+        <id column="id" jdbcType="VARCHAR" property="id" />
+        <result column="case_name" jdbcType="VARCHAR" property="caseName" />
+        <result column="case_type_code" jdbcType="VARCHAR" property="caseTypeCode" />
+        <result column="case_type_name" jdbcType="VARCHAR" property="caseTypeName" />
+        <result column="organizer_type" jdbcType="VARCHAR" property="organizerType" />
+        <result column="organizer_code" jdbcType="VARCHAR" property="organizerCode" />
+        <result column="organizer_name" jdbcType="VARCHAR" property="organizerName" />
+        <result column="undertaker_name" jdbcType="VARCHAR" property="undertakerName" />
+        <result column="deleted" jdbcType="TINYINT" property="deleted" />
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />   
+        <result column="remark" jdbcType="VARCHAR" property="remark" />
+        <result column="organizer_type_code" jdbcType="VARCHAR" property="organizerTypeCode" />
+         
+    </resultMap>
+
+    <!-- <sql id="Base_Column_List">
+        id,IFNULL(case_name,"") as case_name,
+        case_type_code,IFNULL(case_type_name,"") as case_type_name,
+        IFNULL(organizer_type,"") as organizer_type,organizer_code,
+        IFNULL(organizer_name,"") as organizer_name,
+        IFNULL(department_name,"") as department_name,
+        department_code,IFNULL(undertaker_name,"") as undertaker_name,deleted,create_time,update_time,IFNULL(bz,"") as bz,organizer_type_code
+    </sql> -->
+    
+     <sql id="Base_Column_List">
+        id,IFNULL(case_name,"") as case_name,
+        case_type_code,IFNULL(case_type_name,"") as case_type_name,
+        IFNULL(organizer_type,"") as organizer_type,organizer_code,
+        IFNULL(organizer_name,"") as organizer_name,
+        IFNULL(undertaker_name,"") as undertaker_name,
+        deleted,create_time,update_time,IFNULL(remark,"") as remark,
+        organizer_type_code
+    </sql>
+    
+    <!--  <sql id="Base_Column_List">
+        id,IFNULL(case_name,"") as case_name,
+        case_type_code,IFNULL(case_type_name,"") as case_type_name,
+        IFNULL(organizer_type,"") as organizer_type,organizer_code,
+        IFNULL(organizer_name,"") as organizer_name,
+        IFNULL(undertaker_name,"") as undertaker_name,
+        deleted,create_time,update_time,IFNULL(remark,"") as remark,
+        organizer_type_code
+    </sql> -->
+    
+   
+    
+    
+      <sql id="simple">
+        c.id,c.case_name,c.case_type_code,c.organizer_type,c.organizer_code,c.organizer_name,
+        c.undertaker_name,c.deleted,c.create_time,c.update_time,c.remark,c.organizer_type_code
+    </sql>
+     
+    
+    
+    <!-- 通过未借调的财物来查询对应的案件 -->
+    <!-- <select id="findCaseByNotSecondProperty" parameterType="com.coolcloud.sacw.property.entity.PropertyVo" resultMap="BaseResultMap">
+        select
+        <include refid="simple" />
+        ,c.case_name
+        from   `case` c
+           inner join   yw_property  a   on    c.id=a.case_id   and a.id!=""
+           
+        <where>   
+            <if test="composite != null and composite != ''">
+                and (
+                a.qr_code = #{composite}
+                or a.property_name like "%"#{composite}"%"
+                or c.case_name like "%"#{composite,jdbcType=VARCHAR}"%"
+                 )
+            </if>
+            <if test="propertyStatusCode != null and propertyStatusCode !=''">
+                and a.property_status_code = #{propertyStatusCode,jdbcType=VARCHAR}
+            </if> 
+                and a.property_status_code ="9911000000004"  or  a.property_status_code="9911000000005"
+                and c.create_time &gt; = #{startTime,jdbcType=TIMESTAMP}
+                and c.create_time &lt; = #{endTime,jdbcType=TIMESTAMP}
+             <if test="startTime != null">
+                and c.create_time &gt; = #{startTime}
+            </if>
+            <if test="endTime != null">
+                and c.create_time &lt; = #{endTime}
+            </if> 
+              <if test="sendUnitId != null and sendUnitId != '' ">
+                and c.organizer_code in
+                (select a.code from sys_unit a,sys_unit b
+                where a.left_value between b.left_value and b.right_value
+                and b.id = #{sendUnitId}
+                )
+              </if>
+            
+              <if test="remake != null and remake !=''">
+                and remake like '%back%'
+            </if>
+           and deleted = 0 
+        </where>   
+        group by c.id
+        order by  c.create_time  desc
+    </select> -->
+    
+    
+    
+    <select id="selectCaseByOrganizerCode" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from `case`
+        where organizer_code=#{OrganizerCode,jdbcType=VARCHAR}
+    </select>
+    
+    
+    
+    
+    
+    
+    
+    <select id="findCaseByNotSecondProperty" parameterType="com.coolcloud.sacw.property.entity.PropertyVoNew" resultMap="BaseResultMap">
+        select
+        <include refid="simple" />
+        <!-- ,c.case_name -->
+        from   `case` c
+           inner join   yw_property  a   on    c.id=a.case_id 
+            and a.property_status_code ="9911000000004"  
+            or  a.property_status_code="9911000000005"
+           
+        <where>   
+            <if test="composite != null and composite != ''">
+                and (
+                a.qr_code = #{composite}
+                or a.property_name like "%"#{composite}"%"
+                or c.case_name like "%"#{composite,jdbcType=VARCHAR}"%"
+                 )
+            </if>
+          <!--   <if test="propertyStatusCode != null and propertyStatusCode !=''">
+                and a.property_status_code = #{propertyStatusCode,jdbcType=VARCHAR}
+            </if>  -->
+            <!--  and a.property_status_code ="9911000000004"  or  a.property_status_code="9911000000005"
+                -->
+                
+             <if test="startTime != null and startTime != ''">
+                and 	c.create_time &gt;= STR_TO_DATE(#{startTime},'%Y-%m-%d %H:%i:%s')
+            </if>
+            <if test="endTime != null and endTime != '' ">
+                and c.create_time &lt;= STR_TO_DATE(#{endTime},'%Y-%m-%d %H:%i:%s')
+            </if> 
+              <if test="sendUnitId != null and sendUnitId != '' ">
+                and c.organizer_code in
+                (select a.code from sys_unit a,sys_unit b
+                where a.left_value between b.left_value and b.right_value
+                and b.id = #{sendUnitId}
+                )
+              </if>
+            
+             <!--  <if test="remake != null and remake !=''">
+                and remake like '%back%'
+            </if> -->
+          <!--  and deleted = 0 --> 
+        </where>   
+        group by c.id
+        order by  c.create_time  desc
+    </select>
+    
+    
+    
+    
+    
+   <!-- //通过财物的状态  案件名称/财务名字  案件的时间   案件的单位  实施多条件查询   --> 
+    <select id="selectCaseByPropertyManyCondition" parameterType="com.coolcloud.sacw.property.entity.PropertyVo" resultMap="BaseResultMap">
+        select
+        <include refid="simple" />
+       <!--  ,c.case_name -->
+         from   `case` c
+           inner join   yw_property a   on    c.id=a.case_id 
+        <where>   
+            <if test="composite != null and composite != ''">
+                and (
+                a.qr_code = #{composite}
+                or a.property_name like "%"#{composite}"%"
+                or c.case_name like "%"#{composite,jdbcType=VARCHAR}"%"
+                 )
+            </if>
+            <if test="propertyStatusCode != null and propertyStatusCode !=''">
+                and a.property_status_code = #{propertyStatusCode,jdbcType=VARCHAR}
+            </if>
+           <!--  <if test="startTime != null">
+                and c.create_time &gt;= DATE_FORMAT(#{+},"%Y-%m-%d %H:%i:%s")
+            </if>
+            <if test="endTime != null">
+                and c.create_time &lt;= DATE_FORMAT(#{endTime},"%Y-%m-%d %H:%i:%s")
+            </if> -->
+             <if test="startTime != null and startTime != ''">
+                and 	c.create_time &gt;= STR_TO_DATE(#{startTime},'%Y-%m-%d %H:%i:%s')
+            </if>
+            <if test="endTime != null and endTime != '' ">
+                and c.create_time &lt;= STR_TO_DATE(#{endTime},'%Y-%m-%d %H:%i:%s')
+            </if> 
+            
+            
+            
+             <if test="sendUnitId != null and sendUnitId != '' ">
+                and c.organizer_code in
+                (select a.code from sys_unit a,sys_unit b
+                where a.left_value between b.left_value and b.right_value
+                and b.id = #{sendUnitId}
+                )
+              </if>
+        </where>
+        group by c.id   
+        order by c.create_time desc
+    </select>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+
+    <select id="selectByExample" parameterType="com.coolcloud.sacw.cases.entity.Case" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from  `case`
+        <where>
+            <if test="id != null and id != ''">
+                and id = #{id}
+            </if>
+            <if test="organizerName != null and organizerName != ''">
+                and organizer_name like "%"#{organizerName}"%"
+            </if>
+            <if test="caseNamelike != null and caseNamelike != ''">
+                and case_name like "%"#{caseNamelike}"%"
+            </if>
+            <if test="createTimestart != null">
+                and create_time &gt;= #{createTimestart}
+            </if>
+            <if test="createTimeend != null">
+                and create_time &lt;= #{createTimeend}
+            </if>
+            <if test="deleted != null">
+                and deleted = #{deleted}
+            </if>
+            <if test="organizerTypeCode != null">
+                organizer_type_code,
+            </if>
+
+
+        </where>
+    </select>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from `case`
+        where id = #{id,jdbcType=VARCHAR}
+    </select>
+    
+    
+   
+    
+    
+
+ <select id="selectCaseByPropertyId" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+      <include refid="simple"></include>
+        from `case` c,yw_property y
+        where 
+        c.id=y.case_id
+        and 
+        y.id = #{id,jdbcType=VARCHAR}
+    </select>
+
+
+
+    <insert id="insertSelective" parameterType="com.coolcloud.sacw.cases.entity.Case">
+        insert into `case`
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="caseName != null">
+                case_name,
+            </if>
+            <if test="caseTypeName != null">
+                case_type_name,
+            </if>
+            <if test="caseTypeCode != null">
+                case_type_code,
+            </if>
+            <if test="organizerType != null">
+                organizer_type,
+            </if>
+            <if test="organizerCode != null">
+                organizer_code,
+            </if>
+            <if test="organizerName != null">
+                organizer_name,
+            </if>
+            <if test="undertakerName != null">
+                undertaker_name,
+            </if>
+            <if test="deleted != null">
+                deleted,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+            <if test="remark != null">
+                remark,
+            </if>
+            <if test="organizerTypeCode != null">
+                organizer_type_code,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=VARCHAR},
+            </if>
+            <if test="caseName != null">
+                #{caseName,jdbcType=VARCHAR},
+            </if>
+            <if test="caseTypeName != null">
+                #{caseTypeName,jdbcType=VARCHAR},
+            </if>
+            <if test="caseTypeCode != null">
+                #{caseTypeCode,jdbcType=VARCHAR},
+            </if> 
+            <if test="organizerType != null">
+                #{organizerType,jdbcType=VARCHAR},
+            </if>
+            <if test="organizerCode != null">
+                #{organizerCode,jdbcType=VARCHAR},
+            </if>
+            <if test="organizerName != null">
+                #{organizerName,jdbcType=VARCHAR},
+            </if>
+            <if test="undertakerName != null">
+                #{undertakerName,jdbcType=VARCHAR},
+            </if>
+            <if test="deleted != null">
+                #{deleted,jdbcType=TINYINT},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="remark != null">
+                #{remark,jdbcType=VARCHAR},
+            </if>
+             <if test="organizerTypeCode != null">
+                organizer_type_code,
+            </if>
+        </trim>
+    </insert>
+    
+    
+    
+    
+    
+    
+
+    <update id="updateByPrimaryKeySelective">
+        update `case`
+        <set>
+            <if test="caseName != null">
+                case_name = #{caseName,jdbcType=VARCHAR},
+            </if>
+            <if test="caseTypeName != null">
+                case_type_name = #{caseTypeName,jdbcType=VARCHAR},
+            </if>
+            <if test="caseTypeCode != null">
+                case_type_code = #{caseTypeCode,jdbcType=VARCHAR},
+            </if>
+            <if test="organizerType != null">
+                organizer_type = #{organizerType,jdbcType=VARCHAR},
+            </if>
+            <if test="organizerCode != null">
+                organizer_code = #{organizerCode,jdbcType=VARCHAR},
+            </if>
+            <if test="organizerName != null">
+                organizer_name = #{organizerName,jdbcType=VARCHAR},
+            </if>
+            <if test="undertakerName != null">
+                undertaker_name = #{undertakerName,jdbcType=VARCHAR},
+            </if>
+            <if test="deleted != null">
+                deleted = #{deleted,jdbcType=TINYINT},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="remark != null">
+                remark = #{remark,jdbcType=TIMESTAMP}
+            </if>
+            <if test="organizerTypeCode != null">
+                organizer_type_code,
+            </if>
+        </set>
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+</mapper>

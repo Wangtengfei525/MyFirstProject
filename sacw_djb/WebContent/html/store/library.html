@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+<title>涉案财物管理中心 - 盘库</title>
+<link rel="icon" href="../../favicon.ico" type="image/x-icon" />
+<link rel="stylesheet" href="../../assets/bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet" href="../../assets/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet" href="../../assets/admin-lte/css/AdminLTE.min.css">
+<link rel="stylesheet" href="../../assets/bootstrap-table/bootstrap-table.min.css">
+<link rel="stylesheet" href="../../assets/admin-lte/css/skins/_all-skins.min.css">
+<link rel="stylesheet" href="../../assets/ztree/css/zTreeStyle/zTreeStyle.css">
+<link rel="stylesheet" href="../../assets/webuploader/webuploader.css">
+<!--[if lt IE 9]>
+<script src="../../assets/html5shiv/html5shiv.min.js"></script>
+<script src="../../assets/respond/respond.min.js"></script>
+<![endif]-->
+
+</head>
+
+<body class="hold-transition skin-blue-light sidebar-mini">
+	<div class="wrapper">
+
+		<section class="content-header">
+			<h1>盘库</h1>
+			<ol class="breadcrumb">
+				<li>
+					<a href="#">
+						<i class="fa fa-dashboard"></i>
+						<span>仓库管理</span>
+					</a>
+				</li>
+				<li class="active">盘库</li>
+			</ol>
+		</section>
+
+		<!-- Main content -->
+		<section class="content container-fluid">
+
+			<div class="box">
+				<div class="box-body">
+					<form id="form-upload" class="form-inline" method="get">
+						<input id="input-store-id" type="hidden" name="parentId" />
+						<div class="form-group">
+							<label class="form-label">库区：</label>
+							<input id="input-store" class="form-control" type="text" readonly />
+						</div>
+						<input accept="text/csv" id="file" type="file" style="display:none;" onchange="$('#filename').html($('#file').val())">
+						<a class="btn btn-flat btn-primary" onclick="$('#file').click();">选择附件</a>
+						<a class="btn btn-flat btn-danger" onclick="fileUpload()">上传</a>
+	                    <span id="filename"></span>
+    <!--用来存放item-->  
+  
+<!--     <div style="position: absolute;margin-top: -40px;left: 240px;"> -->
+<!--      <div id="filePicker">选择文件</div>   -->
+<!--      <button id="ctlBtn" class="btn btn-default" style="margin-top: -75px;margin-left: 90px;">开始上传</button>   -->
+    
+<!--     </div> -->
+<!--  <ul style="position: absolute;left: 400px;margin-top: -30px;" id="thelist"></ul> -->
+					</form>
+				</div>
+			</div>
+
+			<div class="box">
+				<div class="box-body">
+					<table id="table-library"></table>
+				</div>
+			</div>
+		</section>
+		<!-- /.content -->
+
+	</div>
+	<!-- ./wrapper -->
+
+	<div id="div-tree-wrapper" style="display: none; position: absolute; z-index: 99999; background-color: #fff; max-height: 400px; overflow: auto;">
+		<ul id="tree-store" class="ztree"></ul>
+	</div>
+
+	<script src="../../assets/jquery/jquery.min.js"></script>
+	<script src="../../assets/bootstrap/js/bootstrap.min.js"></script>
+	<script src="../../assets/admin-lte/js/adminlte.min.js"></script>
+	<script src="../../assets/layer/layer.js"></script>
+	<script src="../../assets/bootstrap-table/bootstrap-table.min.js"></script>
+	<script src="../../assets/bootstrap-table/locale/bootstrap-table-zh-CN.min.js"></script>
+	<script src="../../assets/ztree/js/jquery.ztree.all.min.js"></script>
+	<script src="../../assets/webuploader/webuploader.min.js"></script>
+	<script src="../../js/common.js"></script>
+	<script src="../../js/store/library.js"></script>
+</body>
+
+</html>

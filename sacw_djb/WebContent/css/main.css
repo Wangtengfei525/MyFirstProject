@@ -1,0 +1,104 @@
+@CHARSET "UTF-8";
+
+body {
+	font: 12px/1.2em Microsoft YaHei;
+}
+
+a, a:link {
+	color: #000;
+	text-decoration: none;
+	outline: none;
+}
+
+a:hover, a:focus {
+	text-decoration: none;
+	color: #39f;
+}
+
+.menu-header {
+	background-color: #0a8dc4;
+	height: 115px;
+	line-height: 115px;
+	position: relative;
+	z-index: 0;
+	overflow: hidden;
+	border-bottom: 1px #95b8e7 solid;
+	position: relative;
+}
+.l-btn{
+	
+	color:#fff;
+}
+.menu-side-tree .tree-node {
+	padding: 3px 0px;
+}
+
+.menu-side-tree a {
+	display: block;
+}
+
+.menu-side-tree .tree-node-selected {
+	padding: 2px 0;
+	border: 1px #fade23 solid;
+}
+
+.menu-footer {
+	height: 20px;
+	padding: 5px;
+	text-align: center;
+	overflow: hidden;
+	background: #e0ecff;
+}
+
+.user-info {
+	float: right;
+	margin: 12px 20px;
+	line-height: 40px;
+	font-size: 16px;
+}
+.user-info a{
+	color: #fff;
+}
+.user-info a:hover{
+	color: red;
+}
+.quit{ float:right;	margin: 8px 5px 0px 10px; width:20px; height:20px;background:url(../img/quit.png);}
+.quit:hover{ background-position:-20px 0;}
+.logo {
+	margin-left: 20px;
+}
+/*顶部导航*/
+.hd-bottom{position:relative;height:45px;line-height:45px;padding:0 0 0 56px; overflow:hidden;background-color: #f0f0f0;width: 100%;}
+.hd-bottom .home{float:left;margin-left:-56px;width:56px;}
+.hd-bottom .home>img{float:left; margin:9px 0 0 32px; width:24px; height:24px; }
+
+.hd-bottom .nav-wrap{position:relative;float:left;overflow:hidden;width:100%;height:45px;}
+.hd-bottom .nav{position:absolute;left:0;float:left;height:45px;font-size:14px;margin-top: 1px;}
+.hd-bottom .nav li{float:left;width:140px; text-align:center;list-style: none;}
+.hd-bottom .nav li:hover{background-color: #0a8dc4;color:#fff;}
+.hd-bottom .nav li:hover>a{color:#fff;}
+.hd-bottom .nav li>a{ color:#4f4f4f;}
+.hd-bottom .nav li>a:hover{color:#fff; text-decoration:none;}
+.Topmen{background-color: #0a8dc4;}
+.hd-bottom .nav .Topmen a{ color:#fff;}
+.sidebar{ position:relative; float:left; width:233px; height:100%;}
+.sidebar .nav{position:absolute;left:0;float:left;height:45px;font-size:16px;margin-top: 1px;padding-left: 0px;}
+.sidebar .nav li{float:left;width:100%; text-align:center;list-style: none;padding: 15px;background-color: #f3f3f3;border: 1px solid #fff;}
+.sidebar .nav li:hover{background-color: #0a8dc4}
+.sidebar .nav li:hover>a{color:#fff;}
+.sidebar .nav li>a{ color:#4f4f4f;}
+.sidebar .nav li>a:hover{color:#fff; text-decoration:none;}
+.sidebar .nav .MenliXZ{background-color: #0a8dc4;}
+.sidebar .nav .MenliXZ a{ color:#fff;}
+.panel-header{
+	height:40px;
+	background-color: #1b97d1;
+	padding:0px;
+}
+.panel-title{
+	height: 39px;
+	line-height: 39px;
+	font-size: 22px;
+	color: #fff;
+	background-color: #0a8dc4;
+}

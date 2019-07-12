@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.coolcloud.sacw.exchange.mapper.ExchangePropertyMapper">
+    <resultMap id="BaseResultMap" type="com.coolcloud.sacw.exchange.entity.ExchangeProperty">
+        <result column="exchange_id" jdbcType="VARCHAR" property="exchangeId" />
+        <result column="property_id" jdbcType="VARCHAR" property="propertyId" />  
+        <result column="property_status" jdbcType="VARCHAR" property="propertyStatus" />
+        <result column="property_status_code" jdbcType="VARCHAR" property="propertyStatusCode" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        exchange_id, property_id,property_status,property_status_code
+    </sql>
+
+    <insert id="insertPropertyExchange" parameterType="com.coolcloud.sacw.exchange.entity.ExchangeProperty">
+        insert into property_exchange
+        (exchange_id, property_id,property_status,property_status_code)
+        values
+        (#{exchangeId,jdbcType=VARCHAR},#{propertyId,jdbcType=VARCHAR},
+        #{propertyStatus,jdbcType=VARCHAR},#{propertyStatusCode,jdbcType=VARCHAR})
+    </insert>
+
+    <insert id="insertBatch">
+        insert into property_exchange (exchange_id, property_id,property_status,property_status_code)
+        values
+        <foreach collection="list" item="entity" separator=",">
+            (#{entity.exchangeId,jdbcType=VARCHAR},#{entity.propertyId,jdbcType=VARCHAR},
+            #{entity.property_status,jdbcType=VARCHAR},#{entity.property_status_code,jdbcType=VARCHAR})
+        </foreach>
+    </insert>
+
+    <!-- 关联信息删除为物理删除 -->
+    <delete id="deleteByExchangeIdBatch">
+        delete from property_exchange
+        where exchange_id in
+        <foreach collection="list" item="exchangeId" open="(" close=")" separator=",">
+            #{exchangeId,jdbcType=VARCHAR}
+        </foreach>
+    </delete>
+
+    <!-- 关联信息删除为物理删除 -->
+    <delete id="deleteByPropertyIdBatch">
+        delete from property_exchange
+        where property_id in
+        <foreach collection="list" item="propertyId" open="(" close=")" separator=",">
+            #{propertyId,jdbcType=VARCHAR}
+        </foreach>
+    </delete>
+
+    <!-- 关联信息删除为物理删除 -->
+    <delete id="deleteByExchangeId">
+        delete from property_exchange where exchange_id = #{exchangeId,jdbcType=VARCHAR}
+    </delete>
+
+</mapper>

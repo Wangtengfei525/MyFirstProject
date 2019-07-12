@@ -1,0 +1,397 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.coolcloud.sacw.exchange.mapper.ExchangeMapper">
+    <resultMap id="BaseResultMap" type="com.coolcloud.sacw.exchange.entity.Exchange">
+        <id column="id" jdbcType="VARCHAR" property="id" />
+        
+        <result column="case_id" jdbcType="VARCHAR" property="caseId" />
+        <result column="process_code" jdbcType="VARCHAR" property="processCode" />
+        <result column="node_code" jdbcType="VARCHAR" property="nodeCode" />
+        <result column="case_name" jdbcType="VARCHAR" property="caseName" /> 
+        <result column="operation_time" jdbcType="VARCHAR" property="operationTime" /> 
+        <result column="remark" jdbcType="VARCHAR" property="remark" />
+        <result column="deleted" jdbcType="TINYINT" property="deleted" />
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" /> 
+    </resultMap>
+
+    <sql id="Base_Column_List">
+       id,case_id,process_code,node_code,case_name,operation_time,remark,deleted,create_time,update_time
+    </sql>
+    
+    <sql id="simple">
+       e.id,e.case_id,e.process_code,e.node_code,e.case_name,e.operation_time,e.remark,e.deleted,e.create_time,e.update_time
+    </sql>
+    
+    
+    
+    <sql id="Base_Column_List2">
+        a.id,a.case_id,a.process_code,a.node_code,a.case_name,a.operation_time,a.remark,a.deleted,a.create_time,a.update_time
+     </sql>
+
+    <select id="selectByExample" parameterType="com.coolcloud.sacw.exchange.entity.ExchangeExample" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from exchange
+        <where>
+            <if test="caseName != null and caseName != ''">
+                and case_name = #{caseName,jdbcType=VARCHAR}
+            </if>
+            <if test="caseNameLike != null and caseNameLike != ''">
+                and case_name like "%"#{caseNameLike,jdbcType=VARCHAR}"%"
+            </if>
+            <if test="nodeCode != null and nodeCode != ''">
+                and node_code = #{nodeCode,jdbcType=VARCHAR}
+            </if>
+            <if test="deleted != null">
+                and deleted = #{deleted,jdbcType=TINYINT}
+            </if>
+        </where>
+    </select>
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from exchange
+        where id = #{id,jdbcType=VARCHAR}
+    </select>
+    
+    
+    
+    
+	<!-- write by yiyu -->
+	<insert id="insertToExchange" parameterType="com.coolcloud.sacw.exchange.entity.Exchange">
+		insert into exchange(id,case_id,case_name,process_code,node_code,create_time) values(#{id},#{caseId},#{caseName},#{processCode},#{nodeCode},#{operationTime})
+	</insert>
+
+	 <insert id="insertToPropertyExchange" parameterType="com.coolcloud.sacw.exchange.entity.PropertyExchange">
+		insert into property_exchange(exchange_id,property_id,property_status,property_status_code) values(#{id},#{property_id},#{property_status},#{property_status_code})
+	</insert>
+    
+     
+    
+    
+    
+    <select id="findExchangeByCaseId" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="simple" />
+        from exchange e inner join `case` c  on   e.case_id=c.id
+        where c.id = #{id,jdbcType=VARCHAR}
+        order by e.operation_time desc
+    </select>
+    
+    
+    
+    <!-- 通过案件的id查询未借调的交换记录(其中包括的是  已入库和已归还的交换记录) -->
+    <select id="findNotSecondExchangeByCaseId" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="simple" />
+        from exchange e inner join `case` c inner join  yw_property   p  on   e.case_id=c.id and c.id=p.case_id
+        where c.id = #{id,jdbcType=VARCHAR}   and  p.property_status_code="9911000000005" 
+        or  p.property_status_code="9911000000004"
+        order by e.operation_time desc
+    </select>
+    
+    
+    <!-- 通过案件id查询已经借调的交换记录 -->
+    <select id="findSecondExchangeByCaseId" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="simple" />
+        from exchange e inner join `case` c inner join  yw_property p on   e.case_id=c.id and  c.id=p.case_id
+        where c.id = #{id,jdbcType=VARCHAR}   and  p.property_status_code="9911000000006" 
+        order by e.operation_time desc
+    </select>
+    
+    <!-- 通过案件的id查询未归还的交换记录 -->
+    <select id="findNotBackExchangeByCaseId" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="simple" />
+        from exchange e inner join `case` c inner join  yw_property p on   e.case_id=c.id and  c.id=p.case_id
+        where c.id = #{id,jdbcType=VARCHAR}   and  p.property_status_code="9911000000006" 
+        order by e.operation_time desc
+    </select>
+    
+    
+    <!-- 通过案件的id查询已经归还的交换记录 -->
+    <select id="findBackedExchangeByCaseId" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="simple" />
+        from exchange e inner join `case` c inner join  yw_property p on   e.case_id=c.id and  c.id=p.case_id
+        where c.id = #{id,jdbcType=VARCHAR}   and  p.property_status_code="9911000000005" 
+        order by e.operation_time desc
+    </select>
+    
+    
+    <!-- 通过案件的id查询未出库的交换记录  查询出来的记录就是已入库加上已经归还的交换记录 -->
+    <select id="findNotOutExchangeByCaseId" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="simple" />
+        from exchange e inner join `case` c inner join  yw_property p on   e.case_id=c.id and  c.id=p.case_id
+        where c.id = #{id,jdbcType=VARCHAR}   and  p.property_status_code="9911000000004"  or p.property_status_code="9911000000005"
+        order by e.operation_time desc
+    </select>
+    
+    <!-- 通过案件的id查询出已经出库的交换记录 -->
+    <select id="findOutedExchangeByCaseId" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="simple" />
+        from exchange e inner join `case` c inner join  yw_property p on   e.case_id=c.id and  c.id=p.case_id
+        where c.id = #{id,jdbcType=VARCHAR}   and  p.property_status_code="9911000000012" 
+        order by e.operation_time desc
+    </select>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <select id="selectExchangeByCaseId" parameterType="string" resultMap="BaseResultMap">
+    	select * from exchange where case_id=#{case_id} ORDER BY operation_time desc
+    </select>
+
+    <!-- 逻辑删除 -->
+    <update id="deleteByPrimaryKey" parameterType="java.lang.String">
+        update exchange set deleted = 1 where id = #{id,jdbcType=VARCHAR}
+    </update>
+
+
+
+
+
+    <insert id="insertSelective" parameterType="com.coolcloud.sacw.exchange.entity.Exchange">
+        insert into exchange
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="caseId != null">
+                case_id,
+            </if>
+            <if test="processCode != null">
+                process_code,
+            </if>
+            <if test="nodeCode != null">
+                node_code,
+            </if>
+            <if test="caseName != null">
+                case_name,
+            </if>
+            <if test="operationTime != null">
+                operation_time,
+            </if>
+            <if test="remark != null">
+                remark,
+            </if>
+            <if test="deleted != null">
+                deleted,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=VARCHAR},
+            </if>
+            <if test="caseId != null">
+                #{caseId,jdbcType=VARCHAR},
+            </if>
+            <if test="processCode != null">
+                #{processCode,jdbcType=VARCHAR},
+            </if>
+            <if test="nodeCode != null">
+                #{nodeCode,jdbcType=VARCHAR},
+            </if>
+            <if test="caseName != null">
+                #{caseName,jdbcType=VARCHAR},
+            </if>
+            <if test="operationTime != null">
+                #{operationTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="remark != null">
+                #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="deleted != null">
+                #{deleted,jdbcType=TINYINT},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+
+    <!-- <update id="updateByPrimaryKeySelective" parameterType="com.coolcloud.sacw.exchange.entity.Exchange"> -->
+   
+    <update id="updateByPrimaryKeySelective" parameterType="com.coolcloud.sacw.exchange.entity.Exchange">
+        update exchange
+        <set>
+            <if test="processCode != null">
+                process_code = #{processCode,jdbcType=VARCHAR},
+            </if>
+            <if test="nodeCode != null">
+                node_code=#{nodeCode,jdbcType=VARCHAR},
+            </if>
+            <if test="caseName != null">
+                case_name=#{caseName,jdbcType=VARCHAR},
+            </if>
+            <if test="operationTime != null">
+                operation_time=#{operationTime,jdbcType=VARCHAR},
+            </if>
+            <if test="remark != null">
+                remark=#{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="deleted != null">
+                deleted=#{deleted,jdbcType=TINYINT},
+            </if>
+            <if test="createTime != null">
+                create_time=#{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                update_time=#{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+
+
+
+
+
+
+
+<!-- <id column="id" jdbcType="VARCHAR" property="id" />
+        <result column="case_id" jdbcType="VARCHAR" property="caseId" />
+        <result column="process_code" jdbcType="VARCHAR" property="processCode" />
+        <result column="node_code" jdbcType="VARCHAR" property="nodeCode" />
+        <result column="case_name" jdbcType="VARCHAR" property="caseName" /> 
+        <result column="opereation_name" jdbcType="VARCHAR" property="operationName" /> 
+        <result column="remark" jdbcType="VARCHAR" property="remark" />
+        <result column="deleted" jdbcType="TINYINT" property="deleted" />
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" /> 
+ -->
+<!-- 根据选择的多条件进行查询 -->
+    <select id="selectListByCondition" parameterType="com.coolcloud.sacw.operation.entity.SearchVo" resultMap="BaseResultMap">
+         select
+        <include refid="Base_Column_List"></include>
+        from exchange 
+        <where>   <!--  or plat_case_code like "%"#{composite,jdbcType=VARCHAR}"%" -->
+            <if test="composite != null and composite != ''">
+                and (case_name like "%"#{composite,jdbcType=VARCHAR}"%"
+                 )
+            </if>
+            <if test="nodeCode != null and nodeCode !=''">
+                and node_code = #{nodeCode,jdbcType=VARCHAR}
+            </if>
+            <if test="startTime != null">
+                and operation_time &gt;= #{startTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="endTime != null">
+                and operation_time &lt;= #{endTime,jdbcType=TIMESTAMP}
+            </if>
+             <if test="remark != null and remark !=''">
+                and remark like '%back%'
+            </if>
+            and deleted = 0
+        </where>   
+        order by  operation_time  desc
+    </select>
+    
+    
+    
+  <!--   <select id="selectListByCondition" parameterType="com.coolcloud.sacw.operation.entity.SearchVo" resultMap="BaseResultMap">
+         select
+        <include refid="Base_Column_List"></include>
+        from exchange 
+        <where>    or plat_case_code like "%"#{composite,jdbcType=VARCHAR}"%"
+            <if test="composite != null and composite != ''">
+                and (case_name like "%"#{composite,jdbcType=VARCHAR}"%"
+                 )
+            </if>
+            <if test="nodeCode != null and nodeCode !=''">
+                and node_code = #{nodeCode,jdbcType=VARCHAR}
+            </if>
+            <if test="startTime != null">
+                and operation_time &gt;= #{startTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="endTime != null">
+                and operation_time &lt;= #{endTime,jdbcType=TIMESTAMP}
+            </if>
+             <if test="remark != null and remark !=''">
+                and remark like '%back%'
+            </if>
+            and deleted = 0
+        </where>   
+        order by  operation_time  desc
+    </select>
+     -->
+    
+    
+    <resultMap id="NewResultMap" type="com.coolcloud.sacw.operation.entity.NewCaseProperty">
+        <id column="id" jdbcType="VARCHAR" property="id" />
+        <result column="case_name" jdbcType="VARCHAR" property="case_name" />
+        <result column="create_time" jdbcType="VARCHAR" property="create_time" />
+        <result column="remark" jdbcType="VARCHAR" property="remark" />
+        <result column="organizer_name" jdbcType="VARCHAR" property="organizer_name" />
+    </resultMap>
+    
+    
+    <!-- write by yiyu -->
+    <select id="selectNewPutIn" parameterType="com.coolcloud.sacw.operation.entity.NewSearchVo" resultMap="NewResultMap">
+         select c.id,c.case_name,c.organizer_name,c.create_time,c.remark 
+         from yw_property a  left join `case` c on a.case_id = c.id  
+            <where>      
+                 a.property_status_code=#{status}
+         <if test="composite != null and composite != ''">
+                and c.case_name=#{composite}
+            </if>
+            <if test="sendUnitId != null and sendUnitId != ''">
+                and c.organizer_code=#{sendUnitId}
+            </if>
+            <if test="startTime != null">
+                and c.create_time &gt;= #{startTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="endTime != null">
+                and c.create_time &lt;= #{endTime,jdbcType=TIMESTAMP}
+            </if>
+             group by c.id
+          </where>   
+    </select>
+    
+    
+    <select id="selectAllCaseList" parameterType="com.coolcloud.sacw.operation.entity.NewSearchVo" resultMap="NewResultMap">
+    	select case_name,organizer_name,create_time,remark from `case`
+    	<where>
+    		<if test="composite != null and composite != ''">
+    			and case_name=#{composite}
+    		</if>
+    		<if test="sendUnitId != null and sendUnitId != ''">
+    			and organizer_code=#{sendUnitId}
+    		</if>
+    	</where>
+    </select>
+    
+    
+    
+    
+
+    <select id="selectByPropertyId" resultMap="BaseResultMap">
+        select t1.id, t1.case_name, 
+        t1.operation_time, t1.node_code, t1.remark
+        from exchange t1
+        left join exchange_property t2 on t1.id = t2.exchange_id
+        where t2.property_id = #{propertyId}
+       <!--  order by t1.send_time desc -->
+        order by t1.create_time desc
+    </select>
+</mapper>

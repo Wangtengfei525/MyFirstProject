@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.coolcloud.sacw.cases.mapper.NewCaseMapper">
+	<resultMap type="com.coolcloud.sacw.cases.entity.NewCase" id="BaseResult">
+        <result column="case_name" jdbcType="VARCHAR" property="caseName" />
+        <result column="case_name" jdbcType="VARCHAR" property="organizerName" />
+        <result column="case_name" jdbcType="VARCHAR" property="undertakerName" />
+        <result column="case_name" jdbcType="VARCHAR" property="bz" />
+        <result column="case_name" jdbcType="VARCHAR" property="create_time" />
+	</resultMap>
+	<select id="getAllCaseInfo" parameterType="com.coolcloud.sacw.operation.entity.NewSearchVo" resultMap="BaseResult">
+		select * from `case`
+		<where>
+			<if test="composite != null"></if>
+			<if test="sendUnitId != null"></if>
+		</where>
+	</select>
+</mapper>

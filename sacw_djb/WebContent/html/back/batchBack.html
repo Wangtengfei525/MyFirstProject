@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta
+	content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"
+	name="viewport">
+<title>涉案财物管理中心 - 财物归还</title>
+<link rel="icon" href="../../favicon.ico" type="image/x-icon" />
+<link rel="stylesheet"
+	href="../../assets/bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet"
+	href="../../assets/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet"
+	href="../../assets/bootstrap-table/bootstrap-table.min.css">
+<link rel="stylesheet"
+	href="../../assets/bootstrap-datepicker/css/bootstrap-datepicker.min.css">
+<link rel="stylesheet"
+	href="../../assets/admin-lte/css/skins/_all-skins.min.css">
+<link rel="stylesheet"
+	href="../../assets/admin-lte/css/AdminLTE.min.css">
+<link rel="stylesheet" href="../../css/base.css">
+<link rel="stylesheet"
+	href="../../assets/bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet"
+	href="../../assets/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet"
+	href="../../assets/bootstrap-datepicker/css/bootstrap-datepicker.min.css">
+<link rel="stylesheet"
+	href="../../assets/admin-lte/css/AdminLTE.min.css">
+<link rel="stylesheet"
+	href="../../assets/bootstrap-table/bootstrap-table.min.css">
+<link rel="stylesheet"
+	href="../../assets/admin-lte/css/skins/_all-skins.min.css">
+<link rel="stylesheet"
+	href="../../assets/ztree/css/zTreeStyle/zTreeStyle.css">
+
+
+
+<!--[if lt IE 9]>
+<script src="../../assets/html5shiv/html5shiv.min.js"></script>
+<script src="../../assets/respond/respond.min.js"></script>
+<![endif]-->
+<style type="text/css">
+.form-group {
+	margin: 40px 20px;
+}
+</style>
+</head>
+
+<body class="hold-transition skin-blue-light sidebar-mini">
+	<div class="wrapper">
+		<section class="content container-fluid">
+			<div class="box box-solid">
+				<div class="row" style="margin-top: 20px;">
+					<div class="col-xs-3">
+						<form id="form-exchange" class="form-horizontal">
+							<div class="form-group">
+								<!--  <label class="control-label col-xs-3">案件名称</label> -->
+
+								<!--   
+                                <label class="control-label col-xs-3">财物名称</label> -->
+								<div class="col-xs-9">
+									<!--   <input name="caseName" class="form-control" disabled /> -->
+
+									<!--      <input name="propertyName" class="form-control" disabled /> -->
+								</div>
+							</div>
+							<!-- <div class="form-group">
+                                <label class="control-label col-xs-3">承办单位</label>
+                                <div class="col-xs-9">
+                                    <input name="sendUnitName" class="form-control" disabled />
+                                </div>
+                            </div> -->
+
+
+							<!-- <div class="form-group">
+								<label class="control-label col-xs-3">归还单位</label>
+								<div class="col-xs-9">
+									<input id="input-unit-id" style="display: none;" type="text"
+										name="input-unit-id" /> <input class="form-control"
+										id="input-unit-name" name="input-unit-name" type="text"
+										readonly />
+								</div>
+							</div> -->
+							
+							<div class="form-group">
+								<label class="control-label col-xs-3">归还单位</label>
+								<div class="col-xs-9">
+					                 <input  type="text"   class="form-control"     id="test11" readonly >
+				              </div>
+			                  
+							</div>
+							
+							
+                               
+
+
+
+
+
+
+
+
+							<!-- <div class="form-group">
+                                <label class="control-label col-xs-3">归还单位</label>
+                                <div class="col-xs-9">
+                                    <input name="sendUnitName" class="form-control"  />
+                                </div>
+                            </div> -->
+
+
+							<!--   <div class="form-group">
+                                <label class="control-label col-xs-3">归还人</label>
+                                <div class="col-xs-9">
+                                    <input name="sendPersonName" class="form-control" disabled />
+                                </div>
+                            </div> -->
+
+
+							<div class="form-group">
+								<label class="control-label col-xs-3">归还时间</label>
+								<div class="col-xs-9">
+									<div class="input-group">
+										<input id="input-operation-time" type="text"
+											class="form-control" name="operationTime" /> <span
+											class="input-group-addon"> <i
+											class="glyphicon glyphicon-calendar"></i>
+										</span>
+									</div>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="control-label col-xs-3">备注</label>
+								<div class="col-xs-9">
+									<textarea id="input-remark" rows="4" name="remark"
+										class="form-control"></textarea>
+								</div>
+							</div>
+						</form>
+
+						<div class="row" style="margin-top: 40px;">
+							<div class="col-xs-3"></div>
+							<div class="col-xs-9">
+								<!-- <a id="btn-putin" class="btn btn-sm btn-flat btn-default">批量归还</a> -->
+								<a id="batchBackProperty"
+									class="btn btn-sm btn-flat btn-default">批量归还</a> 
+									
+ <a  id="btn-print-detail" class="btn btn-sm btn-flat btn-default">打印清单</a>
+								<a id="btn-print-receipt"
+									class="btn btn-sm btn-flat btn-default">打印回执单</a>
+							</div>
+						</div>
+
+					</div>
+					<div class="col-xs-9">
+						<div class="row" style="margin-top: 5px; width: 100%;">
+							<table id="table-property"
+								class="table table-hover table-stripped table-condensed"></table>
+						</div>
+						<div class="row" style="margin-top: 5px; width: 100%;">
+							<table id="table-files"
+								class="table table-hover table-stripped table-condensed"></table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+	</div>
+
+	<div id="div-property-toolbar">
+		<a id="btn-batch-assign" class="btn btn-xs btn-flat btn-danger">批量入柜</a>
+		<span style="margin-left: 400px; font-size: 16px;">财物信息</span>
+	</div>
+
+	<div id="div-file-toolbar">
+		<a id="btn-capture" class="btn btn-xs btn-flat btn-danger">图像采集</a> <a
+			id="btn-upload" class="btn btn-xs btn-flat btn-danger">附件上传</a> <span
+			style="margin-left: 335px; font-size: 16px;">附件信息</span>
+	</div>
+
+	<div id="unit-wrapper"
+		style="display: none; position: absolute; z-index: 99999; background-color: #fff; max-height: 300px; overflow: auto;">
+		<ul id="tree-unit" class="ztree"></ul>
+	</div>
+
+
+
+
+	<script src="../../assets/jquery/jquery.min.js"></script>
+    <script src="../../assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="../../assets/admin-lte/js/adminlte.min.js"></script>
+    <script src="../../assets/layer/layer.js"></script>
+    <script src="../../assets/moment/moment.min.js"></script>
+    <script src="../../assets/bootstrap-table/bootstrap-table.min.js"></script>
+    <script src="../../assets/bootstrap-table/locale/bootstrap-table-zh-CN.min.js"></script>
+    <script src="../../assets/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
+    <script src="../../assets/bootstrap-datepicker/locales/bootstrap-datepicker.zh-CN.min.js"></script>
+    <script src="../../js/common.js"></script>
+<script src="../../js/back/batchBack.js"></script>
+
+</body>
+
+</html>

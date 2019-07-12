@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.coolcloud.sacw.property.mapper.PropertySplitMapper">
+    <resultMap id="BaseResultMap" type="com.coolcloud.sacw.property.entity.PropertySplit">
+        <id column="id" jdbcType="VARCHAR" property="id" />
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+        <result column="deleted" jdbcType="TINYINT" property="deleted" />
+        <result column="case_id" jdbcType="VARCHAR" property="caseId" />
+        <result column="case_name" jdbcType="VARCHAR" property="caseName" />
+        <result column="property_id" jdbcType="VARCHAR" property="propertyId" />
+        <result column="split_name" jdbcType="VARCHAR" property="splitName" />
+        <result column="split_type_name" jdbcType="VARCHAR" property="splitTypeName" />
+        <result column="split_type_code" jdbcType="VARCHAR" property="splitTypeCode" />
+        <result column="split_amount" jdbcType="INTEGER" property="splitAmount" />
+        <result column="split_volume" jdbcType="DOUBLE" property="splitVolume" />
+        <result column="split_remark" jdbcType="VARCHAR" property="splitRemark" />
+        <result column="property_name" jdbcType="VARCHAR" property="propertyName" />
+        <result column="property_amount" jdbcType="INTEGER" property="propertyAmount" />
+        <result column="splitSaveLocationName" jdbcType="VARCHAR" property="splitSaveLocationName" />
+        <result column="splitSaveLocationCode" jdbcType="VARCHAR" property="splitSaveLocationCode" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, create_time, update_time, deleted, case_id, property_id, split_name,
+        split_type_name, split_type_code, split_amount, split_volume, split_remark,splitSaveLocationCode,splitSaveLocationName
+    </sql>
+
+    <sql id="Full_Column_List">
+        ps.id, ps.create_time, ps.update_time, ps.deleted, ps.case_id, ps.property_id, ps.split_name,
+        ps.split_type_name, ps.split_type_code, ps.split_amount, ps.split_volume, ps.split_remark,
+        p.property_name as property_name, p.number as property_amount,ps.splitSaveLocationName
+    </sql>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from yw_property_split
+        where id = #{id,jdbcType=VARCHAR}
+    </select>
+
+    <select id="selectByExample" parameterType="com.coolcloud.sacw.property.entity.PropertySplitExample" resultMap="BaseResultMap">
+        select
+        <include refid="Full_Column_List" />
+        from yw_property_split ps
+        left join yw_property p on ps.property_id = p.id
+        <where>
+            <if test="propertyId !=null and propertyId != ''">
+                and ps.property_id = #{propertyId}
+            </if>
+        </where>
+    </select>
+
+    <insert id="insertSelective" parameterType="com.coolcloud.sacw.property.entity.Property">
+        insert into yw_property_split
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+            <if test="deleted != null">
+                deleted,
+            </if>
+            <if test="caseId != null">
+                case_id,
+            </if>
+            <if test="propertyId != null">
+                property_id,
+            </if>
+            <if test="splitName != null">
+                split_name,
+            </if>
+            <if test="splitTypeName != null">
+                split_type_name,
+            </if>
+            <if test="splitTypeCode != null">
+                split_type_code,
+            </if>
+            <if test="splitAmount != null">
+                split_amount,
+            </if>
+            <if test="splitVolume != null">
+                split_volume,
+            </if>
+            <if test="splitRemark != null">
+                split_remark,
+            </if>
+            <if test="splitSaveLocationName != null">
+                splitSaveLocationName,
+            </if>
+            <if test="splitSaveLocationCode != null">
+                splitSaveLocationCode,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime},
+            </if>
+            <if test="deleted != null">
+                #{deleted},
+            </if>
+            <if test="caseId != null">
+                #{caseId,jdbcType=VARCHAR},
+            </if>
+            <if test="propertyId != null">
+                #{propertyId,jdbcType=VARCHAR},
+            </if>
+            <if test="splitName != null">
+                #{splitName},
+            </if>
+            <if test="splitTypeName != null">
+                #{splitTypeName},
+            </if>
+            <if test="splitTypeCode != null">
+                #{splitTypeCode},
+            </if>
+            <if test="splitAmount != null">
+                #{splitAmount},
+            </if>
+            <if test="splitVolume != null">
+                #{splitVolume},
+            </if>
+            <if test="splitRemark != null">
+                #{splitRemark},
+            </if>
+            <if test="splitSaveLocationName != null">
+                #{splitSaveLocationName},
+            </if>
+            <if test="splitSaveLocationCode != null">
+                #{splitSaveLocationCode},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateByPrimaryKeySelective">
+        update yw_property_split
+        <set>
+            <if test="createTime != null">
+                create_time = #{createTime},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime},
+            </if>
+            <if test="deleted != null">
+                deleted,
+            </if>
+            <if test="caseId != null">
+                case_id = #{caseId},
+            </if>
+            <if test="propertyId != null">
+                property_id = #{propertyId},
+            </if>
+            <if test="splitName != null">
+                split_name = #{splitName},
+            </if>
+            <if test="splitTypeName != null">
+                split_type_name = #{splitTypeName},
+            </if>
+            <if test="splitTypeCode != null">
+                split_type_code = #{splitTypeCode},
+            </if>
+            <if test="splitAmount != null">
+                split_amount = #{splitAmount},
+            </if>
+            <if test="splitVolume != null">
+                split_volume = #{splitVolume},
+            </if>
+            <if test="splitRemark != null">
+                split_remark = #{splitRemark},
+            </if>
+            <if test="splitSaveLocationName != null">
+                splitSaveLocationName = #{splitSaveLocationName},
+            </if>
+            <if test="splitSaveLocationCode != null">
+                splitSaveLocationCode = #{splitSaveLocationCode},
+            </if>
+        </set>
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+
+    <delete id="deleteByPrimaryKey" parameterType="string">
+        delete from yw_property_split where id = #{id}
+    </delete>
+
+    <select id="selectByPropertyId" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from yw_property_split
+        where property_id = #{propertyId}
+    </select>
+
+	<resultMap id="newBaseResultMap" type="com.coolcloud.sacw.property.entity.PropertySplit">
+        <id column="id" jdbcType="VARCHAR" property="id" />
+        <result column="kwmc" jdbcType="VARCHAR" property="kwmc" />
+        <result column="case_name" jdbcType="VARCHAR" property="case_name" />
+        <result column="property_name" jdbcType="VARCHAR" property="property_name" />
+    </resultMap>
+
+    <select id="selectSplitHasOwnContents" resultMap="newBaseResultMap">
+        select ps.id, ps.property_name, c.case_name,ps.kwmc
+        from yw_property ps
+        left join `case` c on ps.case_id = c.id
+        where ps.id in
+        (select distinct(cc.property_id) from yw_car_conserve_content cc)
+    </select>
+
+    <!-- 机动车类型代码暂时写死，后期优化 -->
+    <select id="selectMotorByParam" resultMap="BaseResultMap">
+        select ps.id, ps.split_name,ps.splitSaveLocationName, ps.split_type_name,
+        ps.split_amount, ps.split_remark, c.case_name
+        from yw_property_split ps
+        left join `case` c on ps.case_id = c.id
+        where ps.split_type_code in ('90000010401','9000001040101','900000104010101','900000104010102','900000104010103','9000001040102')
+        <if test="caseNameLike != null and caseNameLike != ''">
+            and c.case_name like "%"#{caseNameLike}"%"
+        </if>
+        order by c.id
+    </select>
+    
+    <resultMap id="NewResultMap" type="com.coolcloud.sacw.property.entity.NewPropertySplit">
+        <id column="id" jdbcType="VARCHAR" property="id" />
+        <result column="property_name" jdbcType="VARCHAR" property="property_name" />
+        <result column="remake" jdbcType="VARCHAR" property="remake" />
+        <result column="case_name" jdbcType="VARCHAR" property="case_name" />
+        <result column="number" jdbcType="VARCHAR" property="number" />
+    </resultMap>
+    
+    <select id="newselectMotorByParam" resultMap="NewResultMap">
+        select ps.id, ps.property_name, ps.remake, c.case_name,ps.number
+        from yw_property ps
+        left join `case` c on ps.case_id = c.id
+        where ps.property_type="车辆" and ps.property_status="已入库"
+        <if test="caseNameLike != null and caseNameLike != ''">
+            and c.case_name like "%"#{caseNameLike}"%"
+        </if>
+    </select>
+
+</mapper>

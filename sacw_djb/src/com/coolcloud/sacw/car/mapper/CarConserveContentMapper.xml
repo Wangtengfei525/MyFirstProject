@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.coolcloud.sacw.car.mapper.CarConserveContentMapper">
+
+    <resultMap id="BaseResultMap" type="com.coolcloud.sacw.car.entity.CarConserveContent">
+        <result column="property_id" jdbcType="VARCHAR" property="splitId" />
+        <result column="conserve_content_code" jdbcType="VARCHAR" property="conserveContentCode" />
+        <result column="conserve_content_name" jdbcType="VARCHAR" property="conserveContentName" />
+        <result column="enabled" jdbcType="INTEGER" property="enabled" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        property_id, conserve_content_code
+    </sql>
+
+    <insert id="insertSelective" parameterType="com.coolcloud.sacw.car.entity.CarConserveContent">
+        insert into yw_car_conserve_content
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="splitId != null">
+                property_id,
+            </if>
+            <if test="conserveContentCode != null">
+                conserve_content_code,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="splitId != null">
+                #{splitId,jdbcType=VARCHAR},
+            </if>
+            <if test="conserveContentCode != null">
+                #{conserveContentCode,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+
+    <select id="selectByPropertyId" resultMap="BaseResultMap">
+        select
+        a.property_name,
+        a.case_name,
+        b.code as conserve_content_code,
+        b.name as conserve_content_name,
+        case when a.property_id is null then 0 else 1 end as enabled
+        from yw_car_conserve_content a
+        right join sys_category b on a.conserve_content_code = b.code
+        where b.type_code = 'car_conserve_content'
+        and b.deleted = 0
+        order by b.sort
+    </select>
+
+    <select id="selectDistinctProperties" resultMap="BaseResultMap">
+        select property_id,property_name,case_name from yw_car_conserve_content order by create_time desc
+    </select>
+
+    <delete id="deleteBySplitId">
+        delete from yw_car_conserve_content where property_id = #{splitId,jdbcType=VARCHAR}
+    </delete>
+
+    <select id="countBySplitId" resultType="int">
+        select count(*) from yw_car_conserve_content where property_id = #{propertyId}
+    </select>
+
+    <select id="selectBySplitId" resultMap="BaseResultMap">
+        select
+        t1.code as conserve_content_code,
+        t1.name as conserve_content_name,
+        case when (
+        select count(*) from yw_car_conserve_content t2
+        where t2.property_id = #{splitId}
+        and t2.conserve_content_code = t1.code
+        ) = 0 then 0 else 1 end as enabled
+        from sys_category t1
+        where t1.type_code = 'car_conserve_content'
+        and t1.deleted = 0
+        order by t1.sort
+    </select>
+
+</mapper>

@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.coolcloud.sacw.system.mapper.RoleMapper">
+    <cache></cache>
+    <resultMap type="com.coolcloud.sacw.system.entity.Role" id="baseResult">
+        <id column="id" property="id" />
+        <result column="name" property="name" />
+        <result column="checked" property="checked" />
+        <result column="description" property="description" />
+        
+        <result column="create_time" property="createTime" />
+        <result column="update_time" property="updateTime" />
+        
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, name, description, create_time, update_time
+    </sql>
+
+    <sql id="Base_Column_List_Full">
+        sys_role.id, sys_role.name, sys_role.description, sys_role.create_time, sys_role.update_time
+    </sql>
+
+    <insert id="insertSelective" parameterType="com.coolcloud.sacw.system.entity.Role">
+        insert into sys_role
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="name != null">
+                name,
+            </if>
+            <if test="description != null">
+                description,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=VARCHAR},
+            </if>
+            <if test="name != null">
+                #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="description != null">
+                #{description,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+
+    <select id="selectByPrimaryKey" resultMap="baseResult">
+        select
+        <include refid="Base_Column_List" />
+        from sys_role
+        where id = #{id}
+    </select>
+
+    <select id="selectByExample" resultMap="baseResult">
+        select
+        <include refid="Base_Column_List" />
+        from sys_role
+        <where>
+            <if test=" name != null and name != '' ">
+                and name = #{name}
+            </if>
+            <if test=" nameLike != null and nameLike != '' ">
+                and name like "%"#{nameLike}"%"
+            </if>
+        </where>
+    </select>
+
+    <delete id="deleteByPrimaryKey">
+        delete from sys_role where id = #{id}
+    </delete>
+
+    <delete id="deleteByPrimaryKeyBatch" parameterType="java.util.List">
+        delete from sys_role where id in
+        <foreach collection="ids" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </delete>
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.coolcloud.sacw.system.entity.Role">
+        update sys_role
+        <set>
+            <if test="name != null">
+                name = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="description != null">
+                description = #{description,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+
+
+    <select id="selectByUserId" resultMap="baseResult">
+        select
+        <include refid="Base_Column_List_Full" />
+        ,
+        case
+        when sys_user_role.user_id is null then
+        0
+        else
+        1
+        end as checked
+        from sys_role
+        left join sys_user_role
+        on sys_role.id = sys_user_role.role_id
+        and sys_user_role.user_id = #{userId,jdbcType=VARCHAR}
+    </select>
+</mapper>

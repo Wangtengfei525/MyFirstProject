@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+<title>涉案财物管理中心 - 编辑储物柜</title>
+<link rel="icon" href="../../favicon.ico" type="image/x-icon" />
+<link rel="stylesheet" href="../../assets/bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet" href="../../assets/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet" href="../../assets/select2/css/select2.min.css">
+<link rel="stylesheet" href="../../assets/admin-lte/css/AdminLTE.min.css">
+<link rel="stylesheet" href="../../assets/admin-lte/css/skins/_all-skins.min.css">
+<link rel="stylesheet" href="../../assets/ztree/css/zTreeStyle/zTreeStyle.css">
+<link rel="stylesheet" href="../../css/store/store.css">
+<!--[if lt IE 9]>
+<script src="../../assets/html5shiv/html5shiv.min.js"></script>
+<script src="../../assets/respond/respond.min.js"></script>
+<![endif]-->
+</head>
+
+<body class="hold-transition skin-blue-light sidebar-mini">
+    <div class="wrapper">
+
+        <!-- Main content -->
+        <section class="content container-fluid">
+
+            <div>
+                <div class="box box-solid">
+                    <div class="box-body">
+                        <form id="form-store-edit" class="form-horizontal">
+                            <input id="input-id" type="hidden" name="id" />
+                            <div class="form-group">
+                                <label class="control-label col-xs-4">上级储物柜</label>
+                                <div class="col-xs-8">
+                                    <input id="input-store-parent-id" type="hidden" name="parentId" value="0" />
+                                    <input id="input-store-parent-name" class="form-control" type="text" readonly value="顶级储物柜" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-xs-4">储物柜类型</label>
+                                <div class="col-xs-8">
+                                    <select id="select-store-type" class="form-control" name="treeType">
+                                        <option value="1">目录</option>
+                                        <option value="0">柜子</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div id="div-store-contro" class="form-group" style="display: none;">
+                                <label class="control-label col-xs-4">控制码</label>
+                                <div class="col-xs-8">
+                                    <input id="input-store-contro" class="form-control" type="text" name="storeContro" value="0" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-xs-4">储物柜名称</label>
+                                <div class="col-xs-8">
+                                    <input id="input-store-name" class="form-control" type="text" name="storeName" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-xs-4">储物柜全称</label>
+                                <div class="col-xs-8">
+                                    <input id="input-store-unit-name" class="form-control" type="text" name="storeUnitName" readonly />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-xs-4">排序列</label>
+                                <div class="col-xs-8">
+                                    <input id="input-store-unit-name" class="form-control" type="number" placeholder="排序列" name="sort" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-xs-4"></label>
+                                <div class="col-xs-8">
+                                    <a class="btn btn-primary" onclick="save();">保存</a>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+        </section>
+        <!-- /.content -->
+
+    </div>
+    <!-- ./wrapper -->
+
+    <script src="../../assets/jquery/jquery.min.js"></script>
+    <script src="../../assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="../../assets/admin-lte/js/adminlte.min.js"></script>
+    <script src="../../assets/layer/layer.js"></script>
+    <script src="../../assets/ztree/js/jquery.ztree.all.min.js"></script>
+    <script src="../../assets/select2/js/select2.min.js"></script>
+    <script src="../../js/common.js"></script>
+    <script src="../../js/store/store-edit.js"></script>
+</body>
+
+</html>

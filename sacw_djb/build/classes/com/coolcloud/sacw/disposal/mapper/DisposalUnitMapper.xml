@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.coolcloud.sacw.disposal.mapper.DisposalUnitMapper">
+	<resultMap id="BaseResultMap" type="com.coolcloud.sacw.disposal.entity.DisposalUnit">
+		<id column="id" jdbcType="VARCHAR" property="id" />
+		<result column="property_id" jdbcType="VARCHAR" property="propertyId" />
+		<result column="property_name" jdbcType="VARCHAR" property="propertyName" />
+		<result column="case_id" jdbcType="VARCHAR" property="caseId" />
+		<result column="case_name" jdbcType="VARCHAR" property="caseName" />
+		<result column="send_unit_code" jdbcType="VARCHAR" property="sendUnitCode" />
+		<result column="send_unit_name" jdbcType="VARCHAR" property="sendUnitName" />
+		<result column="break" jdbcType="VARCHAR" property="back" />
+		<result column="receive_unit_code" jdbcType="VARCHAR" property="receiveUnitCode" />
+		<result column="receive_unit_name" jdbcType="VARCHAR" property="receiveUnitName" />
+		
+		<!-- <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+		 -->
+		<result column="disposal_unit_code" jdbcType="VARCHAR" property="disposalUnitCode" />
+		<result column="disposal_unit_name" jdbcType="VARCHAR" property="disposalUnitName" />
+		<result column="disposal_unit_type" jdbcType="VARCHAR" property="disposalType" />
+	</resultMap>
+
+	<sql id="Base_Column_List">
+		id, property_id, property_name, case_id,
+		case_name, send_unit_code, send_unit_name, break, receive_unit_code, receive_unit_name,
+		create_time, disposal_unit_code, disposal_unit_name, disposal_unit_type
+	</sql>
+	<select id="selectByExample" parameterType="com.coolcloud.sacw.disposal.entity.DisposalUnit" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from yw_disposal_exchange
+		<where>
+			<if test="sendUnitCode != null and sendUnitCode != ''">
+				and send_unit_code = #{sendUnitCode,jdbcType=VARCHAR}
+			</if>
+			<if test="receiveUnitCode != null and receiveUnitCode != ''">
+				and receive_unit_code = #{receiveUnitCode,jdbcType=VARCHAR}
+			</if>
+			<if test="disposalUnitCode != null and disposalUnitCode != ''">
+				and disposal_unit_code in (select a.code from sys_unit a,sys_unit b
+                where a.left_value between b.left_value and b.right_value
+                and b.id = #{disposalUnitCode})
+			</if>
+			<if test="comName != null and comName != ''">
+				and property_name like "%"#{comName,jdbcType=VARCHAR}"%"
+				or case_name like "%"#{comName,jdbcType=VARCHAR}"%"
+			</if>
+		</where>
+	</select>
+
+	<update id="updateByPrimaryKeySelective">
+		update yw_disposal_exchange
+		<set>
+			<if test="propertyId != null">
+				property_id = #{propertyId,jdbcType=VARCHAR},
+			</if>
+			<if test="propertyName != null">
+				property_name = #{propertyName,jdbcType=VARCHAR},
+			</if>
+			<if test="caseId != null">
+				case_id = #{caseId,jdbcType=VARCHAR},
+			</if>
+			<if test="caseName != null">
+				case_name =
+				#{caseName,jdbcType=VARCHAR},
+			</if>
+			<if test="sendUnitCode != null">
+				send_unit_code = #{sendUnitCode,jdbcType=VARCHAR},
+			</if>
+			<if test="sendUnitName != null">
+				send_unit_name = #{sendUnitName,jdbcType=VARCHAR},
+			</if>
+			<if test="back != null">
+				break = #{back,jdbcType=VARCHAR},
+			</if>
+			<if test="receiveUnitCode != null">
+				receive_unit_code = #{receiveUnitCode,jdbcType=TIMESTAMP},
+			</if>
+			<if test="receiveUnitName != null">
+				receive_unit_name = #{receiveUnitName,jdbcType=VARCHAR},
+			</if>
+			<if test="create_time != null">
+				create_time = #{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="disposalUnitCode != null">
+				disposal_unit_code = #{disposalUnitCode,jdbcType=VARCHAR},
+			</if>
+			<if test="disposalUnitName != null">
+				disposal_unit_name = #{disposalUnitName,jdbcType=VARCHAR},
+			</if>
+			<if test="disposalType != null">
+				disposal_unit_type = #{disposalType,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where id = #{id,jdbcType=VARCHAR}
+	</update>
+
+
+
+	<insert id="insertSelective" parameterType="com.coolcloud.sacw.disposal.entity.DisposalUnit">
+		insert into yw_disposal_exchange
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="propertyId != null">
+				property_id,
+			</if>
+			<if test="propertyName != null">
+				property_name,
+			</if>
+			<if test="caseId != null">
+				case_id,
+			</if>
+			<if test="caseName != null">
+				case_name,
+			</if>
+			<if test="sendUnitCode != null">
+				send_unit_code,
+			</if>
+			<if test="sendUnitName != null">
+				send_unit_name,
+			</if>
+			<if test="back != null">
+				break,
+			</if>
+			<if test="receiveUnitCode != null">
+				receive_unit_code,
+			</if>
+			<if test="receiveUnitName != null">
+				receive_unit_name,
+			</if>
+			<if test="createTime != null">
+				create_time,
+			</if>
+			<if test="disposalUnitCode != null">
+				disposal_unit_code,
+			</if>
+			<if test="disposalUnitName != null">
+				disposal_unit_name,
+			</if>
+			<if test="disposalType != null">
+				disposal_unit_type,
+			</if>
+			
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=VARCHAR},
+			</if>
+			<if test="propertyId != null">
+				#{propertyId,jdbcType=VARCHAR},
+			</if>
+			<if test="propertyName != null">
+				#{propertyName,jdbcType=VARCHAR},
+			</if>
+			<if test="caseId != null">
+				#{caseId,jdbcType=VARCHAR},
+			</if>
+			<if test="caseName != null">
+				#{caseName,jdbcType=VARCHAR},
+			</if>
+			<if test="sendUnitCode != null">
+				#{sendUnitCode,jdbcType=VARCHAR},
+			</if>
+			<if test="sendUnitName != null">
+				#{sendUnitName,jdbcType=VARCHAR},
+			</if>
+			<if test="back != null">
+				#{back,jdbcType=VARCHAR},
+			</if>
+			<if test="receiveUnitCode != null">
+				#{receiveUnitCode,jdbcType=VARCHAR},
+			</if>
+			<if test="receiveUnitName != null">
+				#{receiveUnitName,jdbcType=VARCHAR},
+			</if>
+			<if test="createTime != null">
+				#{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="disposalUnitCode != null">
+				#{disposalUnitCode,jdbcType=VARCHAR},
+			</if>
+			<if test="disposalUnitName != null">
+				#{disposalUnitName,jdbcType=VARCHAR},
+			</if>
+			<if test="disposalType != null">
+				#{disposalType,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+</mapper>

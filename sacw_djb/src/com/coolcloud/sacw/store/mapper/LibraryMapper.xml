@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.coolcloud.sacw.store.mapper.LibraryMapper">
+
+
+
+     <delete id="del">
+        delete from yw_library
+    </delete>
+
+    <select id="selectEx" parameterType="java.util.List" resultType="java.util.Map">
+        select c.case_stage,c.case_name,p.*,b.evm evm,case when b.evm is null THEN 0 ELSE 1 END sfyc
+        from yw_property p left join yw_library b on
+        b.evm = p.qr_code left join `case` c on p.case_id = c.id
+        where
+        p.save_location_code in
+        <foreach collection="stores" item="store" open="(" close=")" separator=",">
+            #{store,jdbcType=VARCHAR}
+        </foreach>
+    </select>
+     
+    
+</mapper>

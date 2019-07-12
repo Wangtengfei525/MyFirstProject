@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.coolcloud.sacw.property.mapper.PropertyLogMapper">
+
+    <resultMap id="BaseResultMap" type="com.coolcloud.sacw.property.entity.PropertyLog">
+        <id column="id" jdbcType="VARCHAR" property="id" />
+        
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+        
+        <result column="deleted" jdbcType="TINYINT" property="deleted" />
+        <result column="property_id" jdbcType="VARCHAR" property="propertyId" />
+        <result column="operation_time" jdbcType="TIMESTAMP" property="operationTime" />
+        <result column="operation_user" jdbcType="VARCHAR" property="operationUser" />
+        <result column="operation_content" jdbcType="VARCHAR" property="operationContent" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, create_time, update_time, deleted, property_id, operation_time, operation_user,
+        operation_content
+    </sql>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from yw_property_log
+        where id = #{id,jdbcType=VARCHAR}
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+        delete from yw_property_log where id = #{id,jdbcType=VARCHAR}
+    </delete>
+
+    <insert id="insertSelective" parameterType="com.coolcloud.sacw.property.entity.PropertyLog">
+        insert into yw_property_log
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+            <if test="deleted != null">
+                deleted,
+            </if>
+            <if test="propertyId != null">
+                property_id,
+            </if>
+            <if test="operationTime != null">
+                operation_time,
+            </if>
+            <if test="operationUser != null">
+                operation_user,
+            </if>
+            <if test="operationContent != null">
+                operation_content,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="deleted != null">
+                #{deleted,jdbcType=TINYINT},
+            </if>
+            <if test="propertyId != null">
+                #{propertyId,jdbcType=VARCHAR},
+            </if>
+            <if test="operationTime != null">
+                #{operationTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="operationUser != null">
+                #{operationUser,jdbcType=VARCHAR},
+            </if>
+            <if test="operationContent != null">
+                #{operationContent,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.coolcloud.sacw.property.entity.PropertyLog">
+        update yw_property_log
+        <set>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="deleted != null">
+                deleted = #{deleted,jdbcType=TINYINT},
+            </if>
+            <if test="propertyId != null">
+                property_id = #{propertyId,jdbcType=VARCHAR},
+            </if>
+            <if test="operationTime != null">
+                operation_time = #{operationTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="operationUser != null">
+                operation_user = #{operationUser,jdbcType=VARCHAR},
+            </if>
+            <if test="operationContent != null">
+                operation_content = #{operationContent,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+
+    <select id="selectByPropertyId" parameterType="string" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from yw_property_log
+        where property_id = #{propertyId,jdbcType=VARCHAR}
+        order by operation_time desc
+    </select>
+</mapper>

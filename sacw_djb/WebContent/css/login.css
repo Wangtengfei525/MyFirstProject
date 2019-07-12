@@ -1,0 +1,116 @@
+html,body{height: 100%;width: 100%;margin:0;padding:0;background-color: #fff;overflow:hidden; }
+/*底部高度固定 */
+.footer{width:100%;text-align:center;position:absolute; height:40px; font-size:12px; color:#999999; bottom:0;background-color:#fff;}
+/*顶部高度固定 */
+.header{width:100%;text-align:center; position:absolute;height:140px; font-size:12px; color:#999999;top:0;background-color: #fff;}
+/*中间高度变化*/
+.banner{
+    width:100%;
+    height:100%;
+    background-size:100% 100%;
+    position:absolute;
+    filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='bg-login.png',sizingMethod='scale');
+    background-image:url("../img/loginbg.jpg");
+}
+
+
+/*输入框 */
+.login-aside{
+position:absolute;
+background:url(../img/logininput.jpg)no-repeat;
+width:420px;
+height:460px;
+z-index:999;
+border-radius:5px;
+left:58%;
+top:5%;
+}
+.error-box{
+font-size:12px;
+margin-bottom:10px;
+}
+
+
+.form-label {
+    display: block;
+    float: none;
+    height: auto;
+    line-height: 12px;
+    text-align: left;
+    width: auto;
+	font-size:14px;
+	color:#fff;
+	font-weight:bold;
+	text-shadow:1px 1px 1px #4e6877;
+	-o-text-shadow:1px 1px 1px #4e6877;
+	-o-moz-shadow:1px 1px 1px #4e6877;
+	-o-mis-shadow:1px 1px 1px #4e6877;
+	-o-webkit-shadow:1px 1px 1px #4e6877;
+	margin-top:16px;
+	margin-bottom:16px;
+}
+
+.o-box-down {
+    width:410px;
+    height:440px;
+    position:absolute;
+	border-radius:5px;
+
+}
+
+.btn-login{ width:375px; height:55px;border:none; margin-top:5px;border-radius:4px;background:url(../images/login-btn.png) no-repeat; }
+
+.chk_1 { 
+    display: none; 
+} 
+ 
+.chk_1 + label { 
+    background-color: #FFF; 
+    border: 1px solid #C1CACA; 
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05), inset 0px -15px 10px -12px rgba(0, 0, 0, 0.05); 
+    padding: 9px; 
+    border-radius: 5px; 
+    display: inline-block; 
+    position: relative; 
+    margin-right: 30px; 
+} 
+.chk_1 + label:active { 
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05), inset 0px 1px 3px rgba(0,0,0,0.1); 
+} 
+ 
+.chk_1:checked + label { 
+    background-color: #ECF2F7; 
+    border: 1px solid #92A1AC; 
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05), inset 0px -15px 10px -12px rgba(0, 0, 0, 0.05), inset 15px 10px -12px rgba(255, 255, 255, 0.1); 
+    color: #243441; 
+} 
+ 
+.chk_1:checked + label:after { 
+    content: '\2714'; 
+    position: absolute; 
+    top: -3px; 
+    left: 0px; 
+    color: #758794; 
+    width: 100%; 
+    text-align: center; 
+    font-size: 1.4em; 
+    padding: 1px 0 0 0; 
+    vertical-align: text-top; 
+}
+
+.fm-item-dw{
+	margin-top: 112px;margin-left: 111px;
+}
+.fm-item-username{
+	margin-top: 18.5px;margin-left: 111px;
+}
+.fm-item-password{
+	margin-top: 17.8px;margin-left: 111px;
+}
+.fm-item-check{
+	margin-top: 22px;margin-left: 18px;
+}
+.fm-item-btn{
+	
+	margin-top: 18px;margin-left:20px;
+}

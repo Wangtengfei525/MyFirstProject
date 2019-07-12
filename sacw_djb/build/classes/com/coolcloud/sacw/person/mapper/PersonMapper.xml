@@ -1,0 +1,361 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.coolcloud.sacw.person.mapper.PersonMapper">
+    <resultMap id="BaseResultMap" type="com.coolcloud.sacw.person.entity.Person">
+        <id column="id" jdbcType="VARCHAR" property="id" />
+        <result column="case_id" jdbcType="VARCHAR" property="caseId" />
+        <result column="plat_case_code" jdbcType="VARCHAR" property="platCaseCode" />
+        <result column="plat_person_code" jdbcType="VARCHAR" property="platPersonCode" />
+        <result column="person_name" jdbcType="VARCHAR" property="personName" />
+        <result column="nation" jdbcType="VARCHAR" property="nation" />
+        <result column="nation_code" jdbcType="VARCHAR" property="nationCode" />
+        <result column="native_place" jdbcType="VARCHAR" property="nativePlace" />
+        <result column="native_place_code" jdbcType="VARCHAR" property="nativePlaceCode" />
+        <result column="person_type" jdbcType="VARCHAR" property="personType" />
+        <result column="person_class" jdbcType="VARCHAR" property="personClass" />
+        <result column="org_code" jdbcType="VARCHAR" property="orgCode" />
+        <result column="org_name" jdbcType="VARCHAR" property="orgName" />
+        <result column="unit_address" jdbcType="VARCHAR" property="unitAddress" />
+        <result column="crime_name" jdbcType="VARCHAR" property="crimeName" />
+        <result column="crime_code" jdbcType="VARCHAR" property="crimeCode" />
+        <result column="gender_code" jdbcType="VARCHAR" property="genderCode" />
+        <result column="gender" jdbcType="VARCHAR" property="gender" />
+        <result column="birthday" jdbcType="DATE" property="birthday" />
+        <result column="id_type" jdbcType="VARCHAR" property="idType" />
+        <result column="id_type_code" jdbcType="VARCHAR" property="idTypeCode" />
+        <result column="id_number" jdbcType="VARCHAR" property="idNumber" />
+        <result column="address" jdbcType="VARCHAR" property="address" />
+        <result column="venue" jdbcType="VARCHAR" property="venue" />
+        <result column="phone_number" jdbcType="VARCHAR" property="phoneNumber" />
+        <result column="remark" jdbcType="VARCHAR" property="remark" />
+        <result column="deleted" jdbcType="TINYINT" property="deleted" />
+        
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+        
+        <result column="record_date" jdbcType="DATE" property="recordDate" />
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, case_id, plat_case_code, plat_person_code, IFNULL(person_name,"") as person_name, IFNULL(nation,"") as nation, nation_code, IFNULL(native_place,"") as native_place,
+        IFNULL(native_place_code,"") as native_place_code, IFNULL(person_type,"") as person_type, IFNULL(person_class,"") as person_class, org_code, IFNULL(org_name,"") as org_name, IFNULL(unit_address,"") as unit_address, IFNULL(crime_name,"") as crime_name,
+        crime_code, gender_code, IFNULL(gender,"") as gender, birthday, id_type, id_type_code, id_number, IFNULL(address,"") as address,
+        venue, phone_number, IFNULL(remark,"") as remark, deleted, create_time, update_time, record_date
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from yw_person
+        where id = #{id,jdbcType=VARCHAR}
+    </select>
+
+    <select id="selectByExample" parameterType="com.coolcloud.sacw.person.entity.PersonExample" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from yw_person
+        <where>
+            <if test=" caseId != null and caseId != '' ">
+                and case_id = #{caseId,jdbcType=VARCHAR}
+            </if>
+            <if test=" personName != null and personName != '' ">
+                and person_name = #{name,jdbcType=VARCHAR}
+            </if>
+            <if test=" platCaseCode != null and platCaseCode != '' ">
+                and plat_case_code = #{platCaseCode,jdbcType=VARCHAR}
+            </if>
+            <if test=" platPersonCode != null and platPersonCode != '' ">
+                and plat_person_code = #{platCaseCode,jdbcType=VARCHAR}
+            </if>
+            <if test=" deleted != null ">
+                and deleted = #{deleted,jdbcType=TINYINT}
+            </if>
+        </where>
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+        update yw_person
+        set deleted = 1
+        where id = #{id,jdbcType=VARCHAR}
+    </delete>
+
+    <insert id="insertSelective" parameterType="com.coolcloud.sacw.person.entity.Person">
+        insert into yw_person
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="caseId != null">
+                case_id,
+            </if>
+            <if test="platCaseCode != null">
+                plat_case_code,
+            </if>
+            <if test="platPersonCode != null">
+                plat_person_code,
+            </if>
+            <if test="personName != null">
+                person_name,
+            </if>
+            <if test="nation != null">
+                nation,
+            </if>
+            <if test="nationCode != null">
+                nation_code,
+            </if>
+            <if test="nativePlace != null">
+                native_place,
+            </if>
+            <if test="nativePlaceCode != null">
+                native_place_code,
+            </if>
+            <if test="personType != null">
+                person_type,
+            </if>
+            <if test="personClass != null">
+                person_class,
+            </if>
+            <if test="orgCode != null">
+                org_code,
+            </if>
+            <if test="orgName != null">
+                org_name,
+            </if>
+            <if test="unitAddress != null">
+                unit_address,
+            </if>
+            <if test="crimeName != null">
+                crime_name,
+            </if>
+            <if test="crimeCode != null">
+                crime_code,
+            </if>
+            <if test="genderCode != null">
+                gender_code,
+            </if>
+            <if test="gender != null">
+                gender,
+            </if>
+            <if test="birthday != null">
+                birthday,
+            </if>
+            <if test="idType != null">
+                id_type,
+            </if>
+            <if test="idTypeCode != null">
+                id_type_code,
+            </if>
+            <if test="idNumber != null">
+                id_number,
+            </if>
+            <if test="address != null">
+                address,
+            </if>
+            <if test="venue != null">
+                venue,
+            </if>
+            <if test="phoneNumber != null">
+                phone_number,
+            </if>
+            <if test="remark != null">
+                remark,
+            </if>
+            <if test="deleted != null">
+                deleted,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+            <if test="recordDate != null">
+                record_date,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=VARCHAR},
+            </if>
+            <if test="caseId != null">
+                #{caseId,jdbcType=VARCHAR},
+            </if>
+            <if test="platCaseCode != null">
+                #{platCaseCode,jdbcType=VARCHAR},
+            </if>
+            <if test="platPersonCode != null">
+                #{platPersonCode,jdbcType=VARCHAR},
+            </if>
+            <if test="personName != null">
+                #{personName,jdbcType=VARCHAR},
+            </if>
+            <if test="nation != null">
+                #{nation,jdbcType=VARCHAR},
+            </if>
+            <if test="nationCode != null">
+                #{nationCode,jdbcType=VARCHAR},
+            </if>
+            <if test="nativePlace != null">
+                #{nativePlace,jdbcType=VARCHAR},
+            </if>
+            <if test="nativePlaceCode != null">
+                #{nativePlaceCode,jdbcType=VARCHAR},
+            </if>
+            <if test="personType != null">
+                #{personType,jdbcType=VARCHAR},
+            </if>
+            <if test="personClass != null">
+                #{personClass,jdbcType=VARCHAR},
+            </if>
+            <if test="orgCode != null">
+                #{orgCode,jdbcType=VARCHAR},
+            </if>
+            <if test="orgName != null">
+                #{orgName,jdbcType=VARCHAR},
+            </if>
+            <if test="unitAddress != null">
+                #{unitAddress,jdbcType=VARCHAR},
+            </if>
+            <if test="crimeName != null">
+                #{crimeName,jdbcType=VARCHAR},
+            </if>
+            <if test="crimeCode != null">
+                #{crimeCode,jdbcType=VARCHAR},
+            </if>
+            <if test="genderCode != null">
+                #{genderCode,jdbcType=VARCHAR},
+            </if>
+            <if test="gender != null">
+                #{gender,jdbcType=VARCHAR},
+            </if>
+            <if test="birthday != null">
+                #{birthday,jdbcType=DATE},
+            </if>
+            <if test="idType != null">
+                #{idType,jdbcType=VARCHAR},
+            </if>
+            <if test="idTypeCode != null">
+                #{idTypeCode,jdbcType=VARCHAR},
+            </if>
+            <if test="idNumber != null">
+                #{idNumber,jdbcType=VARCHAR},
+            </if>
+            <if test="address != null">
+                #{address,jdbcType=VARCHAR},
+            </if>
+            <if test="venue != null">
+                #{venue,jdbcType=VARCHAR},
+            </if>
+            <if test="phoneNumber != null">
+                #{phoneNumber,jdbcType=VARCHAR},
+            </if>
+            <if test="remark != null">
+                #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="deleted != null">
+                #{deleted,jdbcType=TINYINT},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="recordDate != null">
+                #{recordDate,jdbcType=DATE},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.coolcloud.sacw.person.entity.Person">
+        update yw_person
+        <set>
+            <if test="caseId != null">
+                case_id = #{caseId,jdbcType=VARCHAR},
+            </if>
+            <if test="platCaseCode != null">
+                plat_case_code = #{platCaseCode,jdbcType=VARCHAR},
+            </if>
+            <if test="platPersonCode != null">
+                plat_person_code = #{platPersonCode,jdbcType=VARCHAR},
+            </if>
+            <if test="personName != null">
+                person_name = #{personName,jdbcType=VARCHAR},
+            </if>
+            <if test="nation != null">
+                nation = #{nation,jdbcType=VARCHAR},
+            </if>
+            <if test="nationCode != null">
+                nation_code = #{nationCode,jdbcType=VARCHAR},
+            </if>
+            <if test="nativePlace != null">
+                native_place = #{nativePlace,jdbcType=VARCHAR},
+            </if>
+            <if test="nativePlaceCode != null">
+                native_place_code = #{nativePlaceCode,jdbcType=VARCHAR},
+            </if>
+            <if test="personType != null">
+                person_type = #{personType,jdbcType=VARCHAR},
+            </if>
+            <if test="personClass != null">
+                person_class = #{personClass,jdbcType=VARCHAR},
+            </if>
+            <if test="orgCode != null">
+                org_code = #{orgCode,jdbcType=VARCHAR},
+            </if>
+            <if test="orgName != null">
+                org_name = #{orgName,jdbcType=VARCHAR},
+            </if>
+            <if test="unitAddress != null">
+                unit_address = #{unitAddress,jdbcType=VARCHAR},
+            </if>
+            <if test="crimeName != null">
+                crime_name = #{crimeName,jdbcType=VARCHAR},
+            </if>
+            <if test="crimeCode != null">
+                crime_code = #{crimeCode,jdbcType=VARCHAR},
+            </if>
+            <if test="genderCode != null">
+                gender_code = #{genderCode,jdbcType=VARCHAR},
+            </if>
+            <if test="gender != null">
+                gender = #{gender,jdbcType=VARCHAR},
+            </if>
+            <if test="birthday != null">
+                birthday = #{birthday,jdbcType=DATE},
+            </if>
+            <if test="idType != null">
+                id_type = #{idType,jdbcType=VARCHAR},
+            </if>
+            <if test="idTypeCode != null">
+                id_type_code = #{idTypeCode,jdbcType=VARCHAR},
+            </if>
+            <if test="idNumber != null">
+                id_number = #{idNumber,jdbcType=VARCHAR},
+            </if>
+            <if test="address != null">
+                address = #{address,jdbcType=VARCHAR},
+            </if>
+            <if test="venue != null">
+                venue = #{venue,jdbcType=VARCHAR},
+            </if>
+            <if test="phoneNumber != null">
+                phone_number = #{phoneNumber,jdbcType=VARCHAR},
+            </if>
+            <if test="remark != null">
+                remark = #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="deleted != null">
+                deleted = #{deleted,jdbcType=TINYINT},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="recordDate != null">
+                record_date = #{recordDate,jdbcType=DATE},
+            </if>
+        </set>
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+
+</mapper>

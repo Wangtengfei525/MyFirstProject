@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+<title>涉案财物管理中心 - 分配入柜</title>
+<link rel="icon" href="../../favicon.ico" type="image/x-icon" />
+<link rel="stylesheet" href="../../assets/bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet" href="../../assets/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet" href="../../assets/admin-lte/css/AdminLTE.min.css">
+<link rel="stylesheet" href="../../assets/bootstrap-table/bootstrap-table.min.css">
+<link rel="stylesheet" href="../../assets/admin-lte/css/skins/_all-skins.min.css">
+<link rel="stylesheet" href="../../assets/ztree/css/zTreeStyle/zTreeStyle.css">
+<!--[if lt IE 9]>
+<script src="../../assets/html5shiv/html5shiv.min.js"></script>
+<script src="../../assets/respond/respond.min.js"></script>
+<![endif]-->
+<style type="text/css">
+.ztree li a {
+    height: 28px;
+    line-height: 28px;
+    vertical-align: middle;
+}
+
+.ztree li a.curSelectedNode {
+    height: 24px;
+    line-height: 24px;
+    vertical-align: middle;
+}
+
+.ztree li span.button.ico_close {
+    vertical-align: middle;
+}
+
+.ztree li span.button.ico_open {
+    vertical-align: middle;
+}
+
+.ztree li span.button.ico_docu {
+    vertical-align: middle;
+}
+</style>
+</head>
+
+<body class="hold-transition skin-blue-light sidebar-mini">
+    <div class="wrapper">
+
+        <!-- Main content -->
+        <section class="content container-fluid">
+
+            <div class="box">
+                <div class="box-body">
+                    <div class="row">
+                        <div class="col-xs-4">
+                            <ul id="tree-category" class="ztree" style="max-height: 400px; overflow: auto;"></ul>
+                        </div>
+                        <div class="col-xs-8">
+                            <table id="table-store" class="table table-hover"></table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- /.content -->
+
+    </div>
+    <!-- ./wrapper -->
+
+    <script src="../../assets/jquery/jquery.min.js"></script>
+    <script src="../../assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="../../assets/admin-lte/js/adminlte.min.js"></script>
+    <script src="../../assets/layer/layer.js"></script>
+    <script src="../../assets/bootstrap-table/bootstrap-table.min.js"></script>
+    <script src="../../assets/bootstrap-table/locale/bootstrap-table-zh-CN.min.js"></script>
+    <script src="../../assets/ztree/js/jquery.ztree.all.min.js"></script>
+    <script src="../../js/common.js"></script>
+    <script src="../../js/store/assign-store.js"></script>
+</body>
+
+</html>

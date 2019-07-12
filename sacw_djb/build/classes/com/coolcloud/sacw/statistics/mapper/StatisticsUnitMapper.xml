@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.coolcloud.sacw.statistics.mapper.StatisticsUnitMapper">
+
+    <resultMap id="BaseResultMap" type="com.coolcloud.sacw.statistics.entity.StatisticsUnit">
+        <id column="id" jdbcType="VARCHAR" property="id" />
+        
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+        
+        <result column="deleted" jdbcType="TINYINT" property="deleted" />
+        <result column="unit_id" jdbcType="VARCHAR" property="unitId" />
+        <result column="unit_name" jdbcType="VARCHAR" property="unitName" />
+        <result column="type" jdbcType="VARCHAR" property="type" />
+        <result column="sort" jdbcType="TINYINT" property="sort" />
+        <result column="contains_children" jdbcType="TINYINT" property="containsChildren" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, create_time, update_time, deleted, unit_id, unit_name, type, sort, contains_children
+    </sql>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from yw_statistics_unit
+        where id = #{id,jdbcType=VARCHAR}
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+        delete from yw_statistics_unit
+        where id = #{id,jdbcType=VARCHAR}
+    </delete>
+
+    <insert id="insertSelective" parameterType="com.coolcloud.sacw.statistics.entity.StatisticsUnit">
+        insert into yw_statistics_unit
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+            <if test="deleted != null">
+                deleted,
+            </if>
+            <if test="unitId != null">
+                unit_id,
+            </if>
+            <if test="unitName != null">
+                unit_name,
+            </if>
+            <if test="type != null">
+                type,
+            </if>
+            <if test="sort != null">
+                sort,
+            </if>
+            <if test="containsChildren != null">
+                contains_children,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="deleted != null">
+                #{deleted,jdbcType=TINYINT},
+            </if>
+            <if test="unitId != null">
+                #{unitId,jdbcType=VARCHAR},
+            </if>
+            <if test="unitName != null">
+                #{unitName,jdbcType=VARCHAR},
+            </if>
+            <if test="type != null">
+                #{type,jdbcType=VARCHAR},
+            </if>
+            <if test="sort != null">
+                #{sort,jdbcType=TINYINT},
+            </if>
+            <if test="containsChildren != null">
+                #{containsChildren,jdbcType=TINYINT}
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.coolcloud.sacw.statistics.entity.StatisticsUnit">
+        update yw_statistics_unit
+        <set>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="deleted != null">
+                deleted = #{deleted,jdbcType=TINYINT},
+            </if>
+            <if test="unitId != null">
+                unit_id = #{unitId,jdbcType=VARCHAR},
+            </if>
+            <if test="unitName != null">
+                unit_name = #{unitName,jdbcType=VARCHAR},
+            </if>
+            <if test="type != null">
+                type = #{type,jdbcType=VARCHAR},
+            </if>
+            <if test="sort != null">
+                sort = #{sort,jdbcType=TINYINT},
+            </if>
+            <if test="containsChildren != null">
+                contains_children = #{containsChildren,jdbcType=TINYINT}
+            </if>
+        </set>
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+
+    <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.coolcloud.sacw.statistics.entity.StatisticsUnitExample">
+        select
+        <include refid="Base_Column_List" />
+        from yw_statistics_unit
+        <where>
+            <if test=" type != null and type != '' ">
+                and type = #{type}
+            </if>
+        </where>
+        order by type,sort
+    </select>
+
+    <select id="selectByType" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from yw_statistics_unit
+        where type = #{type}
+        order by type,sort
+    </select>
+
+</mapper>

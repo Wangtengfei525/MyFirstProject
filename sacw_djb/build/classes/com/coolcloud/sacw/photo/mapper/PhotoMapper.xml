@@ -1,0 +1,302 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.coolcloud.sacw.photo.mapper.PhotoMapper">
+	<resultMap id="BaseResultMap" type="com.coolcloud.sacw.photo.entity.Photo">
+		<id column="id" jdbcType="VARCHAR" property="id" />
+		<result column="exchange_num" jdbcType="VARCHAR" property="exchange_num" />
+		<result column="exchange_id" jdbcType="VARCHAR" property="exchangeId" />
+		<result column="plat_case_code" jdbcType="VARCHAR" property="platCaseCode" />
+		<result column="property_num" jdbcType="VARCHAR" property="property_num" />
+		<result column="property_name" jdbcType="VARCHAR" property="property_name" />
+		<result column="photo_num" jdbcType="VARCHAR" property="photo_num" />
+		<result column="photo_desc" jdbcType="VARCHAR" property="photo_desc" />
+		<result column="photo_node" jdbcType="VARCHAR" property="photo_node" />
+		<result column="photographer" jdbcType="VARCHAR" property="photographer" />
+		<result column="unit_code" jdbcType="VARCHAR" property="unit_code" />
+		<result column="unit_name" jdbcType="VARCHAR" property="unit_name" />
+		<result column="filming_time" jdbcType="TIMESTAMP" property="filming_time" />
+		<result column="file_name" jdbcType="VARCHAR" property="file_name" />
+		<result column="file_path" jdbcType="VARCHAR" property="file_path" />
+		<result column="file_class_code" jdbcType="VARCHAR" property="file_class_code" />
+		<result column="file_class_name" jdbcType="VARCHAR" property="file_class_name" />
+		<result column="suffix_name" jdbcType="VARCHAR" property="suffix_name" />
+		<result column="exchange_lot" jdbcType="VARCHAR" property="exchange_lot" />
+		<result column="process_num" jdbcType="VARCHAR" property="process_num" />
+		<result column="node_num" jdbcType="VARCHAR" property="node_num" />
+		<result column="property_id" jdbcType="VARCHAR" property="property_id" />
+		<result column="deleted" jdbcType="INTEGER" property="deleted" />
+		<result column="create_date" jdbcType="TIMESTAMP" property="create_date" />
+		<result column="last_update_date" jdbcType="TIMESTAMP" property="last_update_date" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id,exchange_id,exchange_num,plat_case_code,property_num,property_name,photo_num,
+		photo_desc,photo_node,photographer,unit_code,unit_name,filming_time,
+		file_name,file_path,file_class_code,file_class_name,suffix_name,
+		exchange_lot,process_num,node_num,deleted,create_date,last_update_date,property_id
+	</sql>
+
+	<select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from photo where id = #{id,jdbcType=VARCHAR}
+	</select>
+
+	<select id="selectByExample" parameterType="com.coolcloud.sacw.photo.entity.PhotoExample" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from photo
+		<where>
+			<if test="id != null and id != ''">
+				and id = #{id}
+			</if>
+			<if test="propertyId != null and propertyId != ''">
+				and property_id = #{propertyId}
+			</if>
+			<if test="platCaseCode != null and platCaseCode != '' ">
+				and plat_case_code = #{platCaseCode}
+			</if>
+			<if test="exchangeId != null and exchangeId != '' ">
+				and exchange_id = #{exchangeId}
+			</if>
+		</where>
+	</select>
+	<update id="updateByPrimaryKeySelective">
+		update photo
+		<set>
+			<if test="id != null and id != ''">
+				id = #{id,jdbcType=VARCHAR},
+			</if>
+			<if test="exchangeId != null and exchangeId != ''">
+				exchange_id = #{exchangeId,jdbcType=VARCHAR},
+			</if>
+			<if test="exchange_num != null and exchange_num != ''">
+				exchange_num = #{exchange_num,jdbcType=VARHCAR},
+			</if>
+			<if test="platCaseCode != null and platCaseCode != ''">
+				plat_case_code = #{platCaseCode,jdbcType=VARCHAR},
+			</if>
+			<if test="property_num != null and property_num != ''">
+				property_num = #{property_num,jdbcType=VARCHAR},
+			</if>
+			<if test="property_name != null and property_name != ''">
+				property_name = #{property_name,jdbcType=VARCHAR},
+			</if>
+			<if test="photo_num != null and photo_num != ''">
+				photo_num = #{photo_num,jdbcType=VARCHAR},
+			</if>
+			<if test="photo_desc != null and photo_desc!=''">
+				photo_desc = #{photo_desc,jdbcType=VARCHAR},
+			</if>
+			<if test="photo_node != null and photo_node != ''">
+				photo_node = #{photo_node,jdbcType=VARCHAR},
+			</if>
+			<if test="photographer !=null and photographer != ''">
+				photographer = #{photographer,jdbcType=VARCHAR},
+			</if>
+			<if test="unit_code !=null and unit_code != ''">
+				unit_code = #{unit_code,jdbcType=VARCHAR},
+			</if>
+			<if test="unit_name !=null and unit_name != ''">
+				unit_name = #{unit_name,jdbcType=VARCHAR},
+			</if>
+			<if test="filming_time !=null and filming_time != ''">
+				filming_time = #{filming_time,jdbcType=VARCHAR},
+			</if>
+			<if test="file_name !=null and file_name != ''">
+				file_name = #{file_name,jdbcType=VARCHAR},
+			</if>
+			<if test="file_path !=null and file_path != ''">
+				file_path = #{file_path,jdbcType=VARCHAR},
+			</if>
+			<if test="file_class_code !=null and file_class_code != ''">
+				file_class_code = #{file_class_code,jdbcType=VARCHAR},
+			</if>
+			<if test="file_class_name !=null and file_class_name != ''">
+				file_class_name = #{file_class_name,jdbcType=VARCHAR},
+			</if>
+			<if test="suffix_name !=null and suffix_name != ''">
+				suffix_name = #{suffix_name,jdbcType=VARCHAR},
+			</if>
+			<if test="exchange_lot !=null and exchange_lot != ''">
+				exchange_lot = #{exchange_lot,jdbcType=VARCHAR},
+			</if>
+			<if test="node_num !=null and node_num != ''">
+				node_num = #{node_num,jdbcType=VARCHAR},
+			</if>
+			<if test="create_date !=null and create_date != ''">
+				create_date = #{create_date,jdbcType=TIMESTAMP},
+			</if>
+			<if test="process_num !=null and process_num != ''">
+				process_num = #{process_num,jdbcType=TIMESTAMP},
+			</if>
+			<if test="deleted !=null and deleted != ''">
+				deleted = #{deleted,jdbcType=INTEGER},
+			</if>
+		</set>
+		where id = #{id,jdbcType=VARCHAR}
+	</update>
+	<insert id="insertSelective" parameterType="com.coolcloud.sacw.photo.entity.Photo">
+		insert into photo
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="exchangeId != null">
+				exchange_id,
+			</if>
+			<if test="platCaseCode != null">
+				plat_case_code,
+			</if>
+			<if test="exchange_num != null">
+				exchange_num ,
+			</if>
+			<if test="property_num != null">
+				property_num,
+			</if>
+			<if test="property_name != null">
+				property_name,
+			</if>
+			<if test="photo_num != null">
+				photo_num,
+			</if>
+			<if test="photo_desc != null">
+				photo_desc,
+			</if>
+			<if test="photo_node != null">
+				photo_node,
+			</if>
+			<if test="photographer != null">
+				photographer,
+			</if>
+			<if test="unit_code != null">
+				unit_code,
+			</if>
+			<if test="unit_name != null">
+				unit_name,
+			</if>
+			<if test="filming_time != null">
+				filming_time,
+			</if>
+			<if test="file_name != null">
+				file_name,
+			</if>
+			<if test="file_path != null">
+				file_path,
+			</if>
+			<if test="file_class_code != null">
+				file_class_code,
+			</if>
+			<if test="file_class_name != null">
+				file_class_name,
+			</if>
+			<if test="suffix_name != null">
+				suffix_name,
+			</if>
+			<if test="exchange_lot != null">
+				exchange_lot,
+			</if>
+			<if test="process_num != null">
+				process_num,
+			</if>
+			<if test="node_num != null">
+				node_num,
+			</if>
+			<if test="create_date != null">
+				create_date,
+			</if>
+			<if test="last_update_date != null">
+				last_update_date,
+			</if>
+			<if test="property_id != null">
+				property_id,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=VARCHAR},
+			</if>
+			<if test="exchangeId != null">
+				#{exchangeId,jdbcType=VARCHAR},
+			</if>
+			<if test="platCaseCode != null">
+				#{platCaseCode,jdbcType=VARCHAR},
+			</if>
+			<if test="exchange_num != null">
+				#{exchange_num,jdbcType=VARCHAR},
+			</if>
+			<if test="property_num != null">
+				#{property_num,jdbcType=VARCHAR},
+			</if>
+			<if test="property_name != null">
+				#{property_name,jdbcType=VARCHAR},
+			</if>
+			<if test="photo_num != null">
+				#{photo_num,jdbcType=VARCHAR},
+			</if>
+			<if test="photo_desc != null">
+				#{photo_desc,jdbcType=VARCHAR},
+			</if>
+			<if test="photo_node != null">
+				#{photo_node,jdbcType=VARCHAR},
+			</if>
+			<if test="photographer != null">
+				#{photographer,jdbcType=VARCHAR},
+			</if>
+			<if test="unit_code != null">
+				#{unit_code,jdbcType=VARCHAR},
+			</if>
+			<if test="unit_name != null">
+				#{unit_name,jdbcType=VARCHAR},
+			</if>
+			<if test="filming_time != null">
+				#{filming_time,jdbcType=INTEGER},
+			</if>
+			<if test="file_name != null">
+				#{file_name,jdbcType=VARCHAR},
+			</if>
+			<if test="file_path != null">
+				#{file_path,jdbcType=VARCHAR},
+			</if>
+			<if test="file_class_code != null">
+				#{file_class_code,jdbcType=VARCHAR},
+			</if>
+			<if test="file_class_name != null">
+				#{file_class_name,jdbcType=VARCHAR},
+			</if>
+			<if test="suffix_name != null">
+				#{suffix_name,jdbcType=VARCHAR},
+			</if>
+			<if test="exchange_lot != null">
+				#{exchange_lot,jdbcType=VARCHAR},
+			</if>
+			<if test="process_num != null">
+				#{process_num,jdbcType=VARCHAR},
+			</if>
+			<if test="node_num != null">
+				#{node_num,jdbcType=VARCHAR},
+			</if>
+			<if test="create_date != null">
+				#{create_date,jdbcType=TIMESTAMP},
+			</if>
+			<if test="last_update_date != null">
+				#{last_update_date,jdbcType=TIMESTAMP},
+			</if>
+			<if test="property_id != null">
+				#{property_id,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+
+
+	<select id="selectByProperties" parameterType="java.util.List" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from photo where property_id in
+		<foreach collection="ids" item="propertyId" open="(" close=")" separator=",">
+			#{propertyId,jdbcType=VARCHAR}
+		</foreach>
+	</select>
+	
+	
+
+</mapper>

@@ -1,0 +1,410 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.coolcloud.sacw.car.mapper.CarConserveMapper">
+    <resultMap type="com.coolcloud.sacw.car.entity.CarConserve" id="baseResultMap">
+        <id column="id" property="id" jdbcType="VARCHAR" />
+        <result column="property_id" property="propertyId" jdbcType="VARCHAR" />
+        <result column="qr_code" property="qrCode" jdbcType="VARCHAR" />
+        <result column="case_mc" property="caseName" jdbcType="VARCHAR" />
+        <result column="conserve_time" property="conserveTime" jdbcType="TIMESTAMP" />
+        
+         <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+         
+        <result column="conserve_text" property="conserveText" jdbcType="VARCHAR" />
+        <result column="conserve_man" property="conserveMan" jdbcType="VARCHAR" />
+        <result column="audit_man" property="auditMan" jdbcType="VARCHAR" />
+        <result column="conserve_remark" property="conserveRemark" jdbcType="VARCHAR" />
+        <result column="audit_remark" property="auditRemark" jdbcType="VARCHAR" />
+        <result column="status" property="status" jdbcType="VARCHAR" />
+        <result column="exchange_key" property="exchangeKey" jdbcType="VARCHAR" />
+        <result column="conserve_number" property="conserveNumber" jdbcType="VARCHAR" />
+        <result column="car_message" property="carMessage" jdbcType="VARCHAR" />
+        <result column="property_mc" property="propertyName" jdbcType="VARCHAR" />
+        <result column="predict_time" property="predictTime" jdbcType="DOUBLE" />
+        <result column="conserve_text_mc" property="conserveTextName" jdbcType="VARCHAR" />
+        <result column="property_location" property="propertyLocation" jdbcType="VARCHAR" />
+        <result column="group_id" property="groupId" jdbcType="VARCHAR" />
+        <result column="plat_case_code" property="platCaseCode" jdbcType="VARCHAR" />
+        <result column="split_id" property="splitId" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,property_id,qr_code,case_mc,conserve_time,conserve_text,create_time,
+        conserve_man,audit_man,conserve_remark,audit_remark,
+        status,exchange_key,conserve_number,car_message,
+        property_mc,predict_time,conserve_text_mc,property_location,group_id,split_id
+    </sql>
+
+
+    <select id="selectByPrimaryKey" resultMap="baseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from yw_car_conserve where id = #{id}
+    </select>
+
+    <select id="selectByExample" parameterType="com.coolcloud.sacw.car.entity.CarConserveExample" resultMap="baseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from yw_car_conserve
+        <where>
+            <if test="caseName != null and caseName!=''">
+                and case_mc = #{caseName,jdbcType=VARCHAR}
+            </if>
+            <if test="caseNameLike != null and caseNameLike != ''">
+                and case_mc like "%"#{caseNameLike,jdbcType=VARCHAR}"%"
+            </if>
+            <if test="qrCode != null and qrCode != ''">
+                and qr_code = #{qrCode,jdbcType=VARCHAR}
+            </if>
+            <if test="conserveTime != null">
+                and conserve_time = #{conserveTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="startTime != null">
+                and conserve_time &gt;= #{startTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="endTime != null">
+                and conserve_time &lt;= #{endTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="groupId != null and groupId != '' ">
+                and group_id = #{groupId,jdbcType=VARCHAR}
+            </if>
+        </where>
+        order by status desc, conserve_time desc, create_time desc
+    </select>
+
+    <insert id="insertSelective" parameterType="com.coolcloud.sacw.car.entity.NewCarConserve">
+        insert into yw_car_conserve
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="propertyId != null">
+                property_id,
+            </if>
+            <if test="qrCode != null">
+                qr_code,
+            </if>
+            <if test="caseName != null">
+                case_mc,
+            </if>
+            <if test="conserveTime != null">
+                conserve_time,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+            <if test="conserveText != null">
+                conserve_text,
+            </if>
+            <if test="conserveMan != null">
+                conserve_man,
+            </if>
+            <if test="auditMan != null">
+                audit_man,
+            </if>
+            <if test="conserveRemark != null">
+                conserve_remark,
+            </if>
+            <if test="auditRemark != null">
+                audit_remark,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+            <if test="exchangeKey != null">
+                exchange_key,
+            </if>
+            <if test="conserveNumber != null">
+                conserve_number,
+            </if>
+            <if test="carMessage != null">
+                car_message,
+            </if>
+            <if test="propertyName != null">
+                property_mc,
+            </if>
+            <if test="predictTime != null">
+                predict_time,
+            </if>
+            <if test="conserveTextName != null">
+                conserve_text_mc,
+            </if>
+            <if test="propertyLocation != null">
+                property_location,
+            </if>
+            <if test="groupId != null">
+                group_id,
+            </if>
+            <if test="splitId != null">
+                split_id,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=VARCHAR},
+            </if>
+            <if test="propertyId != null">
+                #{propertyId,jdbcType=VARCHAR},
+            </if>
+            <if test="qrCode != null">
+                #{qrCode,jdbcType=VARCHAR},
+            </if>
+            <if test="caseName != null">
+                #{caseName,jdbcType=VARCHAR},
+            </if>
+            <if test="conserveTime != null">
+                #{conserveTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="conserveText != null">
+                #{conserveText,jdbcType=VARCHAR},
+            </if>
+            <if test="conserveMan != null">
+                #{conserveMan,jdbcType=VARCHAR},
+            </if>
+            <if test="auditMan != null">
+                #{auditMan,jdbcType=VARCHAR},
+            </if>
+            <if test="conserveRemark != null">
+                #{conserveRemark,jdbcType=VARCHAR},
+            </if>
+            <if test="auditRemark != null">
+                #{auditRemark,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=VARCHAR},
+            </if>
+            <if test="exchangeKey != null">
+                #{exchangeKey,jdbcType=VARCHAR},
+            </if>
+            <if test="conserveNumber != null">
+                #{conserveNumber,jdbcType=VARCHAR},
+            </if>
+            <if test="carMessage != null">
+                #{carMessage,jdbcType=VARCHAR},
+            </if>
+            <if test="propertyName != null">
+                #{propertyName,jdbcType=VARCHAR},
+            </if>
+            <if test="predictTime != null">
+                #{predictTime,jdbcType=DOUBLE},
+            </if>
+            <if test="conserveTextName != null">
+                #{conserveTextName,jdbcType=VARCHAR},
+            </if>
+            <if test="propertyLocation != null">
+                #{propertyLocation,jdbcType=VARCHAR},
+            </if>
+            <if test="groupId != null">
+                #{groupId,jdbcType=VARCHAR},
+            </if>
+            <if test="splitId != null">
+                #{splitId,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    
+
+    <insert id="insertBatch" parameterType="list">
+        insert into yw_car_conserve
+        (id,property_id,qr_code, case_mc, conserve_time, create_time, conserve_text, conserve_man, audit_man,
+        conserve_remark, audit_remark, status, exchange_key, conserve_number, car_message, property_mc,
+        predict_time, conserve_text_mc, property_location, group_id, split_id) values
+        <foreach collection="list" item="item" separator=",">
+            (#{item.id,jdbcType=VARCHAR},
+            #{item.propertyId,jdbcType=VARCHAR},
+            #{item.qrCode,jdbcType=VARCHAR},
+            #{item.caseName,jdbcType=VARCHAR},
+            #{item.conserveTime,jdbcType=TIMESTAMP},
+            #{item.createTime,jdbcType=TIMESTAMP},
+            #{item.conserveText,jdbcType=VARCHAR},
+            #{item.conserveMan,jdbcType=VARCHAR},
+            #{item.auditMan,jdbcType=VARCHAR},
+            #{item.conserveRemark,jdbcType=VARCHAR},
+            #{item.auditRemark,jdbcType=VARCHAR},
+            #{item.status,jdbcType=VARCHAR},
+            #{item.exchangeKey,jdbcType=VARCHAR},
+            #{item.conserveNumber,jdbcType=VARCHAR},
+            #{item.carMessage,jdbcType=VARCHAR},
+            #{item.propertyName,jdbcType=VARCHAR},
+            #{item.predictTime,jdbcType=DOUBLE},
+            #{item.conserveTextName,jdbcType=VARCHAR},
+            #{item.propertyLocation,jdbcType=VARCHAR},
+            #{item.groupId,jdbcType=VARCHAR},
+            #{item.splitId,jdbcType=VARCHAR})
+        </foreach>
+    </insert>
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.coolcloud.sacw.car.entity.CarConserve">
+        update yw_car_conserve
+        <set>
+            <if test="propertyId != null">
+                property_id = #{propertyId,jdbcType=VARCHAR},
+            </if>
+            <if test="qrCode != null">
+                qr_code = #{qrCode,jdbcType=VARCHAR},
+            </if>
+            <if test="caseName != null">
+                case_mc = #{caseName,jdbcType=VARCHAR},
+            </if>
+            <if test="conserveTime != null">
+                conserve_time = #{conserveTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="conserveText != null">
+                conserve_text = #{conserveText,jdbcType=VARCHAR},
+            </if>
+            <if test="conserveMan != null">
+                conserve_man = #{conserveMan,jdbcType=VARCHAR},
+            </if>
+            <if test="auditMan != null">
+                audit_man = #{auditMan,jdbcType=VARCHAR},
+            </if>
+            <if test="conserveRemark != null">
+                conserve_remark = #{conserveRemark,jdbcType=VARCHAR},
+            </if>
+            <if test="auditRemark != null">
+                audit_remark = #{auditRemark,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=VARCHAR},
+            </if>
+            <if test="exchangeKey != null">
+                exchange_key = #{exchangeKey,jdbcType=VARCHAR},
+            </if>
+            <if test="conserveNumber != null">
+                conserve_number = #{conserveNumber,jdbcType=VARCHAR},
+            </if>
+            <if test="carMessage != null">
+                car_message = #{carMessage,jdbcType=VARCHAR},
+            </if>
+            <if test="propertyName != null">
+                property_mc = #{propertyName,jdbcType=VARCHAR},
+            </if>
+            <if test="predictTime != null">
+                predict_time = #{predictTime,jdbcType=DOUBLE},
+            </if>
+            <if test="conserveTextName != null">
+                conserve_text_mc = #{conserveTextName,jdbcType=VARCHAR},
+            </if>
+            <if test="propertyLocation != null">
+                property_location = #{propertyLocation,jdbcType=VARCHAR},
+            </if>
+            <if test="groupId != null">
+                group_id = #{groupId,jdbcType=VARCHAR},
+            </if>
+            <if test="splitId != null">
+                split_id = #{splitId,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+
+
+    <!-- <select id="queryConserveInfo" resultMap="baseResultMap"> select A.* from yw_car_conserve A, (select t.qr_code, max(t.conserve_time) conserve_time from yw_car_conserve t group by t.qr_code) B WHERE A.qr_code = B.qr_code AND A.conserve_time = B.conserve_time </select> -->
+    <select id="queryConserveInfo" resultMap="baseResultMap" parameterType="com.coolcloud.sacw.car.entity.CarConserveExample">
+        select A.*
+        from yw_car_conserve A,
+        (select t.qr_code, max(t.conserve_time) conserve_time,t.`status`
+        from yw_car_conserve t
+        group by t.qr_code order by t.`status` asc ,conserve_time desc ) B
+        where A.qr_code = B.qr_code
+        and A.conserve_time = B.conserve_time
+        <if test="caseNameLike != null and caseNameLike != ''">
+            and A.case_mc like "%"#{caseNameLike,jdbcType=VARCHAR}"%"
+        </if>
+        <if test="startTime != null">
+            and A.conserve_time &gt;= #{startTime,jdbcType=TIMESTAMP}
+        </if>
+        <if test="endTime != null">
+            and A.conserve_time &lt;= #{endTime,jdbcType=TIMESTAMP}
+        </if>
+    </select>
+
+    <select id="carexp" resultType="java.util.Map">
+        SELECT
+        qr_code,
+        case_mc,
+        conserve_time,
+        conserve_man,
+        conserve_number,
+        car_message,
+        property_mc,
+        conserve_text_mc,
+        property_location,
+        conserve_remark
+        FROM
+        yw_car_conserve
+    </select>
+    <select id="queryCaryhxx" parameterType="String" resultMap="baseResultMap">
+        SELECT
+        qr_code,
+        case_mc,
+        conserve_time,
+        conserve_man,
+        conserve_number,
+        car_message,
+        property_mc,
+        conserve_text_mc,
+        property_location,
+        conserve_remark
+        FROM
+        yw_car_conserve
+        where
+        qr_code=#{qrCode,jdbcType=VARCHAR}
+    </select>
+    <select id="queryCar" parameterType="String" resultMap="baseResultMap">
+        select * from yw_car_conserve where qr_code=#{qrCode,jdbcType=VARCHAR} LIMIT 1
+    </select>
+    <select id="carTime" parameterType="String" resultType="String">
+        select register_date from yw_property where qr_code=#{qrCode,jdbcType=VARCHAR}
+    </select>
+    <select id="carTimes" parameterType="String" resultType="String">
+        select conserve_time from yw_car_conserve where qr_code=#{qrCode,jdbcType=VARCHAR}
+    </select>
+    <update id="updateCar" parameterType="String">
+        update yw_car_conserve set exchange_key=#{code,jdbcType=VARCHAR}, status='0'
+        where qr_code=#{qrCode,jdbcType=VARCHAR}
+    </update>
+
+    <delete id="deleteByPrimaryKey">
+        delete from yw_car_conserve where id = #{id}
+    </delete>
+
+    <select id="selectByGroupId" resultMap="baseResultMap">
+        select
+        t1.id, t1.qr_code, t1.case_mc, t1.conserve_time, t1.conserve_text, t1.create_time,
+        t1.conserve_man, t1.audit_man, t1.conserve_remark, t1.audit_remark,
+        t1.status, t1.exchange_key, t1.conserve_number, t1.car_message,
+        t1.property_mc, t1.predict_time, t1.conserve_text_mc, t1.property_location, t1.group_id, t1.split_id
+        from yw_car_conserve t1
+        left join yw_property t2 on t1.qr_code = t2.qr_code
+        left join `case` t3 on t2.case_id = t3.id
+        where t1.group_id = #{groupId}
+    </select>
+
+    <delete id="deleteByGroupId">
+        delete from yw_car_conserve where group_id = #{groupId}
+    </delete>
+
+    <select id="selectIdByGroupId" resultType="string">
+        select id from yw_car_conserve where group_id = #{groupId}
+    </select>
+
+    <select id="countCompletedByGroupId" resultType="int">
+        select count(*) from yw_car_conserve where status = 0 and exchange_key = 1 and group_id = #{groupId}
+    </select>
+</mapper>

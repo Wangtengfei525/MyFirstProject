@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+<title>涉案财物管理中心 - 图像采集</title>
+<link rel="icon" href="../../favicon.ico" type="image/x-icon" />
+<link rel="stylesheet" href="../../assets/bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet" href="../../assets/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet" href="../../assets/select2/css/select2.min.css">
+<link rel="stylesheet" href="../../assets/admin-lte/css/AdminLTE.min.css">
+<link rel="stylesheet" href="../../assets/admin-lte/css/skins/_all-skins.min.css">
+</head>
+
+<body class="hold-transition skin-blue-light sidebar-mini">
+    <div class="wrapper">
+
+        <section class="content-header">
+            <h1>图像采集</h1>
+        </section>
+
+        <section class="content container-fluid">
+            <div class="box box-solid">
+                <div class="box-body">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <span>实时</span>
+                        </div>
+                        <div class="col-sm-6">
+                            <span>预览</span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6" id="videodiv" style="height: 400px;">
+                            <video id="video" style="width: 100%; height: auto;"></video>
+                        </div>
+                        <div class="col-sm-6">
+                            <canvas id="canvas" style="width: 100%; height: auto;"></canvas>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-offset-4 col-sm-4">
+                            <form class="form-inline">
+                                <div class="form-group">
+                                    <label class="radio-inline">
+                                        <span>拍摄后上传</span>
+                                        <input id="upload-after-take" type="checkbox" checked />
+                                    </label>
+                                </div>
+                                <a id="rotate-left" class="btn btn-danger btn-flat">左旋90度</a>
+                                <a id="rotate-right" class="btn btn-danger btn-flat">右旋90度</a>
+                                <a id="shoot" class="btn btn-danger btn-flat">拍摄</a>
+                                <a id="upload" class="btn btn-danger btn-flat">上传</a>
+                            </form>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+    </div>
+
+    <script src="../../assets/jquery/jquery.min.js"></script>
+    <script src="../../assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="../../assets/layer/layer.js"></script>
+    <script src="../../assets/select2/js/select2.min.js"></script>
+    <script src="../../assets/moment/moment.min.js"></script>
+    <script src="../../assets/admin-lte/js/adminlte.min.js"></script>
+    <script src="../../assets/jquery-webcam/jquery.webcam.js"></script>
+    <script src="../../js/common.js"></script>
+    <script src="../../js/annex/photo.js"></script>
+</body>
+
+</html>

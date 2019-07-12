@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.coolcloud.sacw.warning.mapper.WarningPhotoMapper">
+
+    <resultMap id="BaseResultMap" type="com.coolcloud.sacw.warning.entity.WarningPhoto">
+        <id column="id" jdbcType="VARCHAR" property="id" />
+        
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+        
+        <result column="deleted" jdbcType="TINYINT" property="deleted" />
+        <result column="warning_id" jdbcType="VARCHAR" property="warningId" />
+        <result column="take_time" jdbcType="TIMESTAMP" property="takeTime" />
+        <result column="file_path" jdbcType="VARCHAR" property="filePath" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, create_time, update_time, deleted, warning_id, take_time, file_path
+    </sql>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from yw_warning_photo
+        where id = #{id,jdbcType=VARCHAR}
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+        delete from yw_warning_photo
+        where id = #{id,jdbcType=VARCHAR}
+    </delete>
+
+    <insert id="insertSelective" parameterType="com.coolcloud.sacw.warning.entity.WarningPhoto">
+        insert into yw_warning_photo
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+            <if test="deleted != null">
+                deleted,
+            </if>
+            <if test="warningId != null">
+                warning_id,
+            </if>
+            <if test="takeTime != null">
+                take_time,
+            </if>
+            <if test="filePath != null">
+                file_path,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="deleted != null">
+                #{deleted,jdbcType=TINYINT},
+            </if>
+            <if test="warningId != null">
+                #{warningId,jdbcType=VARCHAR},
+            </if>
+            <if test="takeTime != null">
+                #{takeTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="filePath != null">
+                #{filePath,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.coolcloud.sacw.warning.entity.WarningPhoto">
+        update yw_warning_photo
+        <set>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="deleted != null">
+                deleted = #{deleted,jdbcType=TINYINT},
+            </if>
+            <if test="warningId != null">
+                warning_id = #{warningId,jdbcType=VARCHAR},
+            </if>
+            <if test="takeTime != null">
+                take_time = #{takeTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="filePath != null">
+                file_path = #{filePath,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+
+    <select id="selectByByWarningId" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from yw_warning_photo
+        where warning_id = #{warningId,jdbcType=VARCHAR}
+        order by take_time desc
+    </select>
+
+</mapper>

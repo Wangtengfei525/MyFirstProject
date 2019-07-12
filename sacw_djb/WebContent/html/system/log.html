@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>日志管理</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+<link rel="icon" href="../../favicon.ico" type="image/x-icon" />
+<link rel="stylesheet" href="../../assets/bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet" href="../../assets/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet" href="../../assets/bootstrap-table/bootstrap-table.min.css">
+<link rel="stylesheet" href="../../assets/select2/css/select2.min.css">
+<link rel="stylesheet" href="../../assets/bootstrap-datepicker/css/bootstrap-datepicker.min.css">
+<link rel="stylesheet" href="../../assets/ztree/css/zTreeStyle/zTreeStyle.css">
+<link rel="stylesheet" href="../../assets/admin-lte/css/AdminLTE.min.css">
+<link rel="stylesheet" href="../../assets/admin-lte/css/skins/_all-skins.min.css">
+<link rel="stylesheet" href="../../css/base.css">
+<!--[if lt IE 9]>
+<script src="../../assets/html5shiv/html5shiv.min.js"></script>
+<script src="../../assets/respond/respond.min.js"></script>
+<![endif]-->
+</head>
+<body class="hold-transition skin-blue-light sidebar-mini">
+    <div class="wrapper">
+
+        <section class="content-header">
+            <h1>日志管理</h1>
+            <ol class="breadcrumb">
+                <li>
+                    <a href="#">
+                        <i class="fa fa-dashboard"></i>
+                        <span>系统管理</span>
+                    </a>
+                </li>
+                <li class="active">日志管理</li>
+            </ol>
+        </section>
+
+        <section class="content container-fluid">
+            <div class="box box-solid">
+                <div class="box-body">
+                    <form id="form-search" class="form-inline">
+                        <div class="form-group">
+                            <label>记录时间:</label>
+                            <input class="form-control" type="text" id="input-start-time" name="logTimeGreaterThan" readonly="readonly" />
+                            <span> - </span>
+                            <input class="form-control" type="text" id="input-end-time" name="logTimeLessThan" readonly="readonly" />
+                            <label>类型:</label>
+                            <select id="type" class="form-control select2" name="type">
+                                <option value="" selected="selected"></option>
+                                <option value="1">访问日志</option>
+                                <option value="2">异常日志</option>
+                                <option value="3">操作日志</option>
+                                <option value="4">登录日志</option>
+                            </select>
+                            <label>内容:</label>
+                            <input class="form-control" type="text" onkeyup="value=value.replace(/[^\a-\z\A-\Z0-9\u4E00-\u9FA5\.]/g,'')" onpaste="value=value.replace(/[^\a-\z\A-\Z0-9\u4E00-\u9FA5\.]/g,'')" oncontextmenu="value=value.replace(/[^\a-\z\A-\Z0-9\u4E00-\u9FA5\.]/g,'')" name="contentLike" maxlength="32" />
+                        </div>
+
+                        <a class="btn btn-default btn-flat" onclick="refresh()">查询</a>
+                        <input class="btn btn-default btn-flat" value="清空" type="reset" />
+                    </form>
+                </div>
+            </div>
+            <div class="box box-solid">
+                <div class="box-body">
+                    <!-- 用户信息表格-->
+                    <table id="logTable"></table>
+                </div>
+            </div>
+        </section>
+    </div>
+
+
+
+    <script src="../../assets/jquery/jquery.min.js"></script>
+    <script src="../../assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="../../assets/layer/layer.js"></script>
+    <script src="../../assets/bootstrap-table/bootstrap-table.min.js"></script>
+    <script src="../../assets/bootstrap-table/locale/bootstrap-table-zh-CN.min.js"></script>
+    <script src="../../assets/select2/js/select2.min.js"></script>
+    <script src="../../assets/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
+    <script src="../../assets/bootstrap-datepicker/locales/bootstrap-datepicker.zh-CN.min.js"></script>
+    <script src="../../assets/moment/moment.min.js"></script>
+    <script src="../../assets/admin-lte/js/adminlte.min.js"></script>
+    <script src="../../assets/ztree/js/jquery.ztree.all.min.js"></script>
+    <script src="../../js/common.js"></script>
+    <script src="../../js/system/log.js"></script>
+
+</body>
+</html>

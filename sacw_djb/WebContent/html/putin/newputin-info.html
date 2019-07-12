@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Insert title here</title>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta
+	content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"
+	name="viewport">
+<title>涉案财物管理中心 - 财物入库</title>
+<link rel="icon" href="../../favicon.ico" type="image/x-icon" />
+<link rel="stylesheet"
+	href="../../assets/bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet"
+	href="../../assets/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet"
+	href="../../assets/bootstrap-datepicker/css/bootstrap-datepicker.min.css">
+<link rel="stylesheet"
+	href="../../assets/admin-lte/css/AdminLTE.min.css">
+<link rel="stylesheet"
+	href="../../assets/bootstrap-table/bootstrap-table.min.css">
+<link rel="stylesheet"
+	href="../../assets/admin-lte/css/skins/_all-skins.min.css">
+<link rel="stylesheet"
+	href="../../assets/ztree/css/zTreeStyle/zTreeStyle.css">
+<link rel="stylesheet" href="../../css/base.css">
+<style type="text/css">
+.form-group {
+	margin: 40px 20px;
+}
+</style>
+</head>
+
+<body class="hold-transition skin-blue-light sidebar-mini">
+	<div class="col-xs-10" id="increatetree">
+		<form id="form-exchange" class="form-horizontal">
+			<div class="form-group">
+				<label class="control-label"><h4 style="margin-left: 50px;">案件信息录入</h4></label>
+			</div>
+			<div class="form-group">
+				<label class="control-label col-xs-3">案件名称</label>
+				<div class="col-xs-9">
+					<input class="form-control" id="caseName" placeholder="必填"/>
+				</div>
+			</div>
+			
+			<div class="form-group">
+				<label class="control-label col-xs-3">承办单位</label>
+				<div class="col-xs-9">
+					<input id="input-unit-id" style="display:none;" type="text" name="input-unit-id"/>
+					<input class="form-control" id="input-unit-name" name="input-unit-name" type="text" readonly/>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="control-label col-xs-3">入库时间</label>
+				<div class="col-xs-9">
+					<div class="input-group" class="input-append date form_datetime" id="gettime">
+						<input id="input-operation-time" type="text" class="form-control"
+							name="operationTime" /> <span class="input-group-addon">
+							<i class="glyphicon glyphicon-calendar"></i>
+						</span>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+	<div class="col-xs-10">
+		<form class="form-horizontal" id="putmoreproperty">
+			<div class="form-group">
+				<label class="control-label"><h4 style="margin-left: 50px;">财物信息录入</h4></label>
+			</div>
+			<div class="form-group">
+				<label class="control-label col-xs-3">财物名称</label>
+				<div class="col-xs-9">
+					<input name="propertyName" class="form-control" id="propertyName" />
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="control-label col-xs-3">财物类别</label>
+				<div class="col-xs-9">
+					<!-- 
+					<select id="propertyType" name="propertyType" class="form-control">
+						<option value="1">车辆</option>
+						<option value="2">其他</option>
+					</select>
+					-->
+                    <input id="input-type-id" type="text" style="display: none;" name="sendUnitId" />
+                    <input id="input-type-name" class="form-control" type="text" placeholder="财物类别" readonly />
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="control-label col-xs-3">财物数量</label>
+				<div class="col-xs-9">
+					<input name="propertyNumber" class="form-control" id="propertyNumber" onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}" onafterpaste="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}" />
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="control-label col-xs-3">财物描述</label>
+				<div class="col-xs-9">
+					<textarea id="property-input" rows="4" class="form-control" name="remark"></textarea>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="control-label col-xs-3">财物备注</label>
+				<div class="col-xs-9">
+					<textarea id="property-input-remark" rows="4" class="form-control" name="remark"></textarea>
+				</div>
+			</div>
+			</form>
+			
+			<form class="form-horizontal">
+			<div class="form-group">
+				<span class="col-xs-3"></span>
+				<input type="button" value="+" id="newproperty" class="col-xs-9 btn" title="新增财物" />
+			</div>
+			<div>
+				<div class="col-xs-3"></div>
+				<div class="col-xs-9">
+					<a id="btn-putin" class="btn btn-sm btn-flat btn-default">录入</a>
+					<a id="btn-upload" class="btn btn-sm btn-flat btn-default">上传附件</a>
+					<a id="test" class="btn btn-sm btn-flat btn-default">测试</a>
+				</div>
+				<div class="row" style="margin-top: 5px; width: 100%;">
+                    <table id="table-files" class="table table-hover table-stripped table-condensed"></table>
+                </div>
+			</div>
+		</form>
+	</div>
+	
+	<div id="unit-wrapper" style="display: none; position: absolute; z-index: 99999; background-color: #fff; max-height: 300px; overflow: auto;">
+        <ul id="tree-unit" class="ztree"></ul>
+    </div>
+    
+    <div id="type-wrapper" style="display: none; position: absolute; z-index: 99999; background-color: #fff; max-height: 300px; overflow: auto;">
+        <ul id="type-unit" class="ztree"></ul>
+    </div>
+    
+    <div id="div-file-toolbar">
+        <span style="margin-left: 335px; font-size: 16px;">附件信息</span>
+    </div>
+	
+	<script src="../../assets/jquery/jquery.min.js"></script>
+	<script src="../../assets/bootstrap/js/bootstrap.min.js"></script>
+	<script src="../../assets/admin-lte/js/adminlte.min.js"></script>
+	<script src="../../assets/layer/layer.js"></script>
+	<script src="../../assets/moment/moment.min.js"></script>
+	<script src="../../assets/bootstrap-table/bootstrap-table.min.js"></script>
+	<script
+		src="../../assets/bootstrap-table/locale/bootstrap-table-zh-CN.min.js"></script>
+	<script
+		src="../../assets/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
+	<script
+		src="../../assets/bootstrap-datepicker/locales/bootstrap-datepicker.zh-CN.min.js"></script>
+	<script src="../../assets/select2/js/select2.min.js"></script>
+    <script src="../../assets/admin-lte/js/adminlte.min.js"></script>
+    <script src="../../assets/ztree/js/jquery.ztree.all.min.js"></script>
+    <script src="../../assets/webuploader/webuploader.min.js"></script>
+	<script src="../../js/common.js"></script>
+	<script src="../../js/putin/newputin-info.js"></script>
+	
+	
+	
+</body>
+</html>

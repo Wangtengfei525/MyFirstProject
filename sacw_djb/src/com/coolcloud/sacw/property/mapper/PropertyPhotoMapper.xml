@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.coolcloud.sacw.property.mapper.PropertyPhotoMapper">
+    <cache></cache>
+    <resultMap id="BaseResultMap" type="com.coolcloud.sacw.property.entity.PropertyPhoto">
+        <id column="id" jdbcType="VARCHAR" property="id" />
+        <result column="exchange_id" jdbcType="VARCHAR" property="exchangeId" />
+         <result column="property_id" jdbcType="VARCHAR" property="propertyId" />
+         <result column="photo_desc" jdbcType="VARCHAR" property="photoDesc" />
+         <result column="suffix_name" jdbcType="VARCHAR" property="suffixName" />
+         <result column="photo_name" jdbcType="VARCHAR" property="photoName" />
+         <result column="process_num" jdbcType="VARCHAR" property="processNum" />
+         <result column="node_num" jdbcType="VARCHAR" property="nodeNum" />
+         <result column="photo_path" jdbcType="VARCHAR" property="photoPath" />
+    </resultMap>
+    <sql id="Base_Column_List">
+        id,exchange_id,property_id,photo_desc,suffix_name,photo_name,process_num,node_num,photo_path
+    </sql>
+
+</mapper>

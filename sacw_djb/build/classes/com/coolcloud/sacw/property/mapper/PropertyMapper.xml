@@ -1,0 +1,1019 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.coolcloud.sacw.property.mapper.PropertyMapper">
+    <resultMap id="BaseResultMap" type="com.coolcloud.sacw.property.entity.Property">
+        <id column="id" jdbcType="VARCHAR" property="id" />
+        <result column="case_id" jdbcType="VARCHAR" property="caseId" />
+        <result column="property_name" jdbcType="VARCHAR" property="propertyName" />
+        <result column="qr_code" jdbcType="VARCHAR" property="qrCode" />
+         <result column="property_type_code" jdbcType="VARCHAR" property="propertyTypeCode" />
+        <result column="property_type" jdbcType="VARCHAR" property="propertyType" />
+        <result column="number" jdbcType="INTEGER" property="number" />
+         <result column="register_date" jdbcType="DATE" property="register_date" />
+        <result column="property_status" jdbcType="VARCHAR" property="propertyStatus" />
+        <result column="property_status_code" jdbcType="VARCHAR" property="propertyStatusCode" />
+        <result column="remake" jdbcType="VARCHAR" property="remake" />
+        <result column="deleted" jdbcType="TINYINT" property="deleted" />
+        <result column="kwbm" jdbcType="VARCHAR" property="kwbm" />
+        <result column="kwmc" jdbcType="VARCHAR" property="kwmc" />  
+         <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+        
+        
+    </resultMap>
+ 
+    <sql id="Base_Column_List">
+        id,case_id,property_name,qr_code,
+        property_type_code,property_type,number,register_date,
+       property_status,property_status_code,remake,deleted,
+       kwbm,kwmc,create_time,update_time
+    </sql>
+    <!-- 
+    a.id,a.case_id,a.property_name,a.qr_code,
+        a.property_type_code,a.property_type,a.number,
+       a.register_date,a.property_status,a.property_status_code,
+       a.remake,a.deleted,
+       a.remake,a.kwbm,a.kwmc -->
+    <sql id="Full_Base_Column_List">
+       a.id,a.case_id,a.property_name,a.qr_code,
+        a.property_type_code,a.property_type,a.number,
+       a.register_date,a.property_status,a.property_status_code,
+       a.remake,a.deleted,
+       a.kwbm,a.kwmc,a.create_time,a.update_time
+       
+    </sql>
+    
+    <sql id="Full_Base_Column_List_car">
+       a.id,a.case_id,a.property_name,a.qr_code,
+        a.property_type_code,a.property_type,a.number,
+       a.register_date,a.property_status,a.property_status_code,
+       a.remake,a.deleted,
+       a.kwbm,a.kwmc,a.create_time,a.update_time
+    </sql>
+
+    <select id="selectByExample" parameterType="com.coolcloud.sacw.property.entity.PropertyExample" resultMap="BaseResultMap">
+        select
+        <include refid="Full_Base_Column_List" />
+        ,c.case_name
+        from yw_property a
+        left join `case` c on a.case_id = c.id
+        <where>
+            <!-- a.property_status !='登记' and a.property_status !='登记待入库' -->
+            <if test="id != null and id != ''">
+                and a.id = #{id}
+            </if>
+            <if test="caseId != null and caseId != ''">
+                and a.case_id = #{caseId,jdbcType=VARCHAR}
+            </if>
+            <if test="qrCode != null and qrCode != ''">
+                and a.qr_code = #{qrCode,jdbcType=VARCHAR}
+            </if>
+            <if test="propertyName != null and propertyName != ''">
+                and a.property_name like "%"#{propertyName}"%"
+            </if>
+            <if test="propertyTypeCode != null and propertyTypeCode != ''">
+                and a.property_type_code = #{propertyTypeCode}
+            </if>
+            <!-- <if test="goodsSpecial != null and goodsSpecial != ''">
+                and a.goods_special = #{goodsSpecial}
+            </if>
+            <if test="saveLocationCode != null and saveLocationCode != ''">
+                and a.save_location_code = #{saveLocationCode}
+            </if>
+            <if test="platCaseCode != null and platCaseCode != ''">
+                and a.plat_case_code = #{platCaseCode}
+            </if> -->
+            <if test="propertyStatus != null and propertyStatus != ''">
+                and a.property_status like "%"#{propertyStatus}"%"
+            </if>
+            <if test="propertyStatusCode != null and propertyStatusCode != ''">
+                and a.property_status_code = #{propertyStatusCode}
+            </if>
+        <if test="registerDate != null">
+                and a.register_date &gt;= #{registerDate,jdbcType=TIMESTAMP}
+            </if>
+           
+               <!--  <if test="updateTime != null">
+                and a.update_time &lt;= #{updateTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="ntag != null and ntag != ''">
+                and a.ntag = #{ntag}
+            </if>
+            <if test="caseName != null and caseName != ''">
+                and c.case_name like "%"#{caseName}"%"
+            </if> -->
+            <if test="deleted != null and deleted != ''">
+                and a.deleted = #{deleted}
+            </if>
+           <!--  <if test="sendUnitId != null and sendUnitId != ''">
+                and a.permit_unit in (select a.code from sys_unit a,sys_unit b
+                where a.left_value between b.left_value and b.right_value
+                and b.id = #{sendUnitId})
+            </if>
+            <if test="splited != null and splited != ''">
+                and a.splited = #{splited}
+            </if> -->
+        </where>
+        <!-- order by a.executor_time desc -->
+       order by a.register_date desc
+    </select>
+
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Full_Base_Column_List" />
+        ,c.case_name
+        from yw_property a
+        left join `case` c on a.case_id = c.id
+        where a.id = #{id}
+    </select>
+    
+    
+    
+   
+    <!-- 通过案件的id获取未被借调的财物   -->
+    <select id="selectNotSecondPropertyByCaseId" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Full_Base_Column_List" />
+        from yw_property a
+        left join `case` c on a.case_id = c.id  and a.property_status_code="9911000000004"  or a.property_status_code="9911000000005" 
+        where  
+         c.id = #{id}
+    </select>
+    
+    
+    <!-- 通过案件的id获取该案件下面处于借调中的财物 -->
+    <select id="selectSecondingPropertyByCaseId" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Full_Base_Column_List" />
+        from yw_property a
+        left join `case` c on a.case_id = c.id  and a.property_status_code="9911000000006" 
+        where  
+         c.id = #{id}
+    </select>
+    
+ 
+    
+ <!--通过案件的id获取未被归还的财物   查询出来的是借调中的财物  --> 
+ <select id="selectNotBackPropertyByCaseId" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Full_Base_Column_List" />
+        from yw_property a
+        left join `case` c on a.case_id = c.id  and a.property_status_code="9911000000006" 
+        where  
+         c.id = #{id}
+    </select>
+    
+    
+    <!-- 通过案件的id查询出来已经被归还的财物 -->
+    <select id="selectBackedPropertyByCaseId" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Full_Base_Column_List" />
+        from yw_property a
+        left join `case` c on a.case_id = c.id  and a.property_status_code="9911000000005" 
+        where  
+         c.id = #{id}
+    </select>
+    
+
+    <!--  通过案件的id获取未出库的财物  -->
+    <select id="selectNotOutPropertyByCaseId" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Full_Base_Column_List" />
+        from yw_property a
+        left join `case` c on a.case_id = c.id  and a.property_status_code="9911000000004" or a.property_status_code="9911000000005"
+        where  
+         c.id = #{id}
+    </select>
+    
+    
+    <!-- 通过案件的id获取该案件下面已经出库的财物 -->
+    <select id="selectOutedPropertyByCaseId" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Full_Base_Column_List" />
+        from yw_property a
+        left join `case` c on a.case_id = c.id  and a.property_status_code="9911000000012"
+        where  
+         c.id = #{id}
+    </select>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <select id="selectAllPropertyByCaseId" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Full_Base_Column_List" />
+        from yw_property a
+        left join `case` c on a.case_id = c.id
+        where  
+         c.id = #{id}
+    </select>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <!-- 通过财物的主键查询案件的名字 -->
+ <!--     <select id="selectCaseNameByProId" parameterType="java.lang.String" resultType="java.lang.String">
+        select
+        case_name  from exchange e
+        where  e.case_id=(select case_id from yw_property y
+        where y.id=#{id}
+        )   
+       
+    </select> -->
+    
+    
+    
+    
+    
+    
+ 
+    <insert id="insertSelective" parameterType="com.coolcloud.sacw.property.entity.Property">
+        insert into yw_property
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="caseId != null ">
+                case_id,
+            </if>
+          
+            <if test="propertyName != null">
+                property_name,
+            </if>
+            <if test="qrCode != null">
+                qr_code,
+            </if>
+          
+            <if test="propertyTypeCode != null">
+                property_type_code,
+            </if>
+            <if test="propertyType != null">
+                property_type,
+            </if>
+            <if test="number != null">
+                number,
+            </if>
+            <if test="propertyStatus != null">
+                property_status,
+            </if>
+            <if test="propertyStatusCode != null">
+                property_status_code,
+            </if>
+            <if test="remake != null">
+                remake,
+            </if>
+            <if test="kwbm != null">
+                kwbm,
+            </if>
+            <if test="kwmc != null">
+                kwmc,
+            </if>
+            
+             <if test="creatTime != null">
+                creat_time,
+            </if>
+             <if test="updateTime != null">
+                update_time,
+            </if>
+           
+           
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=VARCHAR},
+            </if>
+            <if test="caseId != null ">
+                #{caseId,jdbcType=VARCHAR},
+            </if>
+            <if test="propertyName != null">
+                #{propertyName,jdbcType=VARCHAR},
+            </if>
+            <if test="qrCode != null">
+                #{qrCode,jdbcType=VARCHAR},
+            </if>
+       
+            <if test="propertyTypeCode != null">
+                #{propertyTypeCode,jdbcType=VARCHAR},
+            </if>
+            <if test="propertyType != null">
+                #{propertyType,jdbcType=VARCHAR},
+            </if>
+            <if test="number != null">
+                #{number,jdbcType=VARCHAR},
+            </if>
+            <if test="registerDate != null">
+                #{registerDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="propertyStatus != null">
+                #{propertyStatus,jdbcType=VARCHAR},
+            </if>
+            <if test="propertyStatusCode != null">
+                #{propertyStatusCode,jdbcType=VARCHAR},
+            </if>
+            <if test="remake != null">
+                #{remake,jdbcType=VARCHAR},
+            </if>
+           
+            <if test="deleted != null">
+                #{deleted,jdbcType=INTEGER},
+            </if>
+            <if test="kwbm != null">
+                #{kwbm,jdbcType=VARCHAR},
+            </if>
+            <if test="kwmc != null">
+                #{kwmc,jdbcType=VARCHAR},
+            </if>
+           
+              <if test="creatTime != null">
+                #{create_time,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                #{updatete_time,jdbcType=TIMESTAMP},
+            </if>
+            
+            
+            
+            
+        </trim>
+    </insert>
+
+
+
+   <update id="updatePropertyById"   parameterType="com.coolcloud.sacw.property.entity.Property">
+       update yw_property
+        <set>
+                property_status = #{propertyStatus,jdbcType=VARCHAR},
+                property_status_code = #{propertyStatusCode,jdbcType=VARCHAR},
+                remake = #{remake,jdbcType=VARCHAR}
+        </set>
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+
+
+
+
+
+
+
+
+    <update id="updateByPrimaryKeySelective"  >
+        update yw_property
+        <set>
+            <if test="caseId != null">
+                case_id = #{caseId,jdbcType=VARCHAR},
+            </if>
+            <if test="propertyName != null">
+                property_name = #{propertyName,jdbcType=VARCHAR},
+            </if>
+            <if test="qrCode != null">
+                qr_code = #{qrCode,jdbcType=VARCHAR},
+            </if>
+            <if test="propertyTypeCode != null">
+                property_type_code = #{propertyTypeCode,jdbcType=VARCHAR},
+            </if>
+            <if test="propertyType != null">
+                property_type = #{propertyType,jdbcType=VARCHAR},
+            </if>
+            <if test="number != null">
+                number = #{number,jdbcType=VARCHAR},
+            </if>
+            <if test="propertyStatus != null">
+                property_status = #{propertyStatus,jdbcType=VARCHAR},
+            </if>
+            <if test="propertyStatusCode != null">
+                property_status_code =
+                #{propertyStatusCode,jdbcType=VARCHAR},
+            </if>
+            <if test="remake != null">
+                remake = #{remake,jdbcType=VARCHAR},
+            </if>
+           <!--  <if test="propertyLoginStatusCode != null">
+                property_login_status_code =
+                #{propertyLoginStatusCode,jdbcType=VARCHAR},
+            </if> -->
+            <if test="deleted != null">
+                deleted = #{deleted,jdbcType=INTEGER},
+            </if>
+            <if test="kwbm != null">
+                kwbm = #{kwbm,jdbcType=VARCHAR},
+            </if>
+            <if test="kwmc != null">
+                kwmc = #{kwmc,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+
+
+    <!-- 根据交换记录ID查询相应财物 -->
+    <!-- <select id="selectByExchangeId" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select  b.id,b.case_id,b.plat_case_code,b.property_number,b.parent_property_number,b.property_name,b.qr_code,b.origin_qr_code,
+        b.source,b.property_type_code,b.number,b.metering_unit,b.value,b.value_unit,b.money_code,b.money,b.
+        goods_special,b.have_people_type,b.have_people_type_mc,b.have_people_type_number,b.have_people_type_name,b.
+        property_measures_code,b.property_measures_mc,b.measures_executor,b.registrant,b.register_date,b.permit_unit,b.
+        permit_unit_mc,b.permit_change_time,b.keep_unit_code,b.keep_unit_mc,b.property_status,b.property_status_code,b.
+        remake,b.save_location_code,b.save_location_mc,b.property_login_status_code,b.property_login_status_mc,b.executor,b.
+        executor_time,b.remake_number,b.save_id,b.property_type,b.deleted,b.updateTime,b.disposalAuthoritiesCode,b.disposalAuthoritiesName,
+        b.disposalAuthoritiesSm,b.kwbm,b.kwmc,b.platPersonNum,b.splited,b.ntime,c.case_name from `case` c inner join(select
+        a.id,a.case_id,a.plat_case_code,a.property_number,a.parent_property_number,a.property_name,a.qr_code,a.origin_qr_code,
+        a.source,a.property_type_code,a.number,a.metering_unit,a.value,a.value_unit,a.money_code,a.money,a.
+        goods_special,a.have_people_type,a.have_people_type_mc,a.have_people_type_number,a.have_people_type_name,a.
+        property_measures_code,a.property_measures_mc,a.measures_executor,a.registrant,a.register_date,a.permit_unit,a.
+        permit_unit_mc,a.permit_change_time,a.keep_unit_code,a.keep_unit_mc,a.property_status,a.property_status_code,a.
+        remake,a.save_location_code,a.save_location_mc,a.property_login_status_code,a.property_login_status_mc,a.executor,a.
+        executor_time,a.remake_number,a.save_id,a.property_type,a.deleted,a.updateTime,a.disposalAuthoritiesCode,a.disposalAuthoritiesName,
+        a.disposalAuthoritiesSm,a.kwbm,a.kwmc,a.platPersonNum,a.splited,a.ntime
+        from yw_property a
+        left join property_exchange d
+        on a.id =
+        d.property_id
+        where d.exchange_id = #{exchangeId,jdbcType=VARCHAR}) b
+         on b.case_id = c.id
+    </select> -->
+    
+  <!--   <select id="selectByExchangeId" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select  b.*,c.case_name from `case` c inner join(select
+        a.*
+        from yw_property a
+        left join property_exchange d
+        on a.id =
+        d.property_id
+        where d.exchange_id = #{exchangeId,jdbcType=VARCHAR}) b
+         on b.case_id = c.id
+    </select> -->
+    
+    
+     <!-- <select id="selectByExchangeId" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select  b.*,c.case_name from `case` c inner join(select
+        a.*
+        from yw_property a
+        left join property_exchange d
+        on a.id =
+        d.property_id
+        where d.exchange_id = #{exchangeId,jdbcType=VARCHAR}) b
+         on b.case_id = c.id
+    </select> -->
+    
+    
+    
+    
+   
+    <select id="selectByExchangeId" parameterType="java.lang.String" resultMap="BaseResultMap">
+         select   *    from   yw_property  
+				     where  id in(
+				     select   property_id   from   property_exchange
+				      where exchange_id= #{exchangeId,jdbcType=VARCHAR}
+				 )
+    </select>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+
+    <!-- 按id批量更新财物存储位置 -->
+    <update id="updateSaveIdBatch">
+        update yw_property set
+        kwbm = #{saveId,jdbcType=VARCHAR},
+        kwmc = #{saveName,jdbcType=VARCHAR}
+        
+        where id in
+        <foreach collection="ids" item="id" open="(" close=")" separator=",">
+            #{id,jdbcType=VARCHAR}
+        </foreach>
+    </update>
+    
+    <!-- 这是后加的 -->
+    <!-- 把一个物品放进多个柜子里面 -->
+    <!-- kwbm=concat(kwbm,#{saveId,jdbcType=VARCHAR})
+        kwmc=concat(kwmc,#{saveName,jdbcType=VARCHAR})
+         -->
+         
+    <update id="updateOneToManyStore">
+        update yw_property set
+        kwbm=concat(kwbm,#{saveId,jdbcType=VARCHAR}),
+        kwmc=concat(kwmc,#{saveName,jdbcType=VARCHAR})
+        where id in
+        <foreach collection="ids" item="id" open="(" close=")" separator=",">
+            #{id,jdbcType=VARCHAR}
+        </foreach>
+    </update>
+    
+    
+   <!-- 把一个物品 分配到多个柜子里面 --> 
+    <update id="updateOneToManyStore2">
+        update yw_property set
+        kwbm=concat(kwbm,#{saveId,jdbcType=VARCHAR}),
+        kwmc=concat(kwmc,#{saveName,jdbcType=VARCHAR})
+        where id=#{ids,jdbcType=VARCHAR}
+        
+        
+    </update> 
+    
+   <!--  <update id="updateOneToManyStore1">
+        update yw_property set
+        kwbm = #{saveId,jdbcType=VARCHAR},
+        kwmc = #{saveName,jdbcType=VARCHAR}
+        where id=#{ids,jdbcType=VARCHAR}
+        
+        
+    </update>
+    -->
+   
+   
+   
+   
+    
+    
+    
+    
+    
+    
+    
+    
+
+    <!-- 按id批量更新财物状态信息 -->
+    <!-- <update id="updateStatusByIds">
+        update yw_property set
+        keep_unit_code = '08510100',
+        keep_unit_mc = '成都市保管中心',
+        
+        property_status = #{propertyStatus,jdbcType=VARCHAR},
+        property_status_code = #{propertyStatusCode,jdbcType=VARCHAR}
+        where id in
+        <foreach collection="ids" item="id" open="(" close=")" separator=",">
+            #{id,jdbcType=VARCHAR}
+        </foreach>
+    </update> -->
+    
+    
+    <!--  <update id="updateStatusByIds">
+        update yw_property set
+        keep_unit_code = '08510100',
+        keep_unit_mc = '成都市保管中心',
+        
+        property_status = #{propertyStatus,jdbcType=VARCHAR},
+        property_status_code = #{propertyStatusCode,jdbcType=VARCHAR}
+        where id in
+        <foreach collection="ids" item="id" open="(" close=")" separator=",">
+            #{id,jdbcType=VARCHAR}
+        </foreach>
+    </update>
+     -->
+    
+      <update id="updateStatusByIds">
+        update yw_property set
+       <!--  keep_unit_code = '08510100',
+        keep_unit_mc = '成都市保管中心',
+         -->
+        property_status_code = "9911000000004",
+        property_status = "已入库"
+        where id in
+        <foreach collection="ids" item="id" open="(" close=")" separator=",">
+            #{id,jdbcType=VARCHAR}
+        </foreach>
+    </update>
+    
+    
+    
+    
+    
+    
+
+    <!-- 按id批量清除财物保存状态单位，更新状态信息 -->
+    <!-- <update id="removeStatusByIds">
+        update yw_property set
+        keep_unit_code = null,
+        keep_unit_mc = null,
+        kwbm = null,
+        kwmc = null,
+        property_status = #{propertyStatus,jdbcType=VARCHAR},
+        property_status_code = #{propertyStatusCode,jdbcType=VARCHAR}
+        where id in
+        <foreach collection="ids" item="id" open="(" close=")" separator=",">
+            #{id,jdbcType=VARCHAR}
+        </foreach>
+    </update> -->
+
+    <select id="selectByStoreIds" parameterType="java.util.List" resultMap="BaseResultMap">
+        SELECT p.id,p.case_id,p.number,p.property_name,p.property_type,p.property_status,
+        c.case_name AS remake from yw_property p LEFT JOIN case c ON p.case_id=c.id
+        where kwbm in
+        <foreach collection="ids" item="id" open="(" close=")" separator=",">
+            #{id,jdbcType=VARCHAR}
+        </foreach>
+    </select>
+
+    <!-- 更新财物拆分状态 -->
+    <update id="updateSplitedById" parameterType="java.lang.String">
+        update yw_property a
+        set splited = (
+        select case when count(*) = 0 then 0 else 1 end
+        from yw_property_split b where b.property_id = a.id and b.deleted = 0
+        )
+        where a.id = #{id}
+    </update>
+
+
+    <!-- 查询储物柜及其下所有子柜中的物品 -->
+    <select id="selectByKwbmIn" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+        <include refid="Full_Base_Column_List" />
+        ,t2.case_name
+        from yw_property a
+        left join `case` t2 on a.case_id = t2.id
+        where a.kwbm in
+        (select b.id from yw_store b
+        inner join yw_store c
+        on b.left_value between c.left_value and c.right_value
+        where c.id = #{id})
+    </select>
+    
+    <!-- 查询储物柜及其下所有子柜中的车辆-->
+    <select id="selectByKwbmInCar" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+        <include refid="Full_Base_Column_List_car" />
+        ,ps.case_name,ps.split_amount as number,ps.split_remark as remake_number,ps.splitSaveLocationName as kwmc,ps.splitSaveLocationCode as kwbm from yw_property a inner join(
+        select t.property_id,
+        t2.case_name,
+        t.split_amount,
+        t.split_remark,
+        t.splitSaveLocationName,
+        t.splitSaveLocationCode
+        from yw_property_split t
+        left join case t2 on t.case_id = t2.id
+        where t.splitSaveLocationCode in
+        (select b.id from yw_store b
+        inner join yw_store c
+        on b.left_value between c.left_value and c.right_value
+        where c.id = #{id}))ps on ps.property_id = a.id;
+    </select>
+
+    <update id="clearSaveLocation" parameterType="string">
+        update yw_property set kwbm = null, kwmc = null where id = #{id}
+    </update>
+    <update id="clearSpliteSaveLocation" parameterType="string">
+        update yw_property_split set splitSaveLocationCode = null, splitSaveLocationName = null where property_id = #{id}
+    </update>
+
+<!--
+
+ select   *, c.case_name from   yw_property,`case` c 
+
+where  case_id in (select id    from  `case` where   case_name like '%%') 
+
+-->
+
+    <!-- <select id="selectByComposite" parameterType="com.coolcloud.sacw.property.entity.PropertyExample" resultMap="BaseResultMap">
+        select
+        <include refid="Full_Base_Column_List" />
+        ,c.case_name
+        from yw_property a
+        left join `case` c on a.case_id = c.id
+        <where>
+            <if test="composite != null and composite != ''">
+                and ( a.qr_code = #{composite}
+                or a.property_name like "%"#{composite}"%"
+                or c.case_name like "%"#{composite}"%" )
+            </if>
+            <if test="propertyName != null and propertyName != ''">
+                and a.property_name like "%"#{propertyName}"%"
+            </if>
+            <if test="propertyStatusCode != null and propertyStatusCode != ''">
+                and a.property_status_code = #{propertyStatusCode}
+            </if>
+            <if test="sendUnitId != null and sendUnitId != ''">
+                and a.permit_unit in (select a.code from sys_unit a,sys_unit b
+                where a.left_value between b.left_value and b.right_value
+                and b.id = #{sendUnitId})
+            </if>
+            <if test="splited != null and splited != ''">
+                and a.splited = #{splited}
+            </if>
+            <if test="ntag != null and ntag != ''">
+                and a.ntag = #{ntag}
+            </if>
+            <if test=" notRegister !=null and notRegister == true">
+                and property_status_code != '9911000000001'
+            </if>
+        </where>
+        order by a.update_time desc
+    </select> -->
+    
+    
+    <!-- 
+    select   *, c.case_name from   yw_property,`case` c 
+
+where  case_id in (select id    from  `case` where   case_name like '%%') 
+    
+     -->
+    
+    <select id="selectByComposite" parameterType="com.coolcloud.sacw.property.entity.PropertyExample" resultMap="BaseResultMap">
+        select
+        <include refid="Full_Base_Column_List" />
+        ,c.case_name
+        from yw_property a
+        left join `case` c on a.case_id = c.id
+        <where>
+           <if test="composite != null and composite != ''">
+                and ( a.qr_code = #{composite}
+                or a.property_name like "%"#{composite}"%"
+                or c.case_name like "%"#{composite}"%" )    
+            </if>
+            <if test="propertyName != null and propertyName != ''">
+                and a.property_name like "%"#{propertyName}"%"
+            </if>
+            <if test="propertyStatusCode != null and propertyStatusCode != ''">
+                and a.property_status_code = #{propertyStatusCode}
+            </if>
+        </where>  
+    </select>
+    
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+    
+     <select id="selectPropertyManyCondition" parameterType="com.coolcloud.sacw.property.entity.PropertyVo" resultMap="BaseResultMap">
+        select
+        <include refid="Full_Base_Column_List" />
+        ,c.case_name
+        from yw_property a
+           left join `case` c on a.case_id = c.id
+        <where>   
+            <if test="composite != null and composite != ''">
+                and (
+                a.qr_code = #{composite}
+                or a.property_name like "%"#{composite}"%"
+                or c.case_name like "%"#{composite,jdbcType=VARCHAR}"%"
+                 )
+            </if>
+            <if test="propertyStatusCode != null and propertyStatusCode !=''">
+                and a.property_status_code = #{propertyStatusCode,jdbcType=VARCHAR}
+            </if>
+             <!--  <if test="propertyStatusCode = null and propertyStatusCode !=''">
+                and a.property_status_code ="9911000000004"  or  a.property_status_code="9911000000012"
+            </if>  -->
+            
+            <if test="startTime != null">
+                and a.register_date &gt;= #{startTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="endTime != null">
+                and a.register_date &lt;= #{endTime,jdbcType=TIMESTAMP}
+            </if>
+             <if test="sendUnitId != null and sendUnitId != '' ">
+                and c.organizer_code in
+                (select a.code from sys_unit a,sys_unit b
+                where a.left_value between b.left_value and b.right_value
+                and b.id = #{sendUnitId}
+                )
+              </if>
+             <!--  <if test="remake != null and remake !=''">
+                and remake like '%back%'
+            </if> -->
+          <!--  and deleted = 0 --> 
+        </where>   
+        order by  a.register_date  desc
+    </select>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <select id="findNotSendProperty" parameterType="com.coolcloud.sacw.property.entity.PropertyVo" resultMap="BaseResultMap">
+        select
+        <include refid="Full_Base_Column_List" />
+        ,c.case_name
+        from yw_property a
+           left join `case` c on a.case_id = c.id
+        <where>   
+            <if test="composite != null and composite != ''">
+                and (
+                a.qr_code = #{composite}
+                or a.property_name like "%"#{composite}"%"
+                or c.case_name like "%"#{composite,jdbcType=VARCHAR}"%"
+                 )
+            </if>
+           <!--  <if test="propertyStatusCode != null and propertyStatusCode !=''">
+                and a.property_status_code = #{propertyStatusCode,jdbcType=VARCHAR}
+            </if> -->
+              
+                and a.property_status_code ="9911000000004"  or  a.property_status_code="9911000000005"
+            
+            
+            <if test="startTime != null">
+                and a.register_date &gt;= #{startTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="endTime != null">
+                and a.register_date &lt;= #{endTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="sendUnitId != null and sendUnitId != '' ">
+                and c.organizer_code in
+                (select a.code from sys_unit a,sys_unit b
+                where a.left_value between b.left_value and b.right_value
+                and b.id = #{sendUnitId}
+                )
+              </if>
+            
+            
+            
+            
+             <!--  <if test="remake != null and remake !=''">
+                and remake like '%back%'
+            </if> -->
+          <!--  and deleted = 0 --> 
+        </where>   
+        order by  a.register_date  desc
+    </select>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+
+    <!-- 查询拆分后的在库车辆数据 -->
+    <select id="selectCarInStockByPermitUnit" resultMap="BaseResultMap" parameterType="string">
+        select t1.id as split_id, t1.split_name as property_name,
+        t2.id, t2.qr_code, t2.permit_unit_mc, t2.kwmc, t2.goods_special,
+        t3.case_name,t1.splitSaveLocationName
+        from yw_property_split t1
+        left join yw_property t2 on t1.property_id = t2.id
+        left join `case` t3 on t2.case_id = t3.id
+        where t1.split_type_code in ('90000010401','9000001040101','900000104010101','900000104010102','900000104010103','9000001040102')
+        and t2.property_status_code in ( '9911000000004', '9911000000005', '9911000000011' )
+        <if test=" _parameter != null and _parameter != '' ">
+            and t2.permit_unit in
+            ( select u1.id
+            from sys_unit u1,sys_unit u2
+            where u1.left_value between u2.left_value
+            and u2.right_value
+            and u2.id = #{unitId}
+            )
+        </if>
+        order by t2.permit_unit, t2.case_id, t2.kwbm
+    </select>
+
+    <select id="selectInStock" resultMap="BaseResultMap">
+         select p.property_name,p.kwbm,number,p.remake_number,c.case_name,
+        p.permit_unit_mc,p.property_type,p.property_status
+        from yw_property p left join `case` c on p.case_id = c.id
+        where property_status_code in ( '9911000000004', '9911000000005', '9911000000011' ) 
+       <!--   select p.property_name,p.kwbm,number,p.remake_number,p.case_name,
+        p.permit_unit_mc,p.property_type,p.property_status
+        from yw_saveLocation_historty p -->
+    </select>
+
+    <select id="selectByWarningId" resultMap="BaseResultMap">
+        select t2.id,t2.property_name,t3.case_name,t2.kwmc,t2.qr_code,t2.property_status from yw_warning_property t1
+        left join yw_property t2 on t1.property_id = t2.id
+        left join `case` t3 on t2.case_id = t3.id
+        where t1.warning_id = #{warningId}
+    </select>
+
+    <select id="selectInStockByStoreId" resultMap="BaseResultMap" parameterType="string">
+        select p.property_name,p.kwbm,number,p.remake_number,c.case_name,
+        p.permit_unit_mc,p.property_type,p.property_status
+        from yw_property p left join `case` c on p.case_id = c.id
+        where property_status_code in ( '9911000000004', '9911000000005', '9911000000011' )
+        and kwbm in (select b.id from yw_store b
+        inner join yw_store c
+        on b.left_value between c.left_value and c.right_value
+        where c.id = #{storeId}) 
+    </select>
+    
+    
+    <select id="export" resultMap="BaseResultMap">
+        SELECT p.property_name,p.kwbm,number,c.case_name,p.property_type,p.property_status
+          FROM yw_property p LEFT JOIN `case` c ON p.case_id = c.id
+		<where>
+		  <!--  property_status_code IN (
+				'9911000000012',
+		        '9911000000006'
+			)  -->
+		  <!--  <if test="sendUnitId != null and sendUnitId != '' ">
+                and permit_unit in
+                (select a.code from sys_unit a,sys_unit b
+                where a.left_value between b.left_value and b.right_value
+                and b.id = #{sendUnitId})
+            </if> -->
+			
+		</where>
+    </select>
+    
+    <resultMap id="newBaseResult" type="com.coolcloud.sacw.property.entity.NewProperty">
+        <id column="id" jdbcType="VARCHAR" property="id" />
+        <result column="case_id" jdbcType="VARCHAR" property="case_id" />
+        <result column="property_name" jdbcType="VARCHAR" property="property_name" />
+        <result column="property_type" jdbcType="VARCHAR" property="property_type" />
+        <result column="number" jdbcType="VARCHAR" property="number" />
+        <result column="create_time" jdbcType="VARCHAR" property="create_time" />
+        <result column="qr_code" jdbcType="VARCHAR" property="qr_code" />
+        <result column="kwmc" jdbcType="VARCHAR" property="kwmc" />
+        <result column="status" jdbcType="VARCHAR" property="status" />
+        <result column="remake" jdbcType="VARCHAR" property="remake" />
+    </resultMap>
+    
+   <!--  <select id="selectPropertyInfoByCaseId" parameterType="string" resultMap="newBaseResult">
+    	select id,case_id,property_name,qr_code,property_type,number,property_status,remake,kwmc,create_time from yw_property where case_id=#{case_id}
+    </select> -->
+    
+    
+    
+    <!-- write by yiyu -->
+    <select id="selectByCaseId" parameterType="java.lang.String" resultMap="BaseResultMap">
+         select * from yw_property where case_id=#{case_id}
+    </select>
+    
+    <resultMap id="newBaseResultMap" type="com.coolcloud.sacw.property.entity.NewGetPropertyInfo">
+        <id column="id" jdbcType="VARCHAR" property="id" />
+        <result column="property_name" jdbcType="VARCHAR" property="property_name" />
+        <result column="property_type" jdbcType="VARCHAR" property="property_type" />
+        <result column="number" jdbcType="VARCHAR" property="number" />
+         <result column="remake" jdbcType="VARCHAR" property="remake" />
+    </resultMap>
+    
+    <select id="selectPutIn" parameterType="String" resultMap="newBaseResultMap">
+    	select id,property_name,property_type,number,remake from yw_property where case_id=#{case_id} and property_status_code="9911000000003"
+    </select>
+    
+     <!-- <resultMap id="newBaseResult" type="com.coolcloud.sacw.property.entity.NewProperty">
+        <id column="id" jdbcType="VARCHAR" property="id" />
+        <result column="case_id" jdbcType="VARCHAR" property="case_id" />
+        <result column="property_name" jdbcType="VARCHAR" property="property_name" />
+        <result column="property_type" jdbcType="VARCHAR" property="property_type" />
+        <result column="number" jdbcType="VARCHAR" property="number" />
+        <result column="create_time" jdbcType="VARCHAR" property="create_time" />
+        <result column="qr_code" jdbcType="VARCHAR" property="qr_code" />
+        <result column="kwmc" jdbcType="VARCHAR" property="kwmc" />
+        <result column="property_status" jdbcType="VARCHAR" property="status" />
+        <result column="remake" jdbcType="VARCHAR" property="remake" />
+        <result column="goods" jdbcType="VARCHAR" property="goods" />
+    </resultMap> -->
+    
+    <select id="selectPropertyInfoByCaseId" parameterType="string" resultMap="newBaseResult">
+    	select id,case_id,property_name,qr_code,property_type,number,property_status,remake,kwmc,create_time,goods from yw_property where case_id=#{case_id}
+    </select>
+
+</mapper>

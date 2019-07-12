@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.coolcloud.sacw.car.mapper.CarConservePeriodMapper">
+
+    <resultMap id="BaseResultMap" type="com.coolcloud.sacw.car.entity.CarConservePeriod">
+        <id column="id" property="id" />
+        
+       <!--  <result column="create_time" property="createTime" />
+        <result column="update_time" property="updateTime" />
+         -->
+        <result column="deleted" property="deleted" />
+        <result column="conserve_content_code" property="conserveContentCode" />
+        <result column="conserve_content_name" property="conserveContentName" />
+        <result column="conserve_period" property="conservePeriod" />
+        <result column="enabled" property="enabled" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, create_time, update_time, deleted, conserve_content_code, conserve_content_name, conserve_period, enabled
+    </sql>
+
+    <select id="selectByPrimaryKey" parameterType="string" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from yw_car_conserve_period
+        where id = #{id}
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="string">
+        delete from yw_car_conserve_period
+        where id = #{id}
+    </delete>
+
+    <insert id="insertSelective" parameterType="com.coolcloud.sacw.car.entity.CarConservePeriod">
+        insert into yw_car_conserve_period
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+            <if test="deleted != null">
+                deleted,
+            </if>
+            <if test="conserveContentCode != null">
+                conserve_content_code,
+            </if>
+            <if test="conserveContentName != null">
+                conserve_content_name,
+            </if>
+            <if test="conservePeriod != null">
+                conserve_period,
+            </if>
+            <if test="enabled != null">
+                enabled,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id},
+            </if>
+            <if test="createTime != null">
+                #{createTime},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime},
+            </if>
+            <if test="deleted != null">
+                #{deleted},
+            </if>
+            <if test="conserveContentCode != null">
+                #{conserveContentCode},
+            </if>
+            <if test="conserveContentName != null">
+                #{conserveContentName},
+            </if>
+            <if test="conservePeriod != null">
+                #{conservePeriod},
+            </if>
+            <if test="enabled != null">
+                #{enabled},
+            </if>
+        </trim>
+    </insert>
+
+    <insert id="insertBatch" parameterType="list">
+        insert into yw_car_conserve_period
+        (id, create_time, update_time, deleted, conserve_content_code,
+        conserve_content_name, conserve_period, enabled) values
+        <foreach collection="list" item="item" separator=",">
+            (#{item.id}, #{item.createTime}, #{item.updateTime}, #{item.deleted}, #{item.conserveContentCode},
+            #{item.conserveContentName}, #{item.conservePeriod}, #{item.enabled})
+        </foreach>
+    </insert>
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.coolcloud.sacw.car.entity.CarConservePeriod">
+        update yw_car_conserve_period
+        <set>
+            <if test="createTime != null">
+                create_time = #{createTime},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime},
+            </if>
+            <if test="deleted != null">
+                deleted = #{deleted},
+            </if>
+            <if test="conserveContentCode != null">
+                conserve_content_code = #{conserveContentCode},
+            </if>
+            <if test="conserveContentName != null">
+                conserve_content_name = #{conserveContentName},
+            </if>
+            <if test="conservePeriod != null">
+                conserve_period = #{conservePeriod},
+            </if>
+            <if test="enabled != null">
+                enabled = #{enabled},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <select id="selectByExample" parameterType="com.coolcloud.sacw.car.entity.CarConserveExample" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from yw_car_conserve_period
+        <where>
+            <if test=" conserveContentCode != null and conserveContentCode != '' ">
+                conserve_content_code = #{conserveContentCode}
+            </if>
+        </where>
+    </select>
+
+
+    <select id="selectPeriodSettings" resultMap="BaseResultMap">
+        select
+        a.id,
+        b.code as conserve_content_code,
+        b.name as conserve_content_name,
+        a.conserve_period,
+        a.enabled
+        from yw_car_conserve_period a
+        right join sys_category b on a.conserve_content_code = b.code
+        where b.type_code = 'car_conserve_content' and b.deleted = 0
+        order by b.sort
+    </select>
+
+    <select id="selectEnabledPeriodSettings" resultMap="BaseResultMap">
+        select
+        a.id,
+        b.code as conserve_content_code,
+        b.name as conserve_content_name,
+        a.conserve_period,
+        a.enabled
+        from yw_car_conserve_period a
+        right join sys_category b on a.conserve_content_code = b.code
+        where b.type_code = 'car_conserve_content' and b.deleted = 0 and enabled = 1
+        order by b.sort
+    </select>
+
+    <select id="selectByConserveContentCode" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from yw_car_conserve_period
+        where conserve_content_code = #{conserveContentCode}
+    </select>
+
+    <select id="selectPeriodSettingsByCodes" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from yw_car_conserve_period
+        where conserve_content_code in
+        <foreach collection="conserveContentCodes" item="code" open="(" close=")" separator=",">
+            #{code}
+        </foreach>
+        order by conserve_content_code
+    </select>
+
+    <delete id="deleteByConserveContentCodes" parameterType="collection">
+        delete from yw_car_conserve_period where conserve_content_code in
+        <foreach collection="codes" item="code" open="(" close=")" separator=",">
+            #{code}
+        </foreach>
+    </delete>
+
+    <select id="selectBySplitId" resultMap="BaseResultMap">
+        select
+        t2.id,
+        t3.code as conserve_content_code,
+        t3.name as conserve_content_name,
+        t2.conserve_period,
+        t2.enabled
+        from
+        yw_car_conserve_content t1
+        left join yw_car_conserve_period t2 on t1.conserve_content_code = t2.conserve_content_code
+        left join sys_category t3 on t1.conserve_content_code = t3.code
+        where
+        t1.split_id = #{splitId}
+        and t3.type_code = 'car_conserve_content'
+        order by
+        t3.sort
+    </select>
+</mapper>

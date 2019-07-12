@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+<title>涉案财物管理中心 - 分配入柜</title>
+<link rel="icon" href="../../favicon.ico" type="image/x-icon" />
+<link rel="stylesheet" href="../../assets/bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet" href="../../assets/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet" href="../../assets/admin-lte/css/AdminLTE.min.css">
+<link rel="stylesheet" href="../../assets/bootstrap-table/bootstrap-table.min.css">
+<link rel="stylesheet" href="../../assets/admin-lte/css/skins/_all-skins.min.css">
+<link rel="stylesheet" href="../../assets/ztree/css/zTreeStyle/zTreeStyle.css">
+<!--[if lt IE 9]>
+<script src="../../assets/html5shiv/html5shiv.min.js"></script>
+<script src="../../assets/respond/respond.min.js"></script>
+<![endif]-->
+<style type="text/css">
+.ztree li a {
+    height: 28px;
+    line-height: 28px;
+    vertical-align: middle;
+}
+
+.ztree li a.curSelectedNode {
+    height: 24px;
+    line-height: 24px;
+    vertical-align: middle;
+}
+
+.ztree li span.button.ico_close {
+    vertical-align: middle;
+}
+
+.ztree li span.button.ico_open {
+    vertical-align: middle;
+}
+
+.ztree li span.button.ico_docu {
+    vertical-align: middle;
+}
+</style>
+</head>
+
+<body class="hold-transition skin-blue-light sidebar-mini">
+    <div class="wrapper">
+
+        <!-- Main content -->
+        <section class="content container-fluid">
+
+            <div class="box">
+                <div class="box-body">
+                    <div class="row">
+                        <div class="col-xs-4">
+                            <ul id="tree-category" class="ztree" style="max-height: 400px; overflow: auto;"></ul>
+                        </div>
+                        <div class="col-xs-8">
+                            <table id="table-store" class="table table-hover"></table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        
+        <!-- /.content -->
+        <div style="text-align:center">
+         <!-- <input type="button"     class="btn btn-xs btn-flat btn-primary"    id="b1"    name="name1"   value="多个同时分配入库"   onclick="a();"       /> 
+          -->
+        <!--  <input type="button"   id="b1"    name="name1"   value="多个同时分配入库"   onclick="assignManyStore(\'' + ids + '\');"       />
+            -->
+            
+           <input type="button"     class="btn btn-xs btn-flat btn-primary"   id="b1"    name="name1"   value="多个同时分配入库"   onclick="a1();"       />
+           
+           
+           <input type="button"  value="提交"  id="id2"/>
+    </div>
+    </div>
+    <!-- <a class="btn btn-xs btn-flat btn-primary" onclick="assignStore(\'' + row.id + '\',\'' + ids + '\');">分配</a>
+     
+     
+     -->
+    
+    <!-- ./wrapper -->
+
+    <script src="../../assets/jquery/jquery.min.js"></script>
+    <script src="../../assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="../../assets/admin-lte/js/adminlte.min.js"></script>
+    <script src="../../assets/layer/layer.js"></script>
+    <script src="../../assets/bootstrap-table/bootstrap-table.min.js"></script>
+    <script src="../../assets/bootstrap-table/locale/bootstrap-table-zh-CN.min.js"></script>
+    <script src="../../assets/ztree/js/jquery.ztree.all.min.js"></script>
+    <script src="../../js/common.js"></script>
+    <script src="../../js/store/assign-store.js"></script>
+</body>
+  
+<script type="text/javascript"  >
+/* $("#b1").click(function(){
+    //$('input:checkbox:checked') 等同于 $('input[type=checkbox]:checked')
+    //意思是选择被选中的checkbox
+    $.each($('input:checkbox:checked'),function(){
+        window.alert("你选了："+
+            $('input[type=checkbox]:checked').length+"个，其中有："+$(this).val());
+    });
+}); */
+
+function a()
+{
+
+	  var cks = document.getElementsByName("check");
+	 /* alert("hello"); */
+	  /* var   id=document.getElementsById("id2").value; */
+	  /* alert(id);
+ */	  
+ var  ids1=""
+ var id = document.getElementsByName("ids");//获取name为ids的对象
+ for (var i = 0; i < id.length; i++) {
+	             /* if (cks[i].checked) {
+	                 /* storeId += "storeId=" + cks[i].value + "&"; 
+	                 storeId +=cks[i].value + ",";
+	               alert(storeId);
+	                 j++;
+	             } */
+	     ids1=id[0].value+"";
+	 
+	 
+	         }	  
+ alert("物品的id是"+ids1);
+ 
+	  
+	   /* 
+		 alert(ids); */
+	 //获取物品的id
+	 /* var   ids=doucment.getElementsByName("ids"); */
+	 
+	         var storeIds = "";
+	         var j = 0; //记录所选中的柜子数量
+	         //拼接所有的storeId
+	         for (var i = 0; i < cks.length; i++) {
+	             if (cks[i].checked) {
+	                 /* storeId += "storeId=" + cks[i].value + "&"; */
+	                 storeIds +=cks[i].value + ',';
+	               alert("前"+(i+1)+"个柜子的id是"+storeIds);
+	                 j++;
+	             }
+	         }
+	 
+	        /*     alert("hello"); */
+	         //去掉字符串末尾的逗号
+	         storeIds = storeIds.substring(0, storeId.length - 1);
+	           alert("所有柜子的id(字符串)"+storeIds);
+	         var    s=storeIds.spilt(",");  
+	         for(var   i=0;i<s.length;i++)
+	        	 {
+	        	/*  alert(s[i].value); */
+	               document.write(s[i].value); 	 
+	        	 }
+	         
+	         
+	           
+	         var sure = window.confirm("确定要把该物品分配到这" + j + "个柜子吗");
+	         if (sure) {
+	             
+	 $.post(locat + '/property/assign-manystore', {
+         ids1 : ids1,
+         saveIds : storeIds
+     }).then(function(data) {
+         var icon = 2;
+         if (data.success) {
+             icon = 1;
+             top.layer.close(top.layer.getFrameIndex(window.name));
+         }
+         top.layer.msg(data.message, {
+             icon : icon
+         });
+     });
+	 
+	 
+	 
+	         }
+	        
+	         /* location.href = "${pageContext.request.contextPath }/deleteItems.action?"
+	                 + items_id;
+	            /property/assign-store */
+	 
+	        /*  window.location.href="${pageContext.request.contextPath }/property/assign-store?ids="
+	        */
+	      /* window.location.href="/property/assign-manystore?ids=ids1&saveIds=storeIds"; */
+	    /*  window.location.href="/property/assign-manystore?ids="+ids+"&"; */
+	 /* $.post(locat + '/property/assign-manystore', {
+         ids1 : ids1,
+         saveIds : storeIds
+     }).then(function(data) {
+         var icon = 2;
+         if (data.success) {
+             icon = 1;
+             top.layer.close(top.layer.getFrameIndex(window.name));
+         }
+         top.layer.msg(data.message, {
+             icon : icon
+         });
+     }); */
+	    
+	 
+	
+	
+}
+
+
+
+
+</script>
+
+
+</html>

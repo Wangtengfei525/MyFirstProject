@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+<title>涉案财物管理中心 - 车辆养护详情</title>
+<link rel="icon" href="../../favicon.ico" type="image/x-icon" />
+<link rel="stylesheet" href="../../assets/bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet" href="../../assets/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet" href="../../assets/bootstrap-table/bootstrap-table.min.css">
+<link rel="stylesheet" href="../../assets/admin-lte/css/skins/_all-skins.min.css">
+<link rel="stylesheet" href="../../assets/ztree/css/zTreeStyle/zTreeStyle.css">
+<link rel="stylesheet" href="../../assets/admin-lte/css/AdminLTE.min.css">
+<!--[if lt IE 9]>
+<script src="../../assets/html5shiv/html5shiv.min.js"></script>
+<script src="../../assets/respond/respond.min.js"></script>
+<![endif]-->
+</head>
+
+<body class="hold-transition skin-blue-light sidebar-mini">
+    <div class="wrapper">
+
+        <!-- Main content -->
+        <section class="content container-fluid">
+
+            <div class="box box-solid">
+                <div class="box-header">
+                    <h4>车辆养护详情</h4>
+                </div>
+                <div class="box-body">
+                    <form id="form-detail" class="form-horizontal">
+                        <div class="form-group">
+                            <label class="col-xs-2 control-label">二维码</label>
+                            <div class="col-xs-4">
+                                <input id="input-qrcode" type="text" class="form-control" name="qrCode" readonly />
+                            </div>
+                            <label class="col-xs-2 control-label">案件名称</label>
+                            <div class="col-xs-4">
+                                <input type="text" class="form-control" name="caseName" readonly />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-xs-2 control-label">财物名称</label>
+                            <div class="col-xs-4">
+                                <input type="text" class="form-control" name="propertyName" readonly />
+                            </div>
+                            <label class="col-xs-2 control-label">存放位置</label>
+                            <div class="col-xs-4">
+                                <input type="text" class="form-control" name="propertyLocation" readonly />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-xs-2 control-label">车辆信息</label>
+                            <div class="col-xs-10">
+                                <textarea type="text" class="form-control" name="carMessage" rows="3" readonly></textarea>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-xs-2 control-label">养护内容</label>
+                            <div class="col-xs-10">
+                                <input id="input-conserve-content-name" type="text" class="form-control" name="conserveTextName" readonly />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-xs-2 control-label">养护时间</label>
+                            <div class="col-xs-4">
+                                <div class="input-group">
+                                    <div class="input-group-addon">
+                                        <i class="fa fa-calendar"></i>
+                                    </div>
+                                    <input id="input-conserve-time" type="text" class="form-control pull-right" name="conserveTime" readonly />
+                                </div>
+                            </div>
+                            <label class="col-xs-2 control-label">预计时间</label>
+                            <div class="col-xs-4">
+                                <div class="input-group">
+                                    <input class="form-control" type="number" name="predictTime" readonly />
+                                    <span class="input-group-addon">小时</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-xs-2 control-label">养护人</label>
+                            <div class="col-xs-4">
+                                <input class="form-control" type="text" name="conserveMan" readonly />
+                            </div>
+                            <label class="col-xs-2 control-label">是否交还钥匙</label>
+                            <div class="col-xs-4">
+                                <input id="input-return-key" class="form-control" type="text" name="exchangeKey" readonly />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-xs-2 control-label">养护备注</label>
+                            <div class="col-xs-10">
+                                <textarea class="form-control" name="conserveRemark" rows="4" readonly></textarea>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-xs-2 control-label"></label>
+                            <div class="col-xs-10">
+                                <a id="btn-return-key" class="btn btn-flat btn-danger">交还钥匙</a>
+                                <input id="file" type="file" multiple="multiple" style="display: none;" />
+                                <input type="button" class="btn btn-flat btn-info" id="btn-file" value="上传附件" onclick="$('#file').click();">
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+            <div class="box box-solid">
+                <div class="box-header">
+                    <h4>附件</h4>
+                </div>
+                <div class="box-body">
+                    <div>
+                        <table id="table-files"></table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="box box-solid">
+                <div class="box-header">
+                    <h4>养护记录</h4>
+                </div>
+                <div class="box-body">
+                    <div>
+                        <table id="table-conserve"></table>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+        <!-- /.content -->
+
+    </div>
+    <!-- ./wrapper -->
+
+    <script src="../../assets/jquery/jquery.min.js"></script>
+    <script src="../../assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="../../assets/admin-lte/js/adminlte.min.js"></script>
+    <script src="../../assets/layer/layer.js"></script>
+    <script src="../../assets/bootstrap-table/bootstrap-table.min.js"></script>
+    <script src="../../assets/bootstrap-table/locale/bootstrap-table-zh-CN.min.js"></script>
+    <script src="../../assets/moment/moment.min.js"></script>
+    <script src="../../js/common.js"></script>
+    <script src="../../js/car/car-detail.js"></script>
+</body>
+
+</html>

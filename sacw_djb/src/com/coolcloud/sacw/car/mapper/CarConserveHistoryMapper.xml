@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.coolcloud.sacw.car.mapper.CarConserveHistoryMapper">
+
+    <resultMap id="BaseResultMap" type="com.coolcloud.sacw.car.entity.CarConserveHistory">
+        <id column="id" jdbcType="VARCHAR" property="id" />
+        
+       <!--  <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+         -->
+        <result column="deleted" jdbcType="TINYINT" property="deleted" />
+        <result column="property_id" jdbcType="VARCHAR" property="propertyId" />
+        <result column="conserve_id" jdbcType="VARCHAR" property="conserveId" />
+        <result column="split_id" jdbcType="VARCHAR" property="splitId" />
+        <result column="conserve_time" jdbcType="TIMESTAMP" property="conserveTime" />
+        <result column="conserve_content_code" jdbcType="VARCHAR" property="conserveContentCode" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, create_time, update_time, deleted,
+        property_id, conserve_id, split_id, conserve_time, conserve_content_code
+    </sql>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from yw_car_conserve_history
+        where id = #{id,jdbcType=VARCHAR}
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+        delete from yw_car_conserve_history
+        where id = #{id,jdbcType=VARCHAR}
+    </delete>
+
+    <insert id="insertSelective" parameterType="com.coolcloud.sacw.car.entity.CarConserveHistory">
+        insert into yw_car_conserve_history
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+            <if test="deleted != null">
+                deleted,
+            </if>
+            <if test="propertyId != null">
+                property_id,
+            </if>
+            <if test="conserveId != null">
+                conserve_id,
+            </if>
+            <if test="splitId != null">
+                split_id,
+            </if>
+            <if test="conserveTime != null">
+                conserve_time,
+            </if>
+            <if test="conserveContentCode != null">
+                conserve_content_code,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="deleted != null">
+                #{deleted,jdbcType=TINYINT},
+            </if>
+            <if test="propertyId != null">
+                #{propertyId,jdbcType=VARCHAR},
+            </if>
+            <if test="conserveId != null">
+                #{conserveId,jdbcType=VARCHAR},
+            </if>
+            <if test="splitId != null">
+                #{splitId,jdbcType=VARCHAR},
+            </if>
+            <if test="conserveTime != null">
+                #{conserveTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="conserveContentCode != null">
+                #{conserveContentCode,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+
+    <insert id="insertBatch" parameterType="list">
+        insert into yw_car_conserve_history
+        (id, create_time, update_time, deleted, property_id,
+        conserve_id, split_id, conserve_time, conserve_content_code) values
+        <foreach collection="list" item="item" separator=",">
+            (#{item.id,jdbcType=VARCHAR},
+            #{item.createTime,jdbcType=TIMESTAMP},
+            #{item.updateTime,jdbcType=TIMESTAMP},
+            #{item.deleted,jdbcType=TINYINT},
+            #{item.propertyId,jdbcType=VARCHAR},
+            #{item.conserveId,jdbcType=VARCHAR},
+            #{item.splitId,jdbcType=VARCHAR},
+            #{item.conserveTime,jdbcType=TIMESTAMP},
+            #{item.conserveContentCode,jdbcType=VARCHAR})
+        </foreach>
+    </insert>
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.coolcloud.sacw.car.entity.CarConserveHistory">
+        update yw_car_conserve_history
+        <set>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="deleted != null">
+                deleted = #{deleted,jdbcType=TINYINT},
+            </if>
+            <if test="propertyId != null">
+                property_id = #{propertyId,jdbcType=VARCHAR},
+            </if>
+            <if test="conserveId != null">
+                conserve_id = #{conserveId,jdbcType=VARCHAR},
+            </if>
+            <if test="splitId != null">
+                split_id = #{splitId,jdbcType=VARCHAR},
+            </if>
+            <if test="conserveTime != null">
+                conserve_time = #{conserveTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="conserveContentCode != null">
+                conserve_content_code = #{conserveContentCode,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+
+    <select id="selectLatestConserveByPropertyId" resultMap="BaseResultMap" parameterType="string">
+        select
+        conserve_content_code,
+        max(conserve_time) as conserve_time
+        from yw_car_conserve_history
+        where property_id = #{propertyId,jdbcType=VARCHAR}
+        group by conserve_content_code
+    </select>
+
+    <delete id="deleteByConserveId">
+        delete from yw_car_conserve_history where conserve_id = #{conserveId}
+    </delete>
+
+    <delete id="deleteByGroupId">
+        delete t1 from yw_car_conserve_history t1
+        left join yw_car_conserve t2 on t1.conserve_id = t2.id
+        where t2.group_id = #{groupId}
+    </delete>
+
+    <update id="updatePropertyId">
+        update yw_car_conserve_history t1
+        set t1.property_id = (
+        select t3.id
+        from yw_car_conserve t2
+        left join yw_property t3 on t2.qr_code = t3.qr_code
+        where t2.id = t1.conserve_id
+        )
+    </update>
+
+    <select id="selectLatestConserveBySplitId" resultMap="BaseResultMap" parameterType="string">
+        select
+        conserve_content_code,
+        max(conserve_time) as conserve_time
+        from yw_car_conserve_history
+        where split_id = #{splitId,jdbcType=VARCHAR}
+        group by conserve_content_code
+    </select>
+
+</mapper>

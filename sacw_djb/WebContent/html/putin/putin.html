@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+<title>涉案财物管理中心 - 财物入库</title>
+<link rel="icon" href="../../favicon.ico" type="image/x-icon" />
+<link rel="stylesheet" href="../../assets/bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet" href="../../assets/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet" href="../../assets/bootstrap-table/bootstrap-table.min.css">
+<link rel="stylesheet" href="../../assets/select2/css/select2.min.css">
+<link rel="stylesheet" href="../../assets/bootstrap-datepicker/css/bootstrap-datepicker.min.css">
+<link rel="stylesheet" href="../../assets/ztree/css/zTreeStyle/zTreeStyle.css">
+<link rel="stylesheet" href="../../assets/admin-lte/css/AdminLTE.min.css">
+<link rel="stylesheet" href="../../assets/admin-lte/css/skins/_all-skins.min.css">
+<link rel="stylesheet" href="../../css/base.css">
+<!--[if lt IE 9]>
+<script src="../../assets/html5shiv/html5shiv.min.js"></script>
+<script src="../../assets/respond/respond.min.js"></script>
+<![endif]-->
+</head>
+
+<body class="hold-transition skin-blue-light sidebar-mini">
+    <div class="wrapper">
+
+        <section class="content-header">
+            <h1>财物入库</h1>
+            <ol class="breadcrumb">
+                <li>
+                    <a href="#">
+                        <i class="fa fa-dashboard"></i>
+                        <span>涉案财物</span>
+                    </a>
+                </li>
+                <li class="active">入库</li>
+            </ol>
+        </section>
+
+        <section class="content container-fluid">
+            <div class="box box-solid">
+                <div class="box-body">
+                    <form id="form-search" class="form-inline">
+                        <div class="form-group">
+                        	<label>案件名称</label>
+                            <input class="form-control" type="text" name="composite" placeholder="案件名称" id="caseName" />
+                        </div>
+                        <div class="form-group">
+                            <label>状态</label>
+                            <select id="select-status" class="form-control select2" name="status">
+                                <option value="9911000000003" selected="selected">未入库</option>
+                                <option value="9911000000004">已入库</option>
+                                <!-- <option value="2">已退回</option> -->
+                            </select>
+                        </div>
+                       <div class="form-group">
+                            <label>发送单位</label>
+                            <input id="input-unit-id" type="text" style="display: none;" name="sendUnitId" />
+                            <input id="input-unit-name" class="form-control" type="text" placeholder="发送单位" readonly />
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>起止时间</label>
+                            <input id="input-start-time" type="text" class="form-control" style="width: 100px;" name="startTime" placeholder="起始时间" readonly />
+                            <span>-</span>
+                            <input id="input-end-time" type="text" class="form-control" style="width: 100px;" name="endTime" placeholder="结束时间" readonly />
+                        </div>
+                        <a class="btn btn-flat btn-default" onclick="refresh()">查询</a>
+                        <input class="btn btn-flat btn-default" value="清空" type="reset" />
+                        <a class="btn btn-flat btn-default" onclick="newinsert()">新增</a>
+                        <!-- <a class="btn btn-flat btn-default" onclick="newmoreassignStore()">批量入库</a>
+                        <a class="btn btn-flat btn-default" onclick="newprintdetail()">打印清单</a>
+                        <a class="btn btn-flat btn-default" onclick="newprintreceipt()">打印回执单</a> -->
+                    </form>
+                </div>
+            </div>
+            <div class="box box-solid">
+                <div class="box-body">
+                    <table id="table-putin" class="table table-hover table-striped" style="width: 100%; text-align: center;"></table>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <div id="unit-wrapper" style="display: none; position: absolute; z-index: 99999; background-color: #fff; max-height: 300px; overflow: auto;">
+        <ul id="tree-unit" class="ztree"></ul>
+    </div>
+
+    <script src="../../assets/jquery/jquery.min.js"></script>
+    <script src="../../assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="../../assets/layer/layer.js"></script>
+    <script src="../../assets/bootstrap-table/bootstrap-table.min.js"></script>
+    <script src="../../assets/bootstrap-table/locale/bootstrap-table-zh-CN.min.js"></script>
+    <script src="../../assets/bootstrap-table/extensions/page-jump/bootstrap-table-page-jump.js"></script>
+    <script src="../../assets/select2/js/select2.min.js"></script>
+    <script src="../../assets/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
+    <script src="../../assets/bootstrap-datepicker/locales/bootstrap-datepicker.zh-CN.min.js"></script>
+    <script src="../../assets/moment/moment.min.js"></script>
+    <script src="../../assets/admin-lte/js/adminlte.min.js"></script>
+    <script src="../../assets/ztree/js/jquery.ztree.all.min.js"></script>
+    <script src="../../js/common.js"></script>
+    <script src="../../js/putin/putin.js"></script>
+</body>
+
+</html>

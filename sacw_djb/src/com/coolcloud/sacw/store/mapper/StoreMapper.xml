@@ -1,0 +1,327 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.coolcloud.sacw.store.mapper.StoreMapper">
+    <resultMap type="com.coolcloud.sacw.store.entity.Store" id="BaseResultMap">
+        <id column="id" jdbcType="VARCHAR" property="id" />
+        <result column="store_mc" jdbcType="VARCHAR" property="storeName" />
+        <result column="parent_id" jdbcType="VARCHAR" property="parentId" />
+        <result column="store_tree_type" jdbcType="VARCHAR" property="treeType" />
+        <result column="store_unit_name" jdbcType="VARCHAR" property="storeUnitName" />
+        <result column="store_contro" jdbcType="VARCHAR" property="storeContro" />
+        
+        <result column="crate_time" jdbcType="TIMESTAMP" property="createTime" />
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+        
+        <result column="left_value" jdbcType="TIMESTAMP" property="leftValue" />
+        <result column="right_value" jdbcType="TIMESTAMP" property="rightValue" />
+        <result column="sort" jdbcType="INTEGER" property="sort" />
+        <result column="properties_amount" jdbcType="INTEGER" property="propertiesAmount" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, store_mc, parent_id, store_unit_name, store_contro,
+        crate_time,update_time,IFNULL(store_tree_type,0) store_tree_type,left_value,right_value,sort
+    </sql>
+
+    <sql id="Full_Column_List">
+        a.id, a.store_mc, a.parent_id, a.store_unit_name, a.store_contro,
+        a.crate_time,a.update_time,IFNULL(a.store_tree_type,0) store_tree_type,a.left_value,a.right_value,a.sort
+    </sql>
+
+    <select id="selectByExample" parameterType="com.coolcloud.sacw.store.entity.StoreExample" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from yw_store
+        <where>
+            <if test="storeName != null">
+                and store_mc = #{storeName,jdbcType=VARCHAR}
+            </if>
+            <if test="parentId != null">
+                and parent_id = #{parentId,jdbcType=VARCHAR}
+            </if>
+            <if test="storeUnitName != null">
+                and store_unit_name = #{storeUnitName,jdbcType=INTEGER}
+            </if>
+            <if test="createTime != null">
+                and create_time = #{createTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="storeContro != null">
+                and store_contro = #{storeContro,jdbcType=VARCHAR}
+            </if>
+            <if test="treeType != null">
+                and store_tree_type = #{treeType,jdbcType=VARCHAR}
+            </if>
+            and deleted = 0
+        </where>
+        order by sort asc
+    </select>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from yw_store
+        where id = #{id,jdbcType=VARCHAR}
+    </select>
+
+    <insert id="insertSelective" parameterType="com.coolcloud.sacw.store.entity.Store">
+        insert into yw_store
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="storeName != null">
+                store_mc,
+            </if>
+            <if test="parentId != null">
+                parent_id,
+            </if>
+            <if test="storeUnitName != null">
+                store_unit_name,
+            </if>
+            <if test="storeContro != null">
+                store_contro,
+            </if>
+            <if test="treeType != null">
+                store_tree_type,
+            </if>
+            <if test="createTime != null">
+                crate_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+            <if test="leftValue != null">
+                left_value,
+            </if>
+            <if test="rightValue != null">
+                right_value,
+            </if>
+            <if test="sort != null">
+                sort,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id},
+            </if>
+            <if test="storeName != null">
+                #{storeName},
+            </if>
+            <if test="parentId != null">
+                #{parentId},
+            </if>
+            <if test="storeUnitName != null">
+                #{storeUnitName},
+            </if>
+            <if test="storeContro != null">
+                #{storeContro},
+            </if>
+            <if test="treeType != null">
+                #{treeType},
+            </if>
+            <if test="createTime != null">
+                #{createTime},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime},
+            </if>
+            <if test="leftValue != null">
+                #{leftValue},
+            </if>
+            <if test="rightValue != null">
+                #{rightValue},
+            </if>
+            <if test="sort != null">
+                #{sort},
+            </if>
+        </trim>
+    </insert>
+
+    <delete id="deleteByPrimaryKeyBatch">
+        delete from yw_store
+        where id in
+        <foreach collection="list" item="ids" open="(" close=")" separator=",">
+            #{ids,jdbcType=VARCHAR}
+        </foreach>
+    </delete>
+
+    <delete id="deleteByPrimaryKey">
+        update yw_store set deleted = 1 where id = #{id,jdbcType=VARCHAR}
+    </delete>
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.coolcloud.sacw.store.entity.Store">
+        update yw_store
+        <set>
+            <if test="storeName != null">
+                store_mc = #{storeName,jdbcType=VARCHAR},
+            </if>
+            <if test="parentId != null">
+                parent_id = #{parentId,jdbcType=VARCHAR},
+            </if>
+            <if test="storeUnitName != null">
+                store_unit_name = #{storeUnitName,jdbcType=INTEGER},
+            </if>
+            <if test="createTime != null">
+                crate_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="storeContro != null">
+                store_contro = #{storeContro,jdbcType=VARCHAR},
+            </if>
+            <if test="leftValue != null">
+                left_value = #{leftValue},
+            </if>
+            <if test="rightValue != null">
+                right_value = #{rightValue},
+            </if>
+            <if test="sort != null">
+                sort = #{sort},
+            </if>
+        </set>
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+
+    <select id="queryStoresByParentId" resultMap="BaseResultMap">
+        select
+        id, store_mc, parent_id, store_unit_name, store_contro,
+        crate_time,update_time,IFNULL(store_tree_type,0)store_tree_type
+        from yw_store
+        where parent_id = #{parentId,jdbcType=VARCHAR}
+        and deleted = 0
+        order by sort asc
+    </select>
+
+    <select id="queryAllTree" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from yw_store
+        where store_tree_type = 1
+        and deleted = 0
+        order by sort asc
+    </select>
+
+    <select id="queryPidById" parameterType="java.lang.String" resultType="java.lang.String">
+        select parent_id from
+        yw_store where id = #{id,jdbcType=VARCHAR}
+    </select>
+    <select id="queryType" parameterType="java.lang.String" resultType="java.lang.String">
+        select store_contro from
+        yw_store where id = #{id,jdbcType=VARCHAR}
+    </select>
+    <select id="queryName" parameterType="java.lang.String" resultType="java.lang.String">
+        select store_unit_name from
+        yw_store where id = #{id,jdbcType=VARCHAR}
+    </select>
+
+    <select id="selectProNumByStoreId" parameterType="java.util.List" resultType="java.lang.Integer">
+        SELECT COUNT(*) from yw_property where kwbm in
+        <foreach collection="list" item="id" open="(" close=")" separator=",">
+            #{id,jdbcType=VARCHAR}
+        </foreach>
+    </select>
+
+
+    <!-- 预排序树结构相关语句 开始 -->
+    <!-- 锁表 -->
+    <select id="lock">
+        lock table yw_store write
+    </select>
+
+    <!-- 释放表锁 -->
+    <select id="unlock">
+        unlock tables
+    </select>
+
+    <!-- 更新右值 -->
+    <select id="updateRightValuePlus">
+        update yw_store set right_value = right_value + 2 where right_value > #{value}
+    </select>
+
+    <!-- 更新左值 -->
+    <select id="updateLeftValuePlus">
+        update yw_store set left_value = left_value + 2 where left_value > #{value}
+    </select>
+
+    <!-- 查询最大右值 -->
+    <select id="selectMaxRightValue" resultType="java.lang.Integer">
+        select max(right_value) from yw_store
+    </select>
+
+    <!-- 更新左值 -->
+    <update id="updateLeftValueMinus">
+        update yw_store set left_value = left_value - #{width} where left_value > #{right}
+    </update>
+
+    <update id="updateRightValueMinus">
+        update yw_store set right_value = right_value - #{width} where right_value > #{right}
+    </update>
+
+    <select id="selectAllChildren" resultMap="BaseResultMap">
+        select
+        <include refid="Full_Column_List" />
+        from yw_store a,yw_store b
+        where a.left_value between b.left_value and b.right_value
+        and b.id = #{id} order by a.left_value
+    </select>
+    <!-- 预排序树结构相关语句 结束 -->
+
+    <!-- 效率不行 等优化 -->
+    <select id="selectChildrenWithPropertiesAmount" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select a.id,a.store_contro, a.store_unit_name, count(c.id) as properties_amount
+        from yw_store a
+        inner join yw_store b
+        on a.left_value between b.left_value and b.right_value
+        left join yw_property c on c.kwbm in
+        (select aa.id from yw_store aa,yw_store bb
+        where aa.left_value between bb.left_value and bb.right_value
+        and bb.id = a.id)
+        where b.id = #{id}
+        group by a.id
+        order by a.left_value
+    </select>
+
+    <select id="selectStore" resultMap="BaseResultMap">
+        select * from yw_store where deleted='0'
+    </select>
+
+
+    <select id="selectPropertiesAmountByStoreId" parameterType="java.lang.String" resultType="java.lang.Integer">
+        select
+        ifnull(sum(p.number),0)
+        from yw_property p
+        where p.kwbm in (
+        select a.id
+        from yw_store a,yw_store b
+        where a.left_value between b.left_value and b.right_value and b.id = #{id})
+    </select>
+    
+    
+    <!-- 这个sql语句是用来统计一个柜子里面的财物的数量 -->
+    <select id="selectOneStorePropertyAmount" parameterType="java.lang.String" resultType="java.lang.Integer">
+       SELECT count(property_name) FROM  
+       yw_property WHERE kwbm  LIKE 
+       CONCAT('%', id=#{id}, '%')
+    </select>
+    
+    
+    
+    
+    
+    
+    <select id="selectPropertiesAmountByStoreIdCar" parameterType="java.lang.String" resultType="java.lang.Integer">
+        select
+        ifnull(sum(p.split_amount),0)
+        from yw_property_split p
+        where p.splitSaveLocationCode in (
+        select a.id
+        from yw_store a,yw_store b
+        where a.left_value between b.left_value and b.right_value and b.id = #{id})
+    </select>
+
+    
+
+
+
+
+
+
+</mapper>

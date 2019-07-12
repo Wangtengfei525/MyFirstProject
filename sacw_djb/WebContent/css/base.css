@@ -1,0 +1,7 @@
+@CHARSET "UTF-8";
+
+.fixed-table-header{
+	 border-top-color: black;
+	  border-top-width: 1px; 
+	  border-top-style: solid;
+}

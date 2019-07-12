@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.coolcloud.sacw.system.mapper.PermissionMapper">
+    <cache />
+    <resultMap id="BaseResultMap" type="com.coolcloud.sacw.system.entity.Permission">
+        <id column="id" jdbcType="VARCHAR" property="id" />
+        <result column="name" jdbcType="VARCHAR" property="name" />
+        <result column="url" jdbcType="VARCHAR" property="url" />
+        <result column="description" jdbcType="VARCHAR" property="description" />
+        <result column="display" jdbcType="INTEGER" property="display" />
+        <result column="parent_id" jdbcType="VARCHAR" property="parentId" />
+        <result column="checked" jdbcType="INTEGER" property="checked" />
+        <result column="sort" jdbcType="INTEGER" property="sort" />
+        
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+        
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, name, url, description, display, parent_id, sort, create_time, update_time
+    </sql>
+
+    <sql id="Base_Column_List_Full">
+        sys_permission.id, sys_permission.name, sys_permission.url, sys_permission.description, sys_permission.display, sys_permission.parent_id,sys_permission.sort, sys_permission.create_time, sys_permission.update_time
+    </sql>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from sys_permission
+        where id = #{id,jdbcType=VARCHAR}
+    </select>
+
+    <select id="selectByExample" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from sys_permission
+        <where>
+            <if test="name != null and url != ''">
+                and name = #{name}
+            </if>
+            <if test="nameLike != null and url != ''">
+                and name like "%"#{nameLike}"%"
+            </if>
+            <if test="url != null and url != ''">
+                and url = #{url}
+            </if>
+            <if test="urlLike != null and url != ''">
+                and url like "%"#{urlLike}"%"
+            </if>
+            <if test="parentId != null">
+                and parent_id = #{parentId,jdbcType=VARCHAR}
+            </if>
+            <if test="display != null">
+                and display = #{display,jdbcType=INTEGER}
+            </if>
+        </where>
+        order by sort asc
+    </select>
+
+
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+        delete from sys_permission
+        where id = #{id,jdbcType=VARCHAR}
+    </delete>
+
+    <delete id="deleteByPrimaryKeyBatch" parameterType="java.util.List">
+        delete from sys_permission
+        where id in
+        <foreach collection="ids" item="id" open="(" close=")" separator=",">
+            #{id,jdbcType=VARCHAR}
+        </foreach>
+    </delete>
+
+
+
+    <insert id="insertSelective" parameterType="com.coolcloud.sacw.system.entity.Permission">
+        insert into sys_permission
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="name != null">
+                name,
+            </if>
+            <if test="url != null">
+                url,
+            </if>
+            <if test="description != null">
+                description,
+            </if>
+            <if test="display != null">
+                display,
+            </if>
+            <if test="parentId != null and parentId != ''">
+                parent_id,
+            </if>
+            <if test="order !=null and order != '' ">
+                sort,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=VARCHAR},
+            </if>
+            <if test="name != null">
+                #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="url != null">
+                #{url,jdbcType=VARCHAR},
+            </if>
+            <if test="description != null">
+                #{description,jdbcType=VARCHAR},
+            </if>
+            <if test="display != null">
+                #{display,jdbcType=INTEGER},
+            </if>
+            <if test="parentId != null and parentId != ''">
+                #{parentId,jdbcType=INTEGER},
+            </if>
+            <if test="order !=null and order != '' ">
+                #{sort,jdbcType=INTEGER},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.coolcloud.sacw.system.entity.Permission">
+        update sys_permission
+        <set>
+            <if test="name != null">
+                name = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="url != null">
+                url = #{url,jdbcType=VARCHAR},
+            </if>
+            <if test="description != null">
+                description = #{description,jdbcType=VARCHAR},
+            </if>
+            <if test="display != null">
+                display = #{display,jdbcType=INTEGER},
+            </if>
+            <if test="parentId != null and parentId !=''">
+                parent_id = #{parentId,jdbcType=VARCHAR},
+            </if>
+            <if test="sort != null">
+                sort = #{sort,jdbcType=INTEGER},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+
+    <select id="selectByRoleId" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List_Full" />
+        ,
+        case when sys_role_permission.role_id is null then
+        0
+        else
+        1
+        end as checked
+
+        from sys_permission
+        left join sys_role_permission
+        on sys_permission.id = sys_role_permission.permission_id
+        and sys_role_permission.role_id = #{roleId,jdbcType=VARCHAR}
+        order by sys_permission.sort asc
+    </select>
+
+    <select id="selectByUserId" resultMap="BaseResultMap">
+        select distinct
+        <include refid="Base_Column_List_Full" />
+        from sys_permission
+        left join sys_role_permission on sys_permission.id = sys_role_permission.permission_id
+        left join sys_user_role on sys_role_permission.role_id = sys_user_role.role_id
+        where sys_user_role.user_id = #{userId,jdbcType=VARCHAR} order by sys_permission.sort asc
+    </select>
+
+</mapper>

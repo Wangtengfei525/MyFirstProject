@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>交换记录详情</title>
+<link rel="icon" href="../../favicon.ico" type="image/x-icon" />
+<link rel="stylesheet" href="../../assets/bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet" href="../../assets/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet" href="../../assets/admin-lte/css/AdminLTE.min.css">
+<link rel="stylesheet" href="../../assets/admin-lte/css/skins/_all-skins.min.css">
+<style type="text/css">
+img.annex-preview {
+    height: 80px;
+}
+</style>
+</head>
+
+<body>
+    <div id="app" class="skin-blue-light">
+        <div class="nav-tabs-custom">
+            <ul class="nav nav-tabs pull-right" role="tablist">
+                <li role="presentation">
+                    <a href="#exchange" aria-controls="exchange" role="tab" data-toggle="tab">交换记录详情</a>
+                </li>
+                <li role="presentation">
+                    <a href="#annexes" aria-controls="annexes" role="tab" data-toggle="tab">附件信息</a>
+                </li>
+                <li role="presentation" class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-controls="properties" id="a-properties" aria-expanded="false">
+                        <span>财物信息</span>
+                        <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="a-properties" id="properties">
+                        <li role="presentation" v-for="p in info.properties">
+                            <a :href="'#' + p.id" :aria-controls="p.id" role="tab" data-toggle="tab">{{p.property_name}}</a>
+                        </li>
+                    </ul>
+                </li>
+                <li role="presentation" class="active">
+                    <a href="#case" aria-controls="case" role="tab" data-toggle="tab">案件信息</a>
+                </li>
+                <li class="pull-left header">
+                    <i class="fa fa-info"></i>
+                    <span>交换记录详情</span>
+                </li>
+            </ul>
+
+            <div class="tab-content">
+                <div role="tabpanel" class="tab-pane active" id="case">
+                    <form class="form-horizontal">
+                        <div class="form-group">
+                            <label class="control-label col-xs-2">案件名称：</label>
+                            <div class="col-xs-10">
+                                <input :value="info.caze.caseName" class="form-control" readonly />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-xs-2">承办单位名称：</label>
+                            <div class="col-xs-10">
+                                <input :value="info.caze.organizerName" class="form-control" readonly />
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- 财物信息 开始 -->
+                <div role="tabpanel" class="tab-pane" :id="p.id" v-for="p in info.properties">
+                    <form class="form-horizontal">
+                        <div class="form-group">
+                            <label class="control-label col-xs-2">财物名称：</label>
+                            <div class="col-xs-4">
+                                <input :value="p.property_name" class="form-control" readonly />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-xs-2">二维码：</label>
+                            <div class="col-xs-4">
+                                <input :value="p.qr_code" class="form-control" readonly />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-xs-2">财物类型：</label>
+                            <div class="col-xs-4">
+                                <input :value="p.property_type" class="form-control" readonly />
+                            </div>
+                            <label class="control-label col-xs-2">数量：</label>
+                            <div class="col-xs-4">
+                                <input :value="p.number" class="form-control" readonly />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-xs-2">财物状态：</label>
+                            <div class="col-xs-4">
+                                <input :value="p.status" class="form-control" readonly />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-xs-2">存储位置：</label>
+                            <div class="col-xs-10">
+                                <input :value="p.kwmc" class="form-control" readonly />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-xs-2">特征：</label>
+                            <div class="col-xs-10">
+                                <textarea class="form-control" readonly rows="6">{{p.goods}}</textarea>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <!-- 财物信息 结束 -->
+
+                <div role="tabpanel" class="tab-pane" id="annexes">
+                    <table class="table table-hover table-striped">
+                        <thead>
+                            <tr>
+                                <th>序号</th>
+                                <th>附件名称</th>
+                                <th>附件类型</th>
+                                <th>操作</th>
+                                <th>预览</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="(a,i) in info.annexs" :key="">
+                                <td>{{i+1}}</td>
+                                <td>{{a.file_name}}</td>
+                                <td>{{a.suffix_name}}</td>
+                                <td>
+                                    <a :href=" locat + '/annex/download?id=' + a.id " class="btn btn-default btn-flat btn-sm" target="_blank">下载</a>
+                                </td>
+                                <td>
+                                    <img v-if="isImage(a.suffix_name)" :src=" locat + '/annex/preview?id=' + a.id " class="annex-preview" @click="imgPreview(a.id)"></img>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div role="tabpanel" class="tab-pane" id="exchange">
+                    <form class="form-horizontal">
+                        <div class="form-group">
+                            <label class="control-label col-xs-2">案件名称：</label>
+                            <div class="col-xs-10">
+                                <input :value=" info.exchange.caseName " class="form-control" readonly />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-xs-2">承办单位：</label>
+                            <div class="col-xs-10">
+                                <input :value="info.caze.organizerName" class="form-control" readonly />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-xs-2">交换操作名称：</label>
+                            <div class="col-xs-10">
+                                <input :value="info.exchange.nodeName" class="form-control" readonly />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-xs-2">操作时间：</label>
+                            <div class="col-xs-10">
+                                <input :value=" info.exchange.operationTime | datetime " class="form-control" readonly />
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../../assets/vue/vue.min.js"></script>
+    <script src="../../assets/jquery/jquery.min.js"></script>
+    <script src="../../assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="../../assets/admin-lte/js/adminlte.min.js"></script>
+    <script src="../../assets/moment/moment.min.js"></script>
+    <script src="../../assets/layer/layer.js"></script>
+    <script src="../../js/common.js"></script>
+    <script src="../../js/exchange/newdetail.js"></script>
+</body>
+
+</html>

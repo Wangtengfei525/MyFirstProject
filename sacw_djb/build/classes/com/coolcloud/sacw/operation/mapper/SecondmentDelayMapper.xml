@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.coolcloud.sacw.operation.mapper.SecondmentDelayMapper">
+
+    <resultMap id="BaseResultMap" type="com.coolcloud.sacw.operation.entity.SecondmentDelay">
+        <id column="id" jdbcType="VARCHAR" property="id" />
+        
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+        
+        <result column="deleted" jdbcType="TINYINT" property="deleted" />
+        <result column="secondment_id" jdbcType="VARCHAR" property="secondmentId" />
+        <result column="delay_time" jdbcType="TIMESTAMP" property="delayTime" />
+        <result column="expected_return_time" jdbcType="DATE" property="expectedReturnTime" />
+        <result column="delayed_return_time" jdbcType="DATE" property="delayedReturnTime" />
+        <result column="remark" jdbcType="VARCHAR" property="remark" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, create_time, update_time, deleted, secondment_id, delay_time,
+        expected_return_time, delayed_return_time, remark
+    </sql>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from yw_secondment_delay
+        where id = #{id,jdbcType=VARCHAR}
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+        delete from yw_secondment_delay
+        where id = #{id,jdbcType=VARCHAR}
+    </delete>
+
+    <insert id="insertSelective" parameterType="com.coolcloud.sacw.operation.entity.SecondmentDelay">
+        insert into yw_secondment_delay
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+            <if test="deleted != null">
+                deleted,
+            </if>
+            <if test="secondmentId != null">
+                secondment_id,
+            </if>
+            <if test="delayTime != null">
+                delay_time,
+            </if>
+            <if test="expectedReturnTime != null">
+                expected_return_time,
+            </if>
+            <if test="delayedReturnTime != null">
+                delayed_return_time,
+            </if>
+            <if test="remark != null">
+                remark,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="deleted != null">
+                #{deleted,jdbcType=TINYINT},
+            </if>
+            <if test="secondmentId != null">
+                #{secondmentId,jdbcType=VARCHAR},
+            </if>
+            <if test="delayTime != null">
+                #{delayTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="expectedReturnTime != null">
+                #{expectedReturnTime,jdbcType=DATE},
+            </if>
+            <if test="delayedReturnTime != null">
+                #{delayedReturnTime,jdbcType=DATE},
+            </if>
+            <if test="remark != null">
+                #{remark,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.coolcloud.sacw.operation.entity.SecondmentDelay">
+        update yw_secondment_delay
+        <set>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="deleted != null">
+                deleted = #{deleted,jdbcType=TINYINT},
+            </if>
+            <if test="secondmentId != null">
+                secondment_id = #{secondmentId,jdbcType=VARCHAR},
+            </if>
+            <if test="delayTime != null">
+                delay_time = #{delayTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="expectedReturnTime != null">
+                expected_return_time = #{expectedReturnTime,jdbcType=DATE},
+            </if>
+            <if test="delayedReturnTime != null">
+                delayed_return_time = #{delayedReturnTime,jdbcType=DATE},
+            </if>
+            <if test="remark != null">
+                remark = #{remark,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+
+    <select id="selectBySecondmentId" parameterType="string" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from yw_secondment_delay
+        where secondment_id = #{secondmentId,jdbcType=VARCHAR}
+        order by delay_time desc
+    </select>
+</mapper>

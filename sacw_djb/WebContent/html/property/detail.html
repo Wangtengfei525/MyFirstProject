@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>财物详情</title>
+<link rel="icon" href="../../favicon.ico" type="image/x-icon" />
+<link rel="stylesheet" href="../../assets/bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet" href="../../assets/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet" href="../../assets/admin-lte/css/AdminLTE.min.css">
+<link rel="stylesheet" href="../../assets/admin-lte/css/skins/_all-skins.min.css">
+<style type="text/css">
+img.annex-preview {
+    height: 80px;
+}
+</style>
+</head>
+
+<body>
+    <div id="app" class="skin-blue-light">
+        <div class="nav-tabs-custom">
+            <ul class="nav nav-tabs pull-right" role="tablist">
+                <li role="presentation">
+                    <a href="#logs" aria-controls="logs" role="tab" data-toggle="tab">变更历史</a>
+                </li>
+                <li role="presentation">
+                    <a href="#exchanges" aria-controls="exchanges" role="tab" data-toggle="tab">交换历史</a>
+                </li>
+                <li role="presentation">
+                    <a href="#annexes" aria-controls="annexes" role="tab" data-toggle="tab">附件信息</a>
+                </li>
+                <li role="presentation">
+                    <a href="#case" aria-controls="case" role="tab" data-toggle="tab">案件信息</a>
+                </li>
+                <li role="presentation" class="active">
+                    <a href="#property" aria-controls="property" role="tab" data-toggle="tab">财物信息 - {{info.property.propertyName}}</a>
+                </li>
+                <li class="pull-left header">
+                    <i class="fa fa-info"></i>
+                    <span>财物详情</span>
+                </li>
+            </ul>
+
+            <div class="tab-content">
+
+                <!-- 财物信息 开始 -->
+                <div role="tabpanel" class="tab-pane active" id="property">
+                    <form class="form-horizontal">
+                        <div class="form-group">
+                            <label class="control-label col-xs-2">财物名称：</label>
+                            <div class="col-xs-4">
+                                <input :value="info.property.propertyName" class="form-control" readonly />
+                            </div>
+                            <label class="control-label col-xs-2">价值：</label>
+                            <div class="col-xs-4">
+                                <input :value="info.property.value" class="form-control" readonly />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-xs-2">财物编号：</label>
+                            <div class="col-xs-4">
+                                <input :value="info.property.propertyNumber" class="form-control" readonly />
+                            </div>
+                            <label class="control-label col-xs-2">二维码：</label>
+                            <div class="col-xs-4">
+                                <input :value="info.property.qrCode" class="form-control" readonly />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-xs-2">财物类型：</label>
+                            <div class="col-xs-4">
+                                <input :value="info.property.propertyType" class="form-control" readonly />
+                            </div>
+                            <label class="control-label col-xs-2">数量：</label>
+                            <div class="col-xs-4">
+                                <input :value="info.property.number" class="form-control" readonly />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-xs-2">备注数量：</label>
+                            <div class="col-xs-4">
+                                <input :value="info.property.remake_number" class="form-control" readonly />
+                            </div>
+                            <label class="control-label col-xs-2">计量单位：</label>
+                            <div class="col-xs-4">
+                                <input :value="info.property.meteringUnit" class="form-control" readonly />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-xs-2">币种：</label>
+                            <div class="col-xs-4">
+                                <input :value="info.property.money" class="form-control" readonly />
+                            </div>
+
+                            <label class="control-label col-xs-2">登记人：</label>
+                            <div class="col-xs-4">
+                                <input :value="info.property.registrant" class="form-control" readonly />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-xs-2">持有人姓名</label>
+                            <div class="col-xs-4">
+                                <input :value=" info.property.havePopleTypeName " class="form-control" readonly />
+                            </div>
+                            <label class="control-label col-xs-2">财物措施：</label>
+                            <div class="col-xs-4">
+                                <input :value=" info.property.propertyMeasuresMc " class="form-control" readonly />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-xs-2">措施执行人</label>
+                            <div class="col-xs-4">
+                                <input :value=" info.property.measuresExecutor " class="form-control" readonly />
+                            </div>
+                            <label class="control-label col-xs-2">登记日期：</label>
+                            <div class="col-xs-4">
+                                <input :value=" info.property.registerDate | datetime " class="form-control" readonly />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-xs-2">权限单位：</label>
+                            <div class="col-xs-10">
+                                <input :value=" info.property.permitUnitMc " class="form-control" readonly />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-xs-2">保管单位：</label>
+                            <div class="col-xs-10">
+                                <input :value="info.property.keepUnitMc" class="form-control" readonly />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-xs-2">存储位置：</label>
+                            <div class="col-xs-10">
+                                <input :value="info.property.kwmc" class="form-control" readonly />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-xs-2">特征：</label>
+                            <div class="col-xs-10">
+                                <textarea class="form-control" readonly rows="6">{{info.property.goodsSpecial}}</textarea>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-xs-2">照片：</label>
+                            <div class="col-xs-10">
+                                <div :id=" 'carousel' + info.property.id " class="carousel slide" data-ride="carousel" v-if="info.property.photos.length > 0">
+                                    <ol class="carousel-indicators">
+                                        <li :data-target=" '#carousel' + info.property.id " :data-slide-to=" i " :class=" i == 0 ? 'active' : '' " v-for="(photo,i) in info.property.photos"></li>
+                                    </ol>
+
+                                    <div class="carousel-inner" role="listbox">
+                                        <div :class=" i == 0 ? 'item active' : 'item' " v-for="(photo,i) in info.property.photos">
+                                            <img :src=" locat + '/photo/preview?id=' + photo.id " :alt=" photo.file_name " class="img-responsive" />
+                                            <div class="carousel-caption">{{photo.file_name}}</div>
+                                        </div>
+                                    </div>
+
+                                    <a class="left carousel-control" :href=" '#carousel' + info.property.id " role="button" data-slide="prev">
+                                        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                                        <span class="sr-only">Previous</span>
+                                    </a>
+                                    <a class="right carousel-control" :href=" '#carousel' + info.property.id " role="button" data-slide="next">
+                                        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                                        <span class="sr-only">Next</span>
+                                    </a>
+                                </div>
+                                <div v-else>
+                                    <span>暂无照片</span>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <!-- 财物信息 结束 -->
+
+                <div role="tabpanel" class="tab-pane" id="case">
+                    <form class="form-horizontal">
+                        <div class="form-group">
+                            <label class="control-label col-xs-2">案件编号：</label>
+                            <div class="col-xs-10">
+                                <input :value=" info.caze.platCaseCode " class="form-control" readonly />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-xs-2">案件名称：</label>
+                            <div class="col-xs-10">
+                                <input :value=" info.caze.caseName " class="form-control" readonly />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-xs-2">案件来源：</label>
+                            <div class="col-xs-10">
+                                <input :value="info.caze.caseSource" class="form-control" readonly />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-xs-2">承办单位名称：</label>
+                            <div class="col-xs-10">
+                                <input :value="info.caze.organizerName" class="form-control" readonly />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-xs-2">承办人工号：</label>
+                            <div class="col-xs-10">
+                                <input :value="info.caze.undertakerId" class="form-control" readonly />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-xs-2">承办人姓名：</label>
+                            <div class="col-xs-10">
+                                <input :value="info.caze.undertakerName" class="form-control" readonly />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-xs-2">案件类型：</label>
+                            <div class="col-xs-10">
+                                <input :value="info.caze.caseTypeName" class="form-control" readonly />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-xs-2">案由：</label>
+                            <div class="col-xs-10">
+                                <input :value="info.caze.caseCauseName" class="form-control" readonly />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-xs-2">创建时间：</label>
+                            <div class="col-xs-10">
+                                <input :value="info.caze.createTime|datetime" class="form-control" readonly />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-xs-2">最后修改时间：</label>
+                            <div class="col-xs-10">
+                                <input :value="info.caze.updateTime|datetime" class="form-control" readonly />
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- 附件信息 开始 -->
+                <div role="tabpanel" class="tab-pane" id="annexes">
+                    <table class="table table-hover table-striped">
+                        <thead>
+                            <tr>
+                                <th>序号</th>
+                                <th>附件名称</th>
+                                <th>附件类型</th>
+                                <th>操作</th>
+                                <th>预览</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="(a,i) in info.annexs" :key="i">
+                                <td>{{i+1}}</td>
+                                <td>{{a.file_name}}</td>
+                                <td>{{a.suffix_name}}</td>
+                                <td>
+                                    <a :href=" locat + '/annex/download?id=' + a.id " class="btn btn-default btn-flat btn-sm" target="_blank">下载</a>
+                                </td>
+                                <td>
+                                    <img v-if="isImage(a.suffix_name)" :src=" locat + '/annex/preview?id=' + a.id " class="annex-preview" @click="imgPreview(a.id)"></img>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <!-- 附件信息 结束 -->
+
+                <!-- 交换历史 -->
+                <div role="tabpanel" class="tab-pane" id="exchanges">
+                    <ul class="timeline">
+                        <li v-for="exchange in exchanges" :key="exchange.id">
+                            <i class="fa fa-info bg-aqua"></i>
+                            <div class="timeline-item">
+                                <span class="time">
+                                    <i class="fa fa-clock-o"></i>
+                                    <span>{{exchange.sendTime|datetime}}</span>
+                                </span>
+                                <h3 class="timeline-header no-border">{{exchange.nodeCode|nodeName}}</h3>
+                                <div class="timeline-body">
+                                    <dl class="dl-horizontal">
+                                        <dt>发送单位</dt>
+                                        <dd>{{exchange.sendUnitName}}</dd>
+                                        <dt>发送人</dt>
+                                        <dd>{{exchange.sendPersonName}}</dd>
+                                        <dt>发送时间</dt>
+                                        <dd>{{exchange.sendTime|datetime}}</dd>
+                                        <dt>操作时间</dt>
+                                        <dd>{{exchange.operationTime|datetime}}</dd>
+                                        <dt>接收单位</dt>
+                                        <dd>{{exchange.receiveUnitName}}</dd>
+                                        <dt>备注</dt>
+                                        <dd>{{exchange.remark}}</dd>
+                                    </dl>
+                                </div>
+                            </div>
+                        </li>
+                        <li v-if="exchanges.length == 0">
+                            <i class="fa fa-info bg-aqua"></i>
+                            <div class="timeline-item">
+                                <h3 class="timeline-header no-border">
+                                    <span>暂无交换记录</span>
+                                </h3>
+                            </div>
+                        </li>
+                        <li>
+                            <i class="fa fa-clock-o bg-gray"></i>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- 变更历史 -->
+                <div role="tabpanel" class="tab-pane" id="logs">
+                    <ul class="timeline">
+                        <li v-for="log in logs" :key="log.id">
+                            <i class="fa fa-info bg-aqua"></i>
+                            <div class="timeline-item">
+                                <span class="time">
+                                    <i class="fa fa-clock-o"></i>
+                                    <span>{{log.operationTime|datetime}}</span>
+                                </span>
+                                <h3 class="timeline-header no-border">{{log.operationTime|datetime}}</h3>
+                                <div class="timeline-body">
+                                    <dl class="dl-horizontal">
+                                        <dt>变更时间</dt>
+                                        <dd>{{log.operationTime|datetime}}</dd>
+                                        <dt>变更内容</dt>
+                                        <dd>{{log.operationContent}}</dd>
+                                        <dt>操作人</dt>
+                                        <dd>{{log.operationUser}}</dd>
+                                    </dl>
+                                </div>
+                            </div>
+                        </li>
+                        <li v-if="logs.length == 0">
+                            <i class="fa fa-info bg-aqua"></i>
+                            <div class="timeline-item">
+                                <h3 class="timeline-header no-border">
+                                    <span>暂无变更记录</span>
+                                </h3>
+                            </div>
+                        </li>
+                        <li>
+                            <i class="fa fa-clock-o bg-gray"></i>
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script src="../../assets/vue/vue.min.js"></script>
+    <script src="../../assets/jquery/jquery.min.js"></script>
+    <script src="../../assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="../../assets/admin-lte/js/adminlte.min.js"></script>
+    <script src="../../assets/layer/layer.js"></script>
+    <script src="../../assets/moment/moment.min.js"></script>
+    <script src="../../js/common.js"></script>
+    <script src="../../js/property/detail.js"></script>
+</body>
+
+</html>

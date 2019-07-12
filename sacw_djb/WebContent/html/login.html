@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+<title>系统登录</title>
+<link rel="icon" href="../favicon.ico" type="image/x-icon" />
+<link rel="stylesheet" type="text/css" href="../css/skin/style.css" />
+<link rel="stylesheet" type="text/css" href="../css/skin/skin_/login.css" />
+<script src="../assets/jquery/jquery.min.js"></script>
+<script src="../assets/jquery/jquery.messager.js"></script>
+<script src="../assets/layer/layer.js"></script>
+</head>
+<body>
+    <div id="container">
+        <div id="bd">
+            <div id="main">
+                <div class="login-box">
+                    <div id="logo"></div>
+                    <h1></h1>
+                    <form id="login-form">
+                        <div class="input username">
+                            <label for="userName">用户名</label>
+                            <span></span>
+                            <input type="text" id="username" />
+                        </div>
+                        <div class="input psw" id="psw">
+                            <label for="password">密&nbsp;&nbsp;&nbsp;&nbsp;码</label>
+                            <span></span>
+                            <input type="password" id="password" />
+                        </div>
+                        <div class="styleArea"></div>
+                        <div id="btn" class="loginButton">
+                            <input type="button" id="submit" class="button" id="send-btn" onclick="login()" value="登录" />
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div id="ft">
+                CopyRight&nbsp;2017&nbsp;&nbsp;版权所有&nbsp;&nbsp;
+                <a href="" target="_blank">成都众全企业服务有限公司</a>
+                &nbsp;&nbsp;
+                <div style="bottom: 0px; right: 0px;">111</div>
+            </div>
+
+        </div>
+    </div>
+
+    <script type="text/javascript">
+                    var height = $(window).height() > 445 ? $(window).height() : 445;
+                    $("#container").height(height);
+                    var bdheight = ($(window).height() - $('#bd').height()) / 2 - 20;
+                    $('#bd').css('padding-top', bdheight);
+                    $(window).resize(function(e) {
+                        var height = $(window).height() > 445 ? $(window).height() : 445;
+                        $("#container").height(height);
+                        var bdheight = ($(window).height() - $('#bd').height()) / 2 - 20;
+                        $('#bd').css('padding-top', bdheight);
+                    });
+                    $('select').select();
+                </script>
+    <script type="text/javascript" src="../js/login.js"></script>
+</body>
+</html>

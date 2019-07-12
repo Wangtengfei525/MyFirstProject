@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+<title>涉案财物管理中心 - 单位管理</title>
+<link rel="icon" href="../../favicon.ico" type="image/x-icon" />
+<link rel="stylesheet" href="../../assets/bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet" href="../../assets/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet" href="../../assets/ztree/css/zTreeStyle/zTreeStyle.css">
+<link rel="stylesheet" href="../../assets/select2/css/select2.min.css">
+<link rel="stylesheet" href="../../assets/admin-lte/css/AdminLTE.min.css">
+<link rel="stylesheet" href="../../assets/admin-lte/css/skins/_all-skins.min.css">
+<!--[if lt IE 9]>
+<script src="../../assets/html5shiv/html5shiv.min.js"></script>
+<script src="../../assets/respond/respond.min.js"></script>
+<![endif]-->
+</head>
+
+<body class="hold-transition skin-blue-light sidebar-mini">
+    <div class="wrapper">
+
+        <section class="content-header">
+            <h1>交换单位管理</h1>
+            <ol class="breadcrumb">
+                <li>
+                    <a href="#">
+                        <i class="fa fa-dashboard"></i>
+                        <span>系统管理</span>
+                    </a>
+                </li>
+                <li class="active">交换单位管理</li>
+            </ol>
+        </section>
+
+        <!-- Main content -->
+        <section class="content container-fluid">
+
+            <div class="box box-solid">
+                <div class="box-body">
+                    <div class="row">
+                        <div class="col-xs-4">
+                            <div class="box box-solid">
+                                <div class="box-header with-border">
+                                    <h3 class="box-title">交换单位</h3>
+                                </div>
+                                <div class="box-body">
+                                    <div>
+                                        <a class="btn btn-sm btn-flat btn-primary" onclick="add();">新增</a>
+                                        <a class="btn btn-sm btn-flat btn-danger" onclick="remove();">删除</a>
+                                    </div>
+                                    <ul id="tree-unit" class="ztree" style="min-height: 280px; max-height: 600px; overflow: auto;"></ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-8">
+                            <div class="box box-solid">
+                                <div class="box-header">
+                                    <h3 class="box-title">详情</h3>
+                                </div>
+                                <div class="box-body">
+                                    <form id="form-unit" class="form-horizontal">
+                                        <input id="input-id" type="text" style="display: none;" name="id" />
+                                        <input id="input-parent-id" type="text" style="display: none;" name="parentId" class="not-update" />
+                                        <div class="form-group">
+                                            <label class="col-xs-2 control-label">单位类型</label>
+                                            <div class="col-xs-10">
+                                                <select id="select-type" class="form-control select2 not-update" name="type"></select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-xs-2 control-label">单位名称</label>
+                                            <div class="col-xs-10">
+                                                <input type="text" class="form-control" name="name" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-xs-2 control-label">单位代码</label>
+                                            <div class="col-xs-10">
+                                                <input type="text" class="form-control not-update" name="code" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-xs-2 control-label">备注</label>
+                                            <div class="col-xs-10">
+                                                <textarea type="text" class="form-control" name="remark" rows="4"></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-xs-2 control-label"></label>
+                                            <div class="col-xs-10">
+                                                <a id="btn-save" class="btn btn-flat btn-primary" onclick="save();">新增</a>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+        <!-- /.content -->
+
+    </div>
+    <!-- ./wrapper -->
+
+    <script src="../../assets/jquery/jquery.min.js"></script>
+    <script src="../../assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="../../assets/layer/layer.js"></script>
+    <script src="../../assets/moment/moment.min.js"></script>
+    <script src="../../assets/ztree/js/jquery.ztree.all.min.js"></script>
+    <script src="../../assets/select2/js/select2.min.js"></script>
+    <script src="../../assets/admin-lte/js/adminlte.min.js"></script>
+    <script src="../../js/common.js"></script>
+    <script src="../../js/system/unit.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>附件上传</title>
+<link rel="icon" href="../../favicon.ico" type="image/x-icon" />
+<link rel="stylesheet" href="../../css/Upload.css">
+<script src="../../assets/jquery/jquery.min.js"></script>
+<script src="../../assets/layer/layer.js"></script>
+</head>
+<body>
+    <div style="width: 100%; height: 400px;">
+        <form id="upBox">
+            <div id="upboxAll">
+                <div id="inputBox">
+                    <input type="file" title="请选择附件" id="file" multiple="multiple" style="width: 400px;">
+                    点击选择附件
+                </div>
+                <div style="position: absolute; left: 425px; top: -5px;">
+                    <a id="btn">上传</a>
+                </div>
+                <div id="imgBox" style="width: 530px; height: 380px; overflow: auto; margin-top: 40px; position: absolute;"></div>
+            </div>
+        </form>
+    </div>
+
+	<script src="../../assets/webuploader/webuploader.min.js"></script>
+    <script src="../../js/common.js"></script>
+    <script src="../../js/base/uploadImg.js" type="text/javascript" charset="utf-8"></script>
+    <script type="text/javascript">
+                    imgUpload({
+                        inputId : 'file', //input框id
+                        imgBox : 'imgBox', //图片容器id
+                        buttonId : 'btn', //提交按钮id
+                        upUrl : '/annex/upload', //提交地址
+                        data : 'file1', //参数名
+                        num : "120"//上传个数
+                    });
+                </script>
+
+</body>
+</html>

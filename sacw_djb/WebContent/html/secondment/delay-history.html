@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+<title>涉案财物管理中心 - 借调延期历史</title>
+<link rel="icon" href="../../favicon.ico" type="image/x-icon" />
+<link rel="stylesheet" href="../../assets/bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet" href="../../assets/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet" href="../../assets/admin-lte/css/AdminLTE.min.css">
+<link rel="stylesheet" href="../../assets/admin-lte/css/skins/_all-skins.min.css">
+<!--[if lt IE 9]>
+<script src="../../assets/html5shiv/html5shiv.min.js"></script>
+<script src="../../assets/respond/respond.min.js"></script>
+<![endif]-->
+</head>
+
+<body class="hold-transition skin-blue-light sidebar-mini">
+    <div class="wrapper">
+
+        <section class="content-header">
+            <h1>借调延期历史</h1>
+        </section>
+
+        <section class="content container-fluid">
+            <div class="box box-solid">
+                <div class="box-body">
+                    <ul class="timeline" id="app">
+                        <li v-for="delay in delays" :key="delay.id">
+                            <i class="fa fa-info bg-aqua"></i>
+                            <div class="timeline-item">
+                                <span class="time">
+                                    <i class="fa fa-clock-o"></i>
+                                    <span>{{delay.delayTime|datetime}}</span>
+                                </span>
+                                <h3 class="timeline-header no-border">
+                                    <span>预计归还时间由</span>
+                                    <b>{{delay.expectedReturnTime|date}}</b>
+                                    <span>变更为</span>
+                                    <b>{{delay.delayedReturnTime|date}}</b>
+                                </h3>
+                                <div class="timeline-body">备注：{{delay.remark}}</div>
+                            </div>
+                        </li>
+                        <li v-if="delays == null || delays.length == 0">
+                            <i class="fa fa-info bg-aqua"></i>
+                            <div class="timeline-item">
+                                <h3 class="timeline-header no-border">
+                                    <span>暂无延期记录</span>
+                                </h3>
+                            </div>
+                        </li>
+                        <li>
+                            <i class="fa fa-clock-o bg-gray"></i>
+                        </li>
+                    </ul>
+
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script src="../../assets/vue/vue.min.js"></script>
+    <script src="../../assets/jquery/jquery.min.js"></script>
+    <script src="../../assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="../../assets/layer/layer.js"></script>
+    <script src="../../assets/moment/moment.min.js"></script>
+    <script src="../../assets/admin-lte/js/adminlte.min.js"></script>
+    <script src="../../js/common.js"></script>
+    <script src="../../js/secondment/delay-history.js"></script>
+</body>
+
+</html>

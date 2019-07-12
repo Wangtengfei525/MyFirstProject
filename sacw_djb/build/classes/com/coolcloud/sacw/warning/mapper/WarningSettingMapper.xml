@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.coolcloud.sacw.warning.mapper.WarningSettingMapper">
+
+    <resultMap id="BaseResultMap" type="com.coolcloud.sacw.warning.entity.WarningSetting">
+        <id column="id" jdbcType="VARCHAR" property="id" />
+        
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+        
+        <result column="deleted" jdbcType="TINYINT" property="deleted" />
+        <result column="name" jdbcType="VARCHAR" property="name" />
+        <result column="rf_ip" jdbcType="VARCHAR" property="rfIp" />
+        <result column="rf_port" jdbcType="INTEGER" property="rfPort" />
+        <result column="camera_ip" jdbcType="VARCHAR" property="cameraIp" />
+        <result column="camera_port" jdbcType="INTEGER" property="cameraPort" />
+        <result column="camera_username" jdbcType="VARCHAR" property="cameraUsername" />
+        <result column="camera_password" jdbcType="VARCHAR" property="cameraPassword" />
+       
+       <!--   <result column="state" jdbcType="VARCHAR" property="state" />-->
+        
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, create_time, update_time, deleted, name, rf_ip, rf_port, camera_ip, camera_port,
+        camera_username, camera_password
+    </sql>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from yw_warning_setting
+        where id = #{id,jdbcType=VARCHAR}
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+        delete from yw_warning_setting
+        where id = #{id,jdbcType=VARCHAR}
+    </delete>
+
+    <insert id="insertSelective" parameterType="com.coolcloud.sacw.warning.entity.WarningSetting">
+        insert into yw_warning_setting
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+            <if test="deleted != null">
+                deleted,
+            </if>
+            <if test="name != null">
+                name,
+            </if>
+            <if test="rfIp != null">
+                rf_ip,
+            </if>
+            <if test="rfPort != null">
+                rf_port,
+            </if>
+            <if test="cameraIp != null">
+                camera_ip,
+            </if>
+            <if test="cameraPort != null">
+                camera_port,
+            </if>
+            <if test="cameraUsername != null">
+                camera_username,
+            </if>
+            <if test="cameraPassword != null">
+                camera_password,
+            </if>
+            <!--
+            <if test="state != null">
+                state,
+            </if>-->
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="deleted != null">
+                #{deleted,jdbcType=TINYINT},
+            </if>
+            <if test="name != null">
+                #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="rfIp != null">
+                #{rfIp,jdbcType=VARCHAR},
+            </if>
+            <if test="rfPort != null">
+                #{rfPort,jdbcType=INTEGER},
+            </if>
+            <if test="cameraIp != null">
+                #{cameraIp,jdbcType=VARCHAR},
+            </if>
+            <if test="cameraPort != null">
+                #{cameraPort,jdbcType=INTEGER},
+            </if>
+            <if test="cameraUsername != null">
+                #{cameraUsername,jdbcType=VARCHAR},
+            </if>
+            <if test="cameraPassword != null">
+                #{cameraPassword,jdbcType=VARCHAR},
+            </if>
+            <!--
+            <if test="state != null">
+                #{state,jdbcType=VARCHAR},
+            </if>-->
+        </trim>
+    </insert>
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.coolcloud.sacw.warning.entity.WarningSetting">
+        update yw_warning_setting
+        <set>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="deleted != null">
+                deleted = #{deleted,jdbcType=TINYINT},
+            </if>
+            <if test="name != null">
+                name = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="rfIp != null">
+                rf_ip = #{rfIp,jdbcType=VARCHAR},
+            </if>
+            <if test="rfPort != null">
+                rf_port = #{rfPort,jdbcType=INTEGER},
+            </if>
+            <if test="cameraIp != null">
+                camera_ip = #{cameraIp,jdbcType=VARCHAR},
+            </if>
+            <if test="cameraPort != null">
+                camera_port = #{cameraPort,jdbcType=INTEGER},
+            </if>
+            <if test="cameraUsername != null">
+                camera_username = #{cameraUsername,jdbcType=VARCHAR},
+            </if>
+            <if test="cameraPassword != null">
+                camera_password = #{cameraPassword,jdbcType=VARCHAR},
+            </if>
+            <!--  
+            <if test="state != null">
+                state = #{state,jdbcType=VARCHAR},
+            </if>
+            -->
+        </set>
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+
+    <select id="selectByExample" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from yw_warning_setting
+        order by rf_ip,camera_ip
+    </select>
+
+</mapper>

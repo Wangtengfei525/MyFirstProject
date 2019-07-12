@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.coolcloud.sacw.warning.mapper.WarningMapper">
+
+    <resultMap id="BaseResultMap" type="com.coolcloud.sacw.warning.entity.Warning">
+        <id column="id" jdbcType="VARCHAR" property="id" />
+        
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+        
+        <result column="deleted" jdbcType="TINYINT" property="deleted" />
+        <result column="warning_time" jdbcType="TIMESTAMP" property="warningTime" />
+        <result column="handled" jdbcType="TINYINT" property="handled" />
+        <result column="setting_id" jdbcType="VARCHAR" property="settingId" />
+        <result column="remark" jdbcType="VARCHAR" property="remark" />
+        <result column="setting_name" jdbcType="VARCHAR" property="settingName" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, create_time, update_time, deleted, warning_time, handled, setting_id, remark
+    </sql>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        w.id, w.create_time, w.update_time, w.deleted, w.warning_time,
+        w.handled, w.setting_id, w.remark, ws.name as setting_name
+        from yw_warning w
+        left join yw_warning_setting ws on w.setting_id = ws.id
+        where w.id = #{id,jdbcType=VARCHAR}
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+        delete from yw_warning
+        where id = #{id,jdbcType=VARCHAR}
+    </delete>
+
+    <insert id="insertSelective" parameterType="com.coolcloud.sacw.warning.entity.Warning">
+        insert into yw_warning
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+            <if test="deleted != null">
+                deleted,
+            </if>
+            <if test="warningTime != null">
+                warning_time,
+            </if>
+            <if test="handled != null">
+                handled,
+            </if>
+            <if test="settingId != null">
+                settingId,
+            </if>
+            <if test="remark != null">
+                remark,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="deleted != null">
+                #{deleted,jdbcType=TINYINT},
+            </if>
+            <if test="warningTime != null">
+                #{warningTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="handled != null">
+                #{handled,jdbcType=TINYINT},
+            </if>
+            <if test="settingId != null">
+                #{settingId,jdbcType=TINYINT},
+            </if>
+            <if test="remark != null">
+                #{remark,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.coolcloud.sacw.warning.entity.Warning">
+        update yw_warning
+        <set>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="deleted != null">
+                deleted = #{deleted,jdbcType=TINYINT},
+            </if>
+            <if test="warningTime != null">
+                warning_time = #{warningTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="handled != null">
+                handled = #{handled,jdbcType=TINYINT},
+            </if>
+            <if test="settingId != null">
+                setting_id = #{settingId,jdbcType=TINYINT},
+            </if>
+            <if test="remark != null">
+                remark = #{remark,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+
+    <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.coolcloud.sacw.warning.entity.WarningExample">
+        select
+        w.id, w.create_time, w.update_time, w.deleted, w.warning_time,
+        w.handled, w.setting_id, w.remark, ws.name as setting_name
+        from yw_warning w
+        left join yw_warning_setting ws on w.setting_id = ws.id
+        <where>
+            <if test=" handled != null ">
+                w.handled = #{handled}
+            </if>
+        </where>
+        order by w.handled,w.warning_time desc
+    </select>
+
+    <select id="countByHandled" resultType="int">
+        select count(*) from yw_warning where handled = #{handled}
+    </select>
+
+    <update id="updateHandled">
+        update yw_warning set handled = #{handled}, remark = #{remark} where handled != #{handled}
+    </update>
+</mapper>

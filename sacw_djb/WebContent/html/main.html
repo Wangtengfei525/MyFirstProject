@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<title>涉案财物管理中心</title>
+<link rel="icon" href="../favicon.ico" type="image/x-icon" />
+<link rel="stylesheet" href="../assets/bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet" href="../assets/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet" href="../assets/admin-lte/css/AdminLTE.min.css">
+<link rel="stylesheet" href="../assets/admin-lte/css/skins/_all-skins.min.css">
+<!--[if lt IE 9]>
+<script src="../assets/html5shiv/html5shiv.min.js"></script>
+<script src="../assets/respond/respond.min.js"></script>
+<![endif]-->
+</head>
+
+<body class="hold-transition skin-blue-light fixed sidebar-mini">
+    <div class="wrapper">
+        <header class="main-header">
+
+            <a class="logo" href="./dashboard.html" target="mainiframe">
+                <span class="logo-mini">管</span>
+                <span class="logo-lg">涉案财物管理中心</span>
+            </a>
+
+            <nav class="navbar navbar-static-top" role="navigation">
+
+                <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button"></a>
+
+                <div class="navbar-custom-menu">
+                    <ul class="nav navbar-nav">
+
+                        <li class="dropdown user user-menu">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                <img src="../img/avatar.png" class="user-image" alt="User Image">
+                                <span class="hidden-xs" id="user-name">张三</span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li class="user-header">
+                                    <img src="../img/avatar.png" class="img-circle" alt="User Image">
+                                </li>
+
+                                <li class="user-footer">
+                                    <div class="pull-left">
+                                        <a href="#" class="btn btn-default btn-flat" onclick="changePassword();">密码修改</a>
+                                    </div>
+                                    <div class="pull-right">
+                                        <a id="btn-logout" href="#" class="btn btn-danger btn-flat" onclick="logout();">退出</a>
+                                    </div>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+
+            </nav>
+        </header>
+
+        <aside class="main-sidebar">
+            <section class="sidebar">
+                <ul class="sidebar-menu" data-widget="tree" id="menullist">
+                    <li class="header">菜单导航</li>
+                </ul>
+            </section>
+        </aside>
+
+        <div class="content-wrapper">
+            <section class="content container-fluid">
+                <iframe id="mainiframe" name="mainiframe" frameborder="0" style="width: 100%;" src="./dashboard.html"></iframe>
+            </section>
+        </div>
+    </div>
+
+    <script src="../assets/jquery/jquery.min.js"></script>
+    <script src="../assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="../assets/admin-lte/js/adminlte.min.js"></script>
+    <script src="../assets/layer/layer.js"></script>
+    <script src="../assets/jquery-validation/jquery.validate.min.js"></script>
+    <script src="../js/common.js"></script>
+    <script src="../js/main.js"></script>
+
+</body>
+
+</html>

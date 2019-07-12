@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.coolcloud.sacw.car.mapper.CarConserveGroupMapper">
+
+    <resultMap id="BaseResultMap" type="com.coolcloud.sacw.car.entity.CarConserveGroup">
+        <id column="id" jdbcType="VARCHAR" property="id" />
+        
+       <!--  <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+         -->
+        
+        <result column="deleted" jdbcType="TINYINT" property="deleted" />
+        <result column="name" jdbcType="VARCHAR" property="name" />
+        <result column="conserve_time" jdbcType="TIMESTAMP" property="conserveTime" />
+        <result column="completed" jdbcType="TINYINT" property="completed" />
+        <result column="unitId" jdbcType="VARCHAR" property="unitId" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, create_time, update_time, deleted, name, conserve_time, completed,unitId
+    </sql>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from yw_car_conserve_group
+        where id = #{id}
+    </select>
+
+    <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.coolcloud.sacw.car.entity.CarConserveGroupExample">
+        select
+        <include refid="Base_Column_List" />
+        from yw_car_conserve_group
+        <where>
+            <if test="conserveTimeStart != null">
+                and conserve_time &gt;= #{conserveTimeStart}
+            </if>
+            <if test="conserveTimeEnd != null">
+                and conserve_time &lt;= #{conserveTimeEnd}
+            </if>
+            <if test="completed != null">
+                and completed = #{completed}
+            </if>
+        </where>
+        order by completed,conserve_time desc
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+        delete from yw_car_conserve_group where id = #{id}
+    </delete>
+
+
+    <insert id="insertSelective" parameterType="com.coolcloud.sacw.car.entity.CarConserveGroup">
+
+        insert into yw_car_conserve_group
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+            <if test="deleted != null">
+                deleted,
+            </if>
+            <if test="name != null">
+                name,
+            </if>
+            <if test="conserveTime != null">
+                conserve_time,
+            </if>
+            <if test="completed != null">
+                completed,
+            </if>
+            <if test="unitId != null">
+                unitId,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id},
+            </if>
+            <if test="createTime != null">
+                #{createTime},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime},
+            </if>
+            <if test="deleted != null">
+                #{deleted},
+            </if>
+            <if test="name != null">
+                #{name},
+            </if>
+            <if test="conserveTime != null">
+                #{conserveTime},
+            </if>
+            <if test="completed != null">
+                #{completed},
+            </if>
+            <if test="unitId != null">
+                #{unitId},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.coolcloud.sacw.car.entity.CarConserveGroup">
+        update yw_car_conserve_group
+        <set>
+            <if test="createTime != null">
+                create_time = #{createTime},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime},
+            </if>
+            <if test="deleted != null">
+                deleted = #{deleted},
+            </if>
+            <if test="name != null">
+                name = #{name},
+            </if>
+            <if test="conserveTime != null">
+                conserve_time = #{conserveTime},
+            </if>
+            <if test="completed != null">
+                completed = #{completed},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+</mapper>

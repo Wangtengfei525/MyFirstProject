@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.coolcloud.sacw.operation.mapper.SecondmentMapper">
+    <resultMap type="com.coolcloud.sacw.operation.entity.Secondment" id="BaseResultMap">
+        <id column="id" property="id" />
+        
+        <result column="create_time" property="createTime" />
+        <result column="update_time" property="updateTime" />
+        
+        <result column="deleted" property="deleted" />
+        <result column="exchange_id" property="exchangeId" />
+        <result column="property_id" property="propertyId" />
+        <result column="property_name" property="propertyName" />
+        <result column="case_id" property="caseId" />
+        <result column="case_name" property="caseName" />
+        <result column="secondment_time" property="secondmentTime" />
+        <result column="expected_return_time" property="expectedReturnTime" />
+        <result column="return_time" property="returnTime" />
+        <result column="secondment_unit_id" property="secondmentUnitId" />
+        <result column="secondment_unit_name" property="secondmentUnitName" />
+        <result column="returned" property="returned" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,create_time,update_time,deleted, exchange_id,property_id,property_name,case_id,case_name,secondment_time,expected_return_time,
+        return_time,secondment_unit_id,secondment_unit_name,returned
+    </sql>
+
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="string">
+        select
+        <include refid="Base_Column_List" />
+        from yw_secondment where id = #{id}
+    </select>
+
+    <update id="updateByPrimaryKeySelective">
+        update yw_secondment
+        <set>
+            <if test=" createTime != null">
+                create_time = #{createTime},
+            </if>
+            <if test=" updateTime != null">
+                update_time = #{updateTime},
+            </if>
+            <if test=" deleted != null">
+                deleted = #{deleted},
+            </if>
+            <if test=" exchangeId != null and exchangeId != '' ">
+                exchange_id = #{exchangeId},
+            </if>
+            <if test=" propertyId != null and propertyId != '' ">
+                property_id = #{propertyId},
+            </if>
+            <if test=" propertyName != null and propertyName != '' ">
+                property_name = #{propertyName},
+            </if>
+            <if test=" caseId != null and caseId != '' ">
+                case_id = #{caseId},
+            </if>
+            <if test=" caseName != null and caseName != '' ">
+                case_name = #{caseName},
+            </if>
+            <if test=" secondmentTime != null">
+                secondment_time = #{secondmentTime},
+            </if>
+            <if test=" expectedReturnTime != null">
+                expected_return_time = #{expectedReturnTime},
+            </if>
+            <if test=" returnTime != null">
+                return_time = #{returnTime},
+            </if>
+            <if test=" secondmentUnitId != null and secondmentUnitId != '' ">
+                secondment_unit_id = #{secondmentUnitId},
+            </if>
+            <if test=" secondmentUnitName != null and secondmentUnitName != '' ">
+                secondment_unit_name = #{secondmentUnitName},
+            </if>
+            <if test=" returned != null ">
+                returned = #{returned},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteByPrimaryKey">
+        delete from yw_secondment where id = #{id}
+    </delete>
+
+
+    <insert id="insertSelective">
+        insert into yw_secondment
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test=" id != null">
+                id,
+            </if>
+            <if test=" createTime != null">
+                create_time,
+            </if>
+            <if test=" updateTime != null">
+                update_time,
+            </if>
+            <if test=" deleted != null">
+                deleted,
+            </if>
+            <if test=" exchangeId != null and exchangeId != '' ">
+                exchange_id,
+            </if>
+            <if test=" propertyId != null and propertyId != '' ">
+                property_id,
+            </if>
+            <if test=" propertyName != null and propertyName != '' ">
+                property_name,
+            </if>
+            <if test=" caseId != null and caseId != '' ">
+                case_id,
+            </if>
+            <if test=" caseName != null and caseName != '' ">
+                case_name,
+            </if>
+            <if test=" secondmentTime != null">
+                secondment_time,
+            </if>
+            <if test=" expectedReturnTime != null">
+                expected_return_time,
+            </if>
+            <if test=" returnTime != null">
+                return_time,
+            </if>
+            <if test=" secondmentUnitId != null and secondmentUnitId != '' ">
+                secondment_unit_id,
+            </if>
+            <if test=" secondmentUnitName != null and secondmentUnitName != '' ">
+                secondment_unit_name,
+            </if>
+            <if test=" returned != null ">
+                returned,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test=" id != null">
+                #{id},
+            </if>
+            <if test=" createTime != null">
+                #{createTime},
+            </if>
+            <if test=" updateTime != null">
+                #{updateTime},
+            </if>
+            <if test=" deleted != null">
+                #{deleted},
+            </if>
+            <if test=" exchangeId != null and exchangeId != '' ">
+                #{exchangeId},
+            </if>
+            <if test=" propertyId != null and propertyId != '' ">
+                #{propertyId},
+            </if>
+            <if test=" propertyName != null and propertyName != '' ">
+                #{propertyName},
+            </if>
+            <if test=" caseId != null and caseId != '' ">
+                #{caseId},
+            </if>
+            <if test=" caseName != null and caseName != '' ">
+                #{caseName},
+            </if>
+            <if test=" secondmentTime != null">
+                #{secondmentTime},
+            </if>
+            <if test=" expectedReturnTime != null">
+                #{expectedReturnTime},
+            </if>
+            <if test=" returnTime != null">
+                #{returnTime},
+            </if>
+            <if test=" secondmentUnitId != null and secondmentUnitId != '' ">
+                #{secondmentUnitId},
+            </if>
+            <if test=" secondmentUnitName != null and secondmentUnitName != '' ">
+                #{secondmentUnitName},
+            </if>
+            <if test=" returned != null ">
+                #{returned},
+            </if>
+        </trim>
+    </insert>
+
+    <!-- <select id="selectOverdues" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from yw_secondment
+        where returned = 0 and expected_return_time &lt;= #{date}
+        order by expected_return_time,secondment_time desc
+    </select> -->
+    
+    
+    <select id="selectOverdues" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from yw_secondment
+        where returned = 0 and expected_return_time &lt;= #{date}
+        order by expected_return_time,secondment_time desc
+    </select>
+
+
+
+
+    <update id="updateReturnTimeByPropertyId">
+        update yw_secondment set
+        return_time = #{returnTime},
+        update_time = #{updateTime},
+        returned = #{returned}
+        where property_id = #{propertyId}
+    </update>
+
+    <select id="selectNotOverdues" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from yw_secondment
+        where returned = 0 and expected_return_time &gt; #{date}
+        order by expected_return_time,secondment_time desc
+    </select>
+
+    <select id="selectReturned" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from yw_secondment
+        where returned = 1
+        order by return_time,secondment_time desc
+    </select>
+
+</mapper>

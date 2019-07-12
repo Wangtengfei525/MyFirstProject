@@ -1,0 +1,344 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.coolcloud.sacw.statistics.mapper.StatisticsMapper">
+
+    <select id="queryDW" resultType="java.util.Map">
+        SELECT id,name FROM sys_unit WHERE id in ('03510156000000','03510107000000','03510106000000','03510108000000',
+        '03510109000000','03510105000000','03510100000000','03510104000000','01510104','01510105','01510106','01510107',
+        '01510108','01510191','02510102','02510103','02510104','02510105','02510106','02510141') ORDER BY id desc
+    </select>
+
+    <!-- ****************************财物统计****************************** -->
+       
+    <!-- 案件交换数量 -->
+     <select id="countExchangeByCondition" parameterType="com.coolcloud.sacw.statistics.entity.ExchangeCountParam" resultType="int">
+        select count( distinct t4.id ) as total
+        from yw_property_split t2
+        left join  property_exchange t3 on t2.property_id = t3.property_id
+        left join exchange t4 on t3.exchange_id = t4.id
+        <where>
+            <!-- 不包含车辆 -->
+            t2.split_type_code not in ('90000010402','90000010401','9000001040101','900000104010101','900000104010102','900000104010103','9000001040102')
+            <if test="nodeCode != null">
+                and t4.node_code = #{nodeCode}
+            </if>
+            <if test="sendUnitCode != null and containChildren == 1">
+                and t4.send_unit_code in (
+                select t5.id from sys_unit t5,sys_unit t6
+                where t5.left_value between t6.left_value and t6.right_value
+                and t6.id = #{sendUnitCode}
+                )
+            </if>
+            <if test="sendUnitCode != null and containChildren == 0">
+                and t4.send_unit_code = #{sendUnitCode}
+            </if>
+            <if test="receiveUnitCode != null and containChildren == 1">
+                and t4.receive_unit_code in (
+                select t5.id from sys_unit t5,sys_unit t6
+                where t5.left_value between t6.left_value and t6.right_value
+                and t6.id = #{receiveUnitCode}
+                )
+            </if>
+            <if test="receiveUnitCode != null and containChildren == 0">
+                and t4.receive_unit_code = #{receiveUnitCode}
+            </if>
+            <if test="operationTimeStart != null">
+                and t4.operation_time &gt;= #{operationTimeStart}
+            </if>
+            <if test="operationTimeEnd != null">
+                and t4.operation_time &lt;= #{operationTimeEnd}
+            </if>
+        </where>
+    </select>
+ <!-- --> 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ <!-- select   c.organizer_type_code,c.case_name,y.property_name,p.property_status_code,p.property_status  from  `case` c ,yw_property y ,property_exchange p
+
+where  c.id=y.case_id and  y.id=p.property_id and p.property_status_code="9911000000006"
+ -->
+ 
+ 
+ 
+    <!-- 财物交换数量（不含车辆） -->
+    <select id="countExchangePropertyByCondition" parameterType="com.coolcloud.sacw.statistics.entity.ExchangeCountParam" resultType="int">
+     select   count(p.property_id)  from  `case` c ,yw_property y ,property_exchange p
+         
+       <where>
+            <if test="organizerCode != null and containChildren == 1">
+                and c.organizer_code in (
+                select t1.id from sys_unit t1,sys_unit t2
+                where t1.left_value between t2.left_value and t2.right_value
+                and t2.id = #{organizerCode}
+                )
+            </if>        
+           <if test="organizerCode != null and containChildren == 0">
+                and c.organizer_code = #{organizerCode}
+            </if>   
+             <if test="startTime != null">
+                and c.create_time &gt;= #{startTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="endTime != null">
+                and c.create_time &lt;= #{endTime,jdbcType=TIMESTAMP}
+            </if>      
+            <if test="propertyStatusCode !=null">
+               and p.property_status_code=#{propertyStatusCode}
+            </if>
+            and   y.property_type="一般物品"
+            and c.id=y.case_id and  y.id=p.property_id    
+           <!--  and p.property_status_code="9911000000006" -->
+                    
+        </where>
+    </select>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+
+    <!-- <select id="countCaseByCondition" parameterType="com.coolcloud.sacw.statistics.entity.ExchangeCountParam" resultType="int">
+        select count( distinct t1.id ) as total
+        from `case` t1
+        inner join yw_property_split t2 on t1.id = t2.case_id
+        <where>
+            不含车辆
+            t2.split_type_code not in ('90000010402','90000010401','9000001040101','900000104010101','900000104010102','900000104010103','9000001040102')
+            <if test="organizerCode != null and containChildren == 1">
+                and organizer_code in (
+                select t3.id from sys_unit t3,sys_unit t4
+                where t3.left_value between t4.left_value and t4.right_value
+                and t4.id = #{organizerCode}
+                )
+            </if>
+            <if test="organizerCode != null and containChildren == 0">
+                and organizer_code = #{organizerCode}
+            </if>
+        </where>
+    </select>
+     -->
+     
+     
+     
+    
+    
+    <select id="countCaseByCondition" parameterType="com.coolcloud.sacw.statistics.entity.ExchangeCountParam" resultType="int">
+        select count( distinct t1.id ) as total
+        from `case` t1   
+        <where>
+          <if test="organizerCode != null and containChildren == 1">
+                and organizer_code in (
+                select t3.id from sys_unit t3,sys_unit t4
+                where t3.left_value between t4.left_value and t4.right_value
+                and t4.id = #{organizerCode}
+                )
+            </if>
+            <if test="organizerCode != null and containChildren == 0">
+                and t1.organizer_code = #{organizerCode}
+            </if>
+             <if test="startTime != null">
+                and t1.create_time &gt;= #{startTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="endTime != null">
+                and t1.create_time &lt;= #{endTime,jdbcType=TIMESTAMP}
+            </if>   
+        </where>
+    </select>
+    
+    
+    
+    
+    
+    
+    
+    
+   
+    
+   <!-- 根据条件统计财物的数量 -->
+    <select id="countPropertyByCondition" parameterType="com.coolcloud.sacw.statistics.entity.ExchangeCountParam" resultType="int">
+        select count( distinct p.id ) from 
+        yw_property p
+        left join `case` c on p.case_id = c.id 
+        <where>
+            <if test="organizerCode != null and containChildren == 1">
+                and c.organizer_code in (
+                select t1.id from sys_unit t1,sys_unit t2
+                where t1.left_value between t2.left_value and t2.right_value
+                and t2.id = #{organizerCode}
+                )
+            </if>
+            <if test="organizerCode != null and containChildren == 0">
+                and c.organizer_code = #{organizerCode}
+            </if>   
+             <if test="startTime != null">
+                and p.register_date &gt;= #{startTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="endTime != null">
+                and p.register_date &lt;= #{endTime,jdbcType=TIMESTAMP}
+            </if>      
+            and   p.property_type="一般物品"
+        </where>
+    </select>
+   
+
+    <!-- ****************************车辆统计****************************** -->
+
+    <!-- 机动车交换数量 -->
+    <select id="countMotorVehicleExchangeByCondition" parameterType="com.coolcloud.sacw.statistics.entity.ExchangeCountParam" resultType="int">
+        select ifnull(sum(ps.split_amount),0) from exchange e
+        left join property_exchange ep on e.id = ep.exchange_id
+        left join yw_property_split ps on ep.property_id = ps.property_id
+        <where>
+            ps.split_type_code in ('90000010401','9000001040101','900000104010101','900000104010102','900000104010103','9000001040102')
+            <if test="nodeCode != null">
+                and e.node_code = #{nodeCode}
+            </if>
+            <if test="sendUnitCode != null and containChildren == 1">
+                and e.send_unit_code in (
+                select t1.id from sys_unit t1,sys_unit t2
+                where t1.left_value between t2.left_value and t2.right_value
+                and t2.id = #{sendUnitCode}
+                )
+            </if>
+            <if test="sendUnitCode != null and containChildren == 0">
+                and e.send_unit_code = #{sendUnitCode}
+            </if>
+            <if test="receiveUnitCode != null and containChildren == 1">
+                and e.receive_unit_code in (
+                select t1.id from sys_unit t1,sys_unit t2
+                where t1.left_value between t2.left_value and t2.right_value
+                and t2.id = #{receiveUnitCode}
+                )
+            </if>
+            <if test="receiveUnitCode != null and containChildren == 0">
+                and e.receive_unit_code = #{receiveUnitCode}
+            </if>
+            <if test="operationTimeStart != null">
+                and e.operation_time &gt;= #{operationTimeStart}
+            </if>
+            <if test="operationTimeEnd != null">
+                and e.operation_time &lt;= #{operationTimeEnd}
+            </if>
+             <if test="nodeCode == '1011002'">
+               and ps.splitSaveLocationCode is  null
+            </if>
+        </where>
+    </select>
+
+    <!-- 非动车交换数量 -->
+    <select id="countNonMotorVehicleExchangeByCondition" parameterType="com.coolcloud.sacw.statistics.entity.ExchangeCountParam" resultType="int">
+        select ifnull(sum(ps.split_amount),0) from exchange e
+        left join property_exchange ep on e.id = ep.exchange_id
+        left join yw_property_split ps on ep.property_id = ps.property_id
+        <where>
+            ps.split_type_code = '90000010402'
+            <if test="nodeCode != null">
+                and e.node_code = #{nodeCode}
+            </if>
+            <if test="sendUnitCode != null and containChildren == 1">
+                and e.send_unit_code in (
+                select t1.id from sys_unit t1,sys_unit t2
+                where t1.left_value between t2.left_value and t2.right_value
+                and t2.id = #{sendUnitCode}
+                )
+            </if>
+            <if test="sendUnitCode != null and containChildren == 0">
+                and e.send_unit_code = #{sendUnitCode}
+            </if>
+            <if test="receiveUnitCode != null and containChildren == 1">
+                and e.receive_unit_code in (
+                select t1.id from sys_unit t1,sys_unit t2
+                where t1.left_value between t2.left_value and t2.right_value
+                and t2.id = #{receiveUnitCode}
+                )
+            </if>
+            <if test="receiveUnitCode != null and containChildren == 0">
+                and e.receive_unit_code = #{receiveUnitCode}
+            </if>
+            <if test="operationTimeStart != null">
+                and e.operation_time &gt;= #{operationTimeStart}
+            </if>
+            <if test="operationTimeEnd != null">
+                and e.operation_time &lt;= #{operationTimeEnd}
+            </if>
+             <if test="nodeCode == '1011002'">
+               and ps.splitSaveLocationCode is  null
+            </if>
+        </where>
+    </select>
+
+    <!-- 机动车总数 -->
+    <select id="countMotorVehicleByCondition" parameterType="com.coolcloud.sacw.statistics.entity.ExchangeCountParam" resultType="int">
+        select ifnull(sum(ps.split_amount),0) from yw_property_split ps
+        left join `case` c on c.id = ps.case_id
+        <where>
+            ps.split_type_code in ('90000010401','9000001040101','900000104010101','900000104010102','900000104010103','9000001040102')
+            <if test="organizerCode != null and containChildren == 1">
+                and c.organizer_code in (
+                select t1.id from sys_unit t1,sys_unit t2
+                where t1.left_value between t2.left_value and t2.right_value
+                and t2.id = #{organizerCode}
+                )
+            </if>
+            <if test="organizerCode != null and containChildren == 0">
+                and c.organizer_code = #{sendUnitCode}
+            </if>
+            
+        </where>
+    </select>
+
+    <!-- 非机动车总数 -->
+    <select id="countNonMotorVehicleByCondition" parameterType="com.coolcloud.sacw.statistics.entity.ExchangeCountParam" resultType="int">
+        select ifnull(sum(ps.split_amount),0) from yw_property_split ps
+        left join `case` c on c.id = ps.case_id
+        <where>
+            ps.split_type_code = '90000010402'
+            <if test="organizerCode != null and containChildren == 1">
+                and c.organizer_code in (
+                select t1.id from sys_unit t1,sys_unit t2
+                where t1.left_value between t2.left_value and t2.right_value
+                and t2.id = #{organizerCode}
+                )
+            </if>
+            <if test="organizerCode != null and containChildren == 0">
+                and c.organizer_code = #{sendUnitCode}
+            </if>
+            
+        </where>
+    </select>
+
+</mapper>

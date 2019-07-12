@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.coolcloud.sacw.annex.mapper.File1Mapper">
+    <resultMap id="BaseResultMap" type="com.coolcloud.sacw.annex.entity.File1">
+        <id column="id" jdbcType="VARCHAR" property="id" />
+        <result column="case_id" jdbcType="VARCHAR" property="caseId" />
+        <result column="exchange_id" jdbcType="VARCHAR" property="exchangeId" />
+        <result column="file_name" jdbcType="VARCHAR" property="file_name" />
+        <result column="file_class" jdbcType="VARCHAR" property="file_class" />
+         <result column="file_path" jdbcType="VARCHAR" property="file_path" />
+        <result column="suffix_name" jdbcType="VARCHAR" property="suffix_name" />
+        <result column="process_num" jdbcType="VARCHAR" property="process_num" />
+        <result column="control_num" jdbcType="VARCHAR" property="control_num" />
+        <result column="deleted" jdbcType="INTEGER" property="deleted" />
+         <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+        
+  
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,case_id,exchange_id,file_name,
+        file_class,file_path,suffix_name,
+        process_num,deleted,create_time,update_time
+ 
+    </sql>
+    <sql id="Full_Column_List">
+         a.id,a.case_id,a.exchange_id,a.file_name,
+        a.file_class,a.file_path,a.suffix_name,
+        a.process_num,a.deleted,a.create_time,a.update_time
+   
+    </sql>
+
+    <select id="selectByExample" parameterType="com.coolcloud.sacw.annex.entity.File1Example" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from `file`
+        <where>
+            <if test="id != null and id != ''">
+                and id = #{id}
+            </if>
+            <if test="caseId != null and caseId != ''">
+                and case_id = #{caseId}
+            </if>
+            <if test="exchangeId != null and exchangeId != ''">
+                and exchange_id = #{exchangeId}
+            </if>
+            <if test="file_class != null and file_class != ''">
+                and file_class like "%"#{file_class}"%"
+            </if>
+            <if test="crateTimeStart != null">
+                and create_date &gt;= #{crateTimeStart}
+            </if>
+            <if test="crateTimeEnd != null">
+                and create_date &lt;= #{crateTimeEnd}
+            </if>
+            <if test="deleted != null">
+                and deleted = #{deleted}
+            </if>
+        </where>
+        order by suffix_name,file_name
+    </select>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from `file`
+        where id = #{id,jdbcType=VARCHAR}
+    </select>
+
+    <insert id="insertSelective" parameterType="com.coolcloud.sacw.annex.entity.File1">
+        insert into `file`
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="caseId != null">
+                case_id,
+            </if>
+            <if test="exchangeId != null">
+                exchange_id,
+            </if>
+            <if test="file_name != null">
+                file_name,
+            </if>
+            <if test="file_class != null">
+                file_class,
+            </if>
+            <if test="file_path != null">
+                file_path,
+            </if>
+            <if test="suffix_name != null">
+                suffix_name,
+            </if>
+            <if test="process_num != null">
+                process_num,
+            </if>
+            <if test="control_num != null">
+                control_num,
+            </if>
+            <if test="deleted != null">
+                deleted,
+            </if>
+            <if test="createTime != null">
+                create_date,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+            
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=VARCHAR},
+            </if>
+            <if test="caseId != null">
+                #{caseId,jdbcType=VARCHAR},
+            </if>
+            <if test="exchangeId != null">
+                #{exchangeId,jdbcType=VARCHAR},
+            </if>
+            <if test="file_name != null">
+                #{file_name,jdbcType=VARCHAR},
+            </if>
+            <if test="file_class != null">
+                #{file_class,jdbcType=VARCHAR},
+            </if>
+            <if test="file_path != null">
+                #{file_path,jdbcType=VARCHAR},
+            </if>
+            <if test="suffix_name != null">
+                #{suffix_name,jdbcType=VARCHAR},
+            </if>
+            <if test="process_num != null">
+                #{process_num,jdbcType=VARCHAR},
+            </if>
+            <if test="control_num != null">
+                #{control_num,jdbcType=VARCHAR},
+            </if>
+            <if test="deleted != null">
+                #{deleted,jdbcType=INTEGER},
+            </if>
+            <if test="createTime != null">
+                #{create_time,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                #{update_time,jdbcType=TIMESTAMP},
+            </if>
+            
+        </trim>
+    </insert>
+
+    <update id="updateByPrimaryKeySelective">
+        update  `file`
+        <set>
+            <if test="caseId != null">
+                case_id = #{caseId,jdbcType=VARCHAR},
+            </if>
+            <if test="exchangeId != null">
+                exchange_id = #{exchangeId,jdbcType=VARCHAR},
+            </if>
+            <if test="deleted != null">
+                deleted = #{deleted,jdbcType=INTEGER},
+            </if>
+            <if test="file_name != null">
+                file_name = #{file_name,jdbcType=VARCHAR},
+            </if>
+            <if test="file_class != null">
+                file_class = #{file_class,jdbcType=VARCHAR},
+            </if>
+            <if test="file_path != null">
+                file_path = #{file_path,jdbcType=VARCHAR},
+            </if>
+            <if test="suffix_name != null">
+                suffix_name = #{suffix_name,jdbcType=VARCHAR},
+            </if>
+
+            <if test="process_num != null">
+                process_num = #{process_num,jdbcType=VARCHAR},
+            </if>
+            <if test="control_num != null">
+                control_num = #{control_num,jdbcType=VARCHAR},
+            </if>
+            <if test="create_time != null">
+                create_time = #{create_time,jdbcType=TIMESTAMP},
+            </if>
+            <if test="update_time != null">
+                update_time = #{update_time,jdbcType=TIMESTAMP},
+            </if>
+            
+        </set>
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+
+
+    <delete id="deleteByPrimaryKey">
+        delete from `file` where id = #{id}
+    </delete>
+
+    <select id="selectByPropertyId" parameterType="string" resultMap="BaseResultMap">
+        select
+        <include refid="Full_Column_List" />
+        from `file` a
+        left join exchange e on a.exchange_id = e.id
+        left join property_exchange ep on e.id = ep.exchange_id
+        where e.node_code in ( '1002002', '1003002', '1004002', '1011002' )
+        and ep.property_id = #{propertyId}
+        order by a.suffix_name,a.file_name
+    </select>
+
+    <select id="selectByExchangeId" parameterType="string" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from `file`
+        where exchange_id = #{exchangeId}
+        order by create_time
+    </select>
+    
+    <select id="selectByCaseId" parameterType="string" resultMap="BaseResultMap">
+   		select * from `file` where case_id=#{case_id} 
+    </select>
+
+    
+</mapper>

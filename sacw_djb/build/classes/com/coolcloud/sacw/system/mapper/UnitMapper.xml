@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.coolcloud.sacw.system.mapper.UnitMapper">
+    <resultMap id="BaseResultMap" type="com.coolcloud.sacw.system.entity.Unit">
+        <id column="id" jdbcType="VARCHAR" property="id" />
+        <result column="type" jdbcType="VARCHAR" property="type" />
+        <result column="code" jdbcType="VARCHAR" property="code" />
+        <result column="parent_id" jdbcType="VARCHAR" property="parentId" />
+        <result column="name" jdbcType="VARCHAR" property="name" />
+        <result column="remark" jdbcType="VARCHAR" property="remark" />
+        
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+        
+        <result column="deleted" jdbcType="TINYINT" property="deleted" />
+        <result column="left_value" jdbcType="INTEGER" property="leftValue" />
+        <result column="right_value" jdbcType="TINYINT" property="rightValue" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, type, code, parent_id, name, remark, create_time, update_time, deleted, left_value, right_value
+    </sql>
+
+    <sql id="Full_Column_List">
+        a.id, a.type, a.code, a.parent_id, a.name, a.remark, a.create_time, a.update_time, a.deleted, a.left_value, a.right_value
+    </sql>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from sys_unit
+        where id = #{id,jdbcType=VARCHAR}
+    </select>
+
+    <select id="selectByExample" parameterType="com.coolcloud.sacw.system.entity.UnitExample" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from sys_unit
+        <where>
+            <if test=" name != null and name != '' ">
+                and name = #{name,jdbcType=VARCHAR}
+            </if>
+            <if test=" nameLike != null and nameLike != '' ">
+                and name like "%"#{nameLike,jdbcType=VARCHAR}"%"
+            </if>
+            <if test=" code != null and code !='' ">
+                and code = #{code,jdbcType=VARCHAR}
+            </if>
+            <if test=" parentId != null and parentId != '' ">
+                and parent_id = #{parentId,jdbcType=VARCHAR}
+            </if>
+            <if test=" deleted != null ">
+                and deleted = #{deleted,jdbcType=TINYINT}
+            </if>
+        </where>
+    </select>
+    
+    <!-- write by yiyu -->
+    <select id="selectPropertyType" resultMap="BaseResultMap">
+    	select `name`,`code`,parent_code as parent_id from sys_category where `name` like "%客车%" or `name` like "%微型货车%" or `name` like "机动车"  or `name` like "非机动车"  or `name`="一般物品"
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+        delete from sys_unit where id = #{id,jdbcType=VARCHAR}
+    </delete>
+
+    <insert id="insertSelective" parameterType="com.coolcloud.sacw.system.entity.Unit">
+        insert into sys_unit
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="type != null">
+                type,
+            </if>
+            <if test="code != null">
+                code,
+            </if>
+            <if test="parentId != null">
+                parent_id,
+            </if>
+            <if test="name != null">
+                name,
+            </if>
+            <if test="remark != null">
+                remark,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+            <if test="deleted != null">
+                deleted,
+            </if>
+            <if test="leftValue != null">
+                left_value,
+            </if>
+            <if test="rightValue != null">
+                right_value,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=VARCHAR},
+            </if>
+            <if test="type != null">
+                #{type,jdbcType=VARCHAR},
+            </if>
+            <if test="code != null">
+                #{code,jdbcType=VARCHAR},
+            </if>
+            <if test="parentId != null">
+                #{parentId,jdbcType=VARCHAR},
+            </if>
+            <if test="name != null">
+                #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="remark != null">
+                #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="deleted != null">
+                #{deleted,jdbcType=TINYINT},
+            </if>
+            <if test="leftValue != null">
+                #{leftValue},
+            </if>
+            <if test="rightValue != null">
+                #{rightValue},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.coolcloud.sacw.system.entity.Unit">
+        update sys_unit
+        <set>
+            <if test="type != null">
+                type = #{type,jdbcType=VARCHAR},
+            </if>
+            <if test="code != null">
+                code = #{code,jdbcType=VARCHAR},
+            </if>
+            <if test="parentId != null">
+                parent_id = #{parentId,jdbcType=VARCHAR},
+            </if>
+            <if test="name != null">
+                name = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="remark != null">
+                remark = #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="deleted != null">
+                deleted = #{deleted,jdbcType=TINYINT},
+            </if>
+            <if test="leftValue != null">
+                left_value = #{leftValue},
+            </if>
+            <if test="rightValue != null">
+                right_value = #{rightValue},
+            </if>
+        </set>
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+
+    <!-- 锁表 -->
+    <select id="lock">
+        lock table sys_unit write
+    </select>
+
+    <!-- 释放表锁 -->
+    <select id="unlock">
+        unlock tables
+    </select>
+
+    <select id="updateRightValuePlus">
+        update sys_unit set right_value = right_value + 2 where right_value > #{value}
+    </select>
+
+    <select id="updateLeftValuePlus">
+        update sys_unit set left_value = left_value + 2 where left_value > #{value}
+    </select>
+
+    <select id="selectMaxRightValue" resultType="java.lang.Integer">
+        select max(right_value) from sys_unit
+    </select>
+
+    <update id="updateLeftValueMinus">
+        update sys_unit set left_value = left_value - #{width} where left_value > #{right}
+    </update>
+
+    <update id="updateRightValueMinus">
+        update sys_unit set right_value = right_value - #{width} where right_value > #{right}
+    </update>
+
+    <select id="selectAllChildren" resultMap="BaseResultMap">
+        select
+        <include refid="Full_Column_List" />
+        from sys_unit a,sys_unit b
+        where a.left_value between b.left_value and b.right_value
+        and b.id = #{id} order by a.left_value
+    </select>
+
+    <select id="existsWithCode" parameterType="string" resultType="boolean">
+        select count(*) from sys_unit where code = #{code}
+    </select>
+
+</mapper>

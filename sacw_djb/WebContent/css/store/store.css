@@ -1,0 +1,22 @@
+@charset "UTF-8";
+
+.store {
+	border: 1px solid;
+	float: left;
+	margin-left: 20px;
+	margin-top: 18px;
+	height: 120px;
+	width: 150px;
+}
+
+.store-not-empty {
+	background-color: #fffbac;
+	color: black;
+}
+
+.store-empty {
+	background-color: #fff;
+	color: black;
+}
+.btn-danger2{background-color: #88ce80;color: #fff}
+.btn-primary2{background-color: #a19494;color: #fff}

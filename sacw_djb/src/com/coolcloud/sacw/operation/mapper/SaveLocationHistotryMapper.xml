@@ -1,0 +1,327 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.coolcloud.sacw.operation.mapper.SaveLocationHistotryMapper">
+
+    <resultMap id="BaseResultMap" type="com.coolcloud.sacw.operation.entity.SaveLocationHistotry">
+        <id column="id" jdbcType="VARCHAR" property="id" />  
+        <result column="createTime" jdbcType="TIMESTAMP" property="createTime" />
+        <result column="updateTime" jdbcType="TIMESTAMP" property="updateTime" />   
+        <result column="deleted" jdbcType="TINYINT" property="deleted" />
+        <result column="property_name" jdbcType="VARCHAR" property="property_name" />
+        <result column="kwbm" jdbcType="VARCHAR" property="kwbm" />
+        <result column="number" jdbcType="TINYINT" property="number" />
+        <result column="remake_number" jdbcType="TINYINT" property="remake_number" />
+        <result column="case_name" jdbcType="VARCHAR" property="case_name" />
+        <result column="permit_unit_mc" jdbcType="VARCHAR" property="permit_unit_mc" />
+        <result column="property_type" jdbcType="VARCHAR" property="property_type" />
+        <result column="property_status" jdbcType="VARCHAR" property="property_status" />
+        <result column="case_id" jdbcType="VARCHAR" property="case_id" />
+        <result column="property_id" jdbcType="VARCHAR" property="property_id" /> 
+        <result column="property_split_id" jdbcType="VARCHAR" property="property_split_id" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, createTime, updateTime, deleted, property_name, kwbm,
+        number, remake_number, case_name,permit_unit_mc,property_type,property_status,
+        case_id,property_id,property_split_id
+    </sql>
+    
+    <!-- <insert id="insertBatch">
+        insert into yw_saveLocation_historty (id, createTime,updateTime,deleted,property_name,kwbm,number,remake_number,case_name,permit_unit_mc,property_type,property_status,case_id,property_id,property_split_id)
+        values
+        <foreach collection="list" item="entity" separator=",">
+            (#{entity.id,jdbcType=VARCHAR},#{entity.createTime,jdbcType=TIMESTAMP},#{entity.updateTime,jdbcType=TIMESTAMP},#{entity.deleted,jdbcType=TINYINT},#{entity.property_name,jdbcType=VARCHAR},#{entity.kwbm,jdbcType=VARCHAR}, #{entity.number,jdbcType=TINYINT},#{entity.remake_number,jdbcType=TINYINT},#{entity.case_name,jdbcType=VARCHAR},#{entity.permit_unit_mc,jdbcType=VARCHAR},#{entity.property_type,jdbcType=VARCHAR},#{entity.property_status,jdbcType=VARCHAR},#{entity.case_id,jdbcType=VARCHAR},#{entity.property_id,jdbcType=VARCHAR},#{entity.property_split_id,jdbcType=VARCHAR})
+        </foreach>
+    </insert> -->
+    
+    
+     <insert id="insertBatch" parameterType="com.coolcloud.sacw.operation.entity.SaveLocationHistotry">
+        insert into into yw_saveLocation_historty
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="createTime != null">
+                createTime,
+            </if>
+            <if test="updateTime != null">
+                updateTime,
+            </if>
+            <if test="deleted != null">
+                deleted,
+            </if>
+            <if test="property_name != null">
+                property_name,
+            </if>
+            <if test="kwbm != null">
+                kwbm,
+            </if>
+            <if test="number != null">
+                number,
+            </if>
+            <if test="remake_number != null">
+                remake_number,
+            </if>
+            <if test="deleted != null">
+                deleted,
+            </if>
+            <if test="case_name != null">
+                case_name,
+            </if>
+            <if test="permit_unit_mc != null">
+                permit_unit_mc,
+            </if>
+            <if test="property_type != null">
+                property_type,
+            </if>
+            <if test="property_status != null">
+                property_status,
+            </if>
+            
+            <if test="case_id != null">
+                case_id,
+            </if>
+            
+            <if test="property_id != null">
+                property_id,
+            </if>
+            
+            <if test="property_split_id != null">
+                property_split_id,
+            </if>
+ 
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+             <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+             <if test="deleted != null">
+                #{deleted,jdbcType=TINYINT},
+            </if>
+             <if test="property_name  != null">
+                #{property_name ,jdbcType=VARCHAR},
+            </if>
+            <if test="kwbm != null">
+                #{kwbm,jdbcType=VARCHAR},
+            </if>
+            <if test="number != null">
+                #{number,jdbcType=TINYINT},
+            </if>
+             <if test="remake_number != null">
+                #{remake_number,jdbcType=TINYINT},
+            </if>
+            <if test="case_name != null">
+                #{case_name,jdbcType=VARCHAR},
+            </if> 
+            <if test="permit_unit_mc != null">
+                #{permit_unit_mc,jdbcType=VARCHAR},
+            </if>
+            <if test="property_type != null">
+                #{property_type,jdbcType=VARCHAR},
+            </if>
+            <if test="property_status != null">
+                #{property_status,jdbcType=VARCHAR},
+            </if>
+            <if test="case_id != null">
+                #{case_id,jdbcType=VARCHAR},
+            </if>
+            <if test="property_id != null">
+                #{property_id,jdbcType=VARCHAR},
+            </if>
+             <if test="property_split_id != null">
+                property_split_id,
+            </if>
+        </trim>
+    </insert>
+  
+     <select id="findSaveLocationHistoryByProId" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from yw_saveLocation_historty
+        where property_id = #{property_id,jdbcType=VARCHAR}
+    </select>
+   
+   
+   
+   
+   
+   
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from yw_saveLocation_historty
+        where id = #{id,jdbcType=VARCHAR}
+    </select>
+    
+    
+    <select id="selectByExample" parameterType="com.coolcloud.sacw.operation.entity.SaveLocationHistotry" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from yw_saveLocation_historty
+        <where>
+            <if test="id != null and id != ''">
+                and id = #{id}
+            </if>
+            <if test="property_id != null and property_id != ''">
+                and property_id = #{property_id}
+            </if>
+            <if test="case_id != null and case_id != ''">
+                and case_id  = #{case_id}
+            </if>
+            <if test="property_split_id != null and property_split_id != ''">
+                and property_split_id = #{property_split_id}
+            </if>
+            <if test="deleted != null">
+                and deleted = #{deleted}
+            </if>
+        </where>
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+        delete from yw_saveLocation_historty
+        where id = #{id,jdbcType=VARCHAR}
+    </delete>
+
+    <insert id="insertSelective" parameterType="com.coolcloud.sacw.operation.entity.SaveLocationHistotry">
+        insert into yw_saveLocation_historty
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="createTime != null">
+                createTime,
+            </if>
+            <if test="updateTime != null">
+                updateTime,
+            </if>
+            <if test="deleted != null">
+                deleted,
+            </if>
+            <if test="property_name != null">
+                property_name,
+            </if>
+            <if test="kwbm != null">
+                kwbm,
+            </if>
+            <if test="number != null">
+                number,
+            </if>
+            <if test="remake_number != null">
+                remake_number,
+            </if>
+            <if test="case_name != null">
+                case_name,
+            </if>
+            <if test="permit_unit_mc != null">
+                permit_unit_mc,
+            </if>
+            <if test="property_type != null">
+                property_type,
+            </if>
+            <if test="property_status != null">
+                property_status,
+            </if>
+            <if test="case_id != null">
+                case_id,
+            </if>
+            <if test="property_id != null">
+                property_id,
+            </if>
+            <if test="property_split_id != null">
+                property_split_id,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="deleted != null">
+                #{deleted,jdbcType=TINYINT},
+            </if>
+            <if test="property_name != null">
+                #{property_name,jdbcType=VARCHAR},
+            </if>
+            <if test="kwbm != null">
+                #{kwbm,jdbcType=VARCHAR},
+            </if>
+            <if test="number != null">
+                #{number,jdbcType=TINYINT},
+            </if>
+            <if test="remake_number != null">
+                #{remake_number,jdbcType=TINYINT},
+            </if>
+            <if test="case_name != null">
+                #{case_name,jdbcType=VARCHAR},
+            </if>
+            <if test="permit_unit_mc != null">
+                #{permit_unit_mc,jdbcType=VARCHAR},
+            </if>
+            <if test="property_type != null">
+                #{property_type,jdbcType=VARCHAR},
+            </if>
+            <if test="property_status != null">
+                #{property_status,jdbcType=VARCHAR},
+            </if>
+            <if test="case_id != null">
+                #{case_id,jdbcType=VARCHAR},
+            </if>
+            <if test="property_id != null">
+                #{property_id,jdbcType=VARCHAR},
+            </if>
+            <if test="property_split_id != null">
+                #{property_split_id,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.coolcloud.sacw.operation.entity.SaveLocationHistotry">
+        update yw_saveLocation_historty
+        <set>
+            <if test="createTime != null">
+                createTime = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                updateTime = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="property_status != null">
+                property_status = #{property_status,jdbcType=VARCHAR},
+            </if>
+            <if test="kwbm != null">
+                kwbm = #{kwbm,jdbcType=VARCHAR},
+            </if>
+        </set>
+         <where>
+            <if test="id != null and id != ''">
+                and id = #{id}
+            </if>
+            <if test="property_id != null and property_id != ''">
+                and property_id = #{property_id}
+            </if>
+            <if test="case_id != null and case_id != ''">
+                and case_id  = #{case_id}
+            </if>
+            <if test="property_split_id != null and property_split_id != ''">
+                and property_split_id = #{property_split_id}
+            </if>
+        </where>
+    </update>
+
+   <!--  <select id="selectBySecondmentId" parameterType="string" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from yw_secondment_delay
+        where secondment_id = #{secondmentId,jdbcType=VARCHAR}
+        order by delay_time desc
+    </select> -->
+</mapper>

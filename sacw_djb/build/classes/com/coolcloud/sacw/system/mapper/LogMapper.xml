@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.coolcloud.sacw.system.mapper.LogMapper">
+    <resultMap id="BaseResultMap" type="com.coolcloud.sacw.system.entity.Log">
+        <id column="id" jdbcType="VARCHAR" property="id" />
+        <result column="type" jdbcType="INTEGER" property="type" />
+        <result column="content" jdbcType="VARCHAR" property="content" />
+        <result column="log_time" jdbcType="TIMESTAMP" property="logTime" />
+        
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+        
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, type, content, log_time, create_time, update_time
+    </sql>
+
+    <select id="selectByExample" parameterType="com.coolcloud.sacw.system.entity.LogExample" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from sys_log
+        <where>
+            <if test="type != null">
+                and type = #{type}
+            </if>
+            <if test="content != null and content != ''">
+                and content = #{content}
+            </if>
+            <if test="contentLike != null and contentLike != ''">
+                and content like "%"#{contentLike}"%"
+            </if>
+            <if test="logTime != null">
+                and log_time = #{logTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="logTimeGreaterThan != null">
+                and log_time &gt;= #{logTimeGreaterThan,jdbcType=TIMESTAMP}
+            </if>
+            <if test="logTimeLessThan != null">
+                and log_time &lt;= #{logTimeLessThan,jdbcType=TIMESTAMP}
+            </if>
+        </where>
+        order by log_time desc
+    </select>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from sys_log
+        where id = #{id,jdbcType=VARCHAR}
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+        delete from sys_log
+        where id = #{id,jdbcType=VARCHAR}
+    </delete>
+
+    <insert id="insertSelective" parameterType="com.coolcloud.sacw.system.entity.Log">
+        insert into sys_log
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="type != null">
+                type,
+            </if>
+            <if test="content != null">
+                content,
+            </if>
+            <if test="logTime != null">
+                log_time,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=VARCHAR},
+            </if>
+            <if test="type != null">
+                #{type,jdbcType=INTEGER},
+            </if>
+            <if test="content != null">
+                #{content,jdbcType=VARCHAR},
+            </if>
+            <if test="logTime != null">
+                #{logTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.coolcloud.sacw.system.entity.Log">
+        update sys_log
+        <set>
+            <if test="type != null">
+                type = #{type,jdbcType=INTEGER},
+            </if>
+            <if test="content != null">
+                content = #{content,jdbcType=VARCHAR},
+            </if>
+            <if test="logTime != null">
+                log_time = #{logTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+
+    <delete id="deleteAll">
+        delete from sys_log
+    </delete>
+
+</mapper>

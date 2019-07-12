@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.coolcloud.sacw.system.mapper.RolePermissionMapper">
+    <cache></cache>
+    <resultMap id="BaseResultMap" type="com.coolcloud.sacw.system.entity.RolePermission">
+        <result column="role_id" jdbcType="VARCHAR" property="roleId" />
+        <result column="permission_id" jdbcType="VARCHAR" property="permissionId" />
+    </resultMap>
+
+    <insert id="insertBatch">
+        insert into sys_role_permission (role_id, permission_id)
+        values
+        <foreach collection="list" item="entity" separator=",">
+            (#{entity.roleId,jdbcType=VARCHAR}, #{entity.permissionId,jdbcType=VARCHAR})
+        </foreach>
+    </insert>
+
+    <insert id="insertSelective">
+        insert into sys_role_permission (role_id, permission_id)
+        values (#{entity.roleId,jdbcType=VARCHAR}, #{entity.permissionId,jdbcType=VARCHAR})
+    </insert>
+
+    <delete id="deleteByRoleIdBatch">
+        delete from sys_role_permission
+        where role_id in
+        <foreach collection="list" item="roleId" open="(" close=")" separator=",">
+            #{roleId,jdbcType=VARCHAR}
+        </foreach>
+    </delete>
+
+    <delete id="deleteByPermissionIdBatch">
+        delete from sys_role_permission
+        where permission_id in
+        <foreach collection="list" item="permissionId" open="(" close=")" separator=",">
+            #{permissionId,jdbcType=VARCHAR}
+        </foreach>
+    </delete>
+
+    <delete id="deleteByPermissionId">
+        delete from sys_role_permission where permission_id = #{permissionId,jdbcType=VARCHAR}
+    </delete>
+
+    <delete id="deleteByRoleId">
+        delete from sys_role_permission where role_id = #{roleId,jdbcType=VARCHAR}
+    </delete>
+</mapper>

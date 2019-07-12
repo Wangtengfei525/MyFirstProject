@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+<title>涉案财物管理中心 - 添加养护内容设置</title>
+<link rel="icon" href="../../favicon.ico" type="image/x-icon" />
+<link rel="stylesheet" href="../../assets/bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet" href="../../assets/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet" href="../../assets/bootstrap-table/bootstrap-table.min.css">
+<link rel="stylesheet" href="../../assets/select2/css/select2.min.css">
+<link rel="stylesheet" href="../../assets/admin-lte/css/skins/_all-skins.min.css">
+<link rel="stylesheet" href="../../assets/admin-lte/css/AdminLTE.min.css">
+</head>
+
+<body class="hold-transition skin-blue-light sidebar-mini">
+    <div class="wrapper">
+
+        <section class="content container-fluid">
+
+            <div class="box box-solid">
+
+                <div class="box-header with-border">
+                    <i class="fa fa-text-width"></i>
+                    <h3 class="box-title">添加养护内容设置</h3>
+                </div>
+
+                <div class="box-body">
+                    <form id="form-add" class="form-horizontal">
+                        <div class="form-group">
+                            <label class="col-xs-2 control-label">养护内容</label>
+                            <div class="col-xs-10">
+                                <input id="input-conserve-content-code" type="hidden" name="conserveText" required />
+                                <select id="input-conserve-content" class="form-control" required></select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-xs-offset-2 col-xs-10">
+                                <a class="btn btn-flat btn-primary" onclick="addContents()">添加</a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="box box-solid">
+
+                <div class="box-body">
+                    <form id="form-search" class="form-inline">
+                        <div class="form-group">
+                            <label>案件名称</label>
+                            <input class="form-control" type="text" name="caseNameLike" placeholder="案件名称" />
+                        </div>
+                        <a class="btn btn-flat btn-primary" onclick="refresh()">查询</a>
+                        <input class="btn btn-flat btn-default" type="reset" value="清空查询条件" />
+                    </form>
+                    <table id="table-split"></table>
+                </div>
+            </div>
+
+        </section>
+
+    </div>
+
+    <script src="../../assets/jquery/jquery.min.js"></script>
+    <script src="../../assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="../../assets/layer/layer.js"></script>
+    <script src="../../assets/bootstrap-table/bootstrap-table.min.js"></script>
+    <script src="../../assets/bootstrap-table/locale/bootstrap-table-zh-CN.min.js"></script>
+    <script src="../../assets/select2/js/select2.min.js"></script>
+    <script src="../../assets/moment/moment.min.js"></script>
+    <script src="../../assets/admin-lte/js/adminlte.min.js"></script>
+    <script src="../../js/common.js"></script>
+    <script src="../../js/car/content-add.js"></script>
+</body>
+
+</html>

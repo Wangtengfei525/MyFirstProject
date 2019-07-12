@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.coolcloud.sacw.warning.mapper.OverdueSetMapper">
+    <resultMap type="com.coolcloud.sacw.warning.entity.OverdueSet" id="overdueSetBase">
+        <id column="id" property="id" jdbcType="VARCHAR" />
+        <result column="type" property="statusCode" jdbcType="VARCHAR" />
+        <result column="type_name" property="statusName" jdbcType="VARCHAR" />
+        <result column="warning_time" property="warningTime" jdbcType="INTEGER" />
+        <result column="warning_period" property="warningPeriod" jdbcType="INTEGER" />
+    </resultMap>
+
+    <select id="selectByExample" parameterType="com.coolcloud.sacw.warning.entity.OverdueSet" resultMap="overdueSetBase">
+        select *
+        from yw_overdue_setting
+        <where>
+            <if test="statusCode != null and statusCode!=''">
+                and type = #{statusCode,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </select>
+
+    <insert id="insertSelective" parameterType="com.coolcloud.sacw.warning.entity.OverdueSet">
+        insert into yw_overdue_setting
+        (id,type,type_name,warning_time,warning_period)
+        values
+        (#{statusCode,jdbcType=VARCHAR},#{statusName,jdbcType=VARCHAR},
+        #{warningTime,jdbcType=INTEGER},#{warningPeriod,jdbcType=INTEGER})
+    </insert>
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.coolcloud.sacw.warning.entity.OverdueSet">
+        update yw_overdue_setting
+        <set>
+            <if test="warningTime != null and warningTime!=''">
+                warning_time = #{warningTime,jdbcType=INTEGER},
+            </if>
+            <if test="warningPeriod != null and warningPeriod!=''">
+                warning_period = #{warningPeriod,jdbcType=INTEGER},
+            </if>
+        </set>
+        where type = #{statusCode,jdbcType=VARCHAR}
+    </update>
+
+    <select id="queryPropertiesByCode" parameterType="com.coolcloud.sacw.warning.entity.OverdueSet" resultType="java.util.Map">
+        select p.case_id,c.id,c.plat_case_code, p.property_name,p.number,c.case_name,p.permit_unit_mc,
+        p.register_date,p.save_location_mc from `case` c inner join yw_property p on
+        c.plat_case_code = p.plat_case_code where 1=1
+        <if test="statusCode != null and statusCode != '1005004'">
+            and p.plat_case_code in (select plat_case_code from yw_property where
+            TO_DAYS(NOW())-TO_DAYS(register_date)>=(select warning_period from
+            yw_overdue_setting where type = #{statusCode,jdbcType=VARCHAR}
+            )) and p.property_status_code = #{statusCode,jdbcType=VARCHAR}
+        </if>
+        <if test="statusCode != null and statusCode == '1005004'">
+            and c.plat_case_code in
+            (select b.plat_case_code from (select e.* from exchange e,(SELECT plat_case_code,
+            max(send_time) send_time from exchange GROUP BY plat_case_code)b
+            where e.plat_case_code=b.plat_case_code and e.node_code='1005004' and e.send_time=b.send_time)b
+            where TO_DAYS(NOW())-TO_DAYS(b.send_time)>=(SELECT warning_period from yw_overdue_setting where type='1005004'))
+        </if>
+        <if test="unitId != null and unitId != ''">
+            and p.permit_unit in (select u1.id
+            from sys_unit u1,sys_unit u2
+            where u1.left_value between u2.left_value and u2.right_value
+            and u2.id = #{unitId})
+        </if>
+    </select>
+    <!-- 检察院移送
+        select * from (select plat_case_code,send_time,node_code,rank from (
+        select heyf_tmp.plat_case_code,heyf_tmp.send_time,heyf_tmp.node_code,@rownum:=@rownum+1 ,
+        if(@pdept=heyf_tmp.plat_case_code,@rank:=@rank+1,@rank:=1) as rank,
+        @pdept:=heyf_tmp.plat_case_code from (
+        select plat_case_code,send_time,node_code from yw_exchange order by plat_case_code asc ,send_time desc
+        ) heyf_tmp ,(select @rownum :=0 , @pdept := null ,@rank:=0) a ) result)as bbb where node_code='1005004' and rank=1
+    -->
+
+    <select id="queryGadjyq" resultType="java.util.Map">
+        select IFNULL(count(DISTINCT c.plat_case_code),0)GADJAJ,IFNULL(sum(p.number),0)GADJCW from `case` c inner join yw_property p on
+        c.plat_case_code = p.plat_case_code where c.organizer_code in (
+        select id from sys_unit where parent_id = #{code,jdbcType=VARCHAR}
+        ) and p.plat_case_code
+        in (select plat_case_code from yw_property where
+        TO_DAYS(NOW())-TO_DAYS(register_date)>=(select warning_period from
+        yw_overdue_setting where type = '9911000000001'
+        )) and p.property_status_code = '9911000000001'
+    </select>
+
+    <select id="queryGaysyq" resultType="java.util.Map">
+        select IFNULL(count(DISTINCT c.plat_case_code),0)GAYSAJ,IFNULL(sum(p.number),0)GAYSCW from `case` c inner join yw_property p on
+        c.plat_case_code = p.plat_case_code where c.organizer_code in (
+        select id from sys_unit where parent_id = #{code,jdbcType=VARCHAR}
+        ) and p.plat_case_code
+        in (select plat_case_code from yw_property where
+        TO_DAYS(NOW())-TO_DAYS(register_date)>=(select warning_period from
+        yw_overdue_setting where type = '9911000000004'
+        )) and p.property_status_code = '9911000000004'
+    </select>
+    <!-- 检察院移送逾期
+        select p.case_id,c.id,c.plat_case_code, p.property_name,p.number,c.case_name,p.permit_unit_mc,p.register_date,p.save_location_mc
+        from yw_property p INNER JOIN yw_case c on p.plat_case_code=c.plat_case_code where c.plat_case_code in
+        (select b.plat_case_code from (select e.* from yw_exchange e,(SELECT plat_case_code,max(send_time) send_time from yw_exchange GROUP BY plat_case_code)b
+        where e.plat_case_code=b.plat_case_code and e.node_code='1005004' and e.send_time=b.send_time)b
+        where TO_DAYS(NOW())-TO_DAYS(b.send_time)>=(SELECT warning_period from yw_overdue_setting where type='1005004'));
+    -->
+    <!-- 公安登记逾期统计
+        select count(DISTINCT c.plat_case_code),sum(p.number) from yw_case c inner join yw_property p on
+        c.plat_case_code = p.plat_case_code where c.organizer_code in (
+        select id from sys_unit where parent_id = '03510105000000'
+        ) and p.plat_case_code
+        in (select plat_case_code from yw_property where
+        TO_DAYS(NOW())-TO_DAYS(register_date)>=(select warning_period from
+        yw_overdue_setting where type = '9911000000001'
+        )) and p.property_status_code = '9911000000001'
+    -->
+</mapper>

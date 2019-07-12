@@ -1,0 +1,49 @@
+@CHARSET "UTF-8";
+
+.datagrid-toolbar{
+	border-color:#fff;
+	background:#fff;
+	margin:5px 0px 5px 35px;
+	font-size: 16px;
+}
+.datagrid-toolbar .l-btn-text{
+	font-size: 16px;	
+}
+.datagrid-toolbar .textbox .textbox-text{	
+	font-size: 16px;
+}
+.datagrid-cell,
+.datagrid-cell-group,
+.datagrid-header-rownumber,
+.datagrid-cell-rownumber {
+  margin: 0;
+  padding: 0 4px;
+  white-space: nowrap;
+  word-wrap: normal;
+  overflow: hidden;
+  height: 18px;
+  line-height: 22px;
+  font-size: 16px;
+}
+.datagrid-header .datagrid-cell{
+	color:#fff;
+}
+.datagrid-view2 .datagrid-header{
+background:#0a8dc4;
+}
+.datagrid-htable{
+	background:#0a8dc4;
+}
+.datagrid-header td.datagrid-header-over {
+  background: #0a8dc4;
+  color: #000000;
+}
+.casetable{
+	font-size: 16px;
+}
+.casetable tr{
+	line-height: 40px;
+}
+.casetable .textbox .textbox-text{
+	font-size: 16px;
+}

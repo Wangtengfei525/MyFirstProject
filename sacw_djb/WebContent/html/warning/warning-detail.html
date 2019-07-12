@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+<title>涉案财物管理中心 - 非法出库详情</title>
+<link rel="icon" href="../../favicon.ico" type="image/x-icon" />
+<link rel="stylesheet" href="../../assets/bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet" href="../../assets/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet" href="../../assets/admin-lte/css/AdminLTE.min.css">
+<link rel="stylesheet" href="../../assets/admin-lte/css/skins/_all-skins.min.css">
+<link rel="stylesheet" href="../../css/store/store.css">
+<!--[if lt IE 9]>
+<script src="../../assets/html5shiv/html5shiv.min.js"></script>
+<script src="../../assets/respond/respond.min.js"></script>
+<![endif]-->
+</head>
+
+<body class="hold-transition skin-blue-light sidebar-mini">
+    <div id="app" class="wrapper">
+
+        <section class="content container-fluid">
+
+            <div class="box box-solid">
+                <div class="box-header with-border">
+                    <h3 class="box-title">非法出库详情</h3>
+                </div>
+                <div class="box-body">
+                    <form id="form-warning" class="form-horizontal">
+                        <div class="form-group">
+                            <label class="control-label col-xs-2">异常报警位置</label>
+                            <div class="col-xs-4">
+                                <input class="form-control" type="text" :value="warning.settingName" readonly />
+                            </div>
+                            <label class="control-label col-xs-2">异常出库时间</label>
+                            <div class="col-xs-4">
+                                <input class="form-control" type="text" :value="warning.warningTime|datetime" readonly />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-xs-2">备注</label>
+                            <div class="col-xs-10">
+                                <textarea rows="4" class="form-control" readonly>{{warning.remark}}</textarea>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-xs-2">照片</label>
+                            <div class="col-xs-10">
+                                <div id="carousel-example-generic" class="carousel slide" data-ride="carousel" v-if="photos.length > 0">
+                                    <ol class="carousel-indicators">
+                                        <li data-target="#carousel-example-generic" :data-slide-to="index" :class="{active:index==0}" v-for="(p,index) in photos" :key="p.id"></li>
+                                    </ol>
+                                    <div class="carousel-inner">
+                                        <div v-for="(p,index) in photos" :key="p.id" :class="{item:true,active:index==0}">
+                                            <img :src="locat + '/warning/photo/preview?id=' + p.id " class="img-responsive">
+                                            <div class="carousel-caption">{{p.id}}</div>
+                                        </div>
+                                    </div>
+                                    <a class="left carousel-control" href="#carousel-example-generic" data-slide="prev">
+                                        <span class="fa fa-angle-left"></span>
+                                    </a>
+                                    <a class="right carousel-control" href="#carousel-example-generic" data-slide="next">
+                                        <span class="fa fa-angle-right"></span>
+                                    </a>
+                                </div>
+                                <div v-else>
+                                    <span>暂无图片</span>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="box box-solid">
+                <div class="box-header with-border">
+                    <h3 class="box-title">物品详情</h3>
+                </div>
+                <div class="box-body">
+                    <table class="table table-hover table-striped">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>案件名称</th>
+                                <th>物品名称</th>
+                                <th>二维码</th>
+                                <th>存储位置</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="(property,index) in properties" :key="index" @dblclick="propertyDetail(property.id)">
+                                <td>{{index+1}}</td>
+                                <td>{{property.caseName}}</td>
+                                <td>{{property.propertyName}}</td>
+                                <td>{{property.qrCode}}</td>
+                                <td>{{property.kwmc}}</td>
+                            </tr>
+                            <tr v-if="properties.length == 0">
+                                <td colspan="5" style="text-align: center;">暂无记录</td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </section>
+
+    </div>
+
+    <script src="../../assets/vue/vue.min.js"></script>
+    <script src="../../assets/jquery/jquery.min.js"></script>
+    <script src="../../assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="../../assets/admin-lte/js/adminlte.min.js"></script>
+    <script src="../../assets/moment/moment.min.js"></script>
+    <script src="../../assets/layer/layer.js"></script>
+    <script src="../../js/common.js"></script>
+    <script src="../../js/warning/warning-detail.js"></script>
+</body>
+
+</html>
